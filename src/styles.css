@@ -10,6 +10,11 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+a {
+  color: #6aabd1;
+  text-decoration: none;
+}
+
 .content {
   display: flex;
   margin: 32px auto;
@@ -19,10 +24,26 @@ body {
   align-items: center;
 }
 
+svg#clouds {
+  position: fixed;
+  bottom: -160px;
+  left: -230px;
+  z-index: -10;
+  width: 1920px;
+}
+
+.terminalBot {
+  color: #d1906a;
+}
+
+.terminalUser {
+  color: #a7af34;
+}
+
 .terminal {
   position: relative;
   width: 80%;
-  max-width: 600px;
+  max-width: 960px;
   border-radius: 6px;
   padding-top: 45px;
   margin-top: 8px;
@@ -50,6 +71,11 @@ body {
   color: white;
   padding: 0 1rem 1rem;
   margin: 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }
 
 /* Responsive Styles */
