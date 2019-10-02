@@ -12,5 +12,6 @@
     "tslint.json": true,
     "src/environments": true,
     "src/test.ts": true
-  }
+  },
+  "javascript.implicitProjectConfig.experimentalDecorators": true
 }
