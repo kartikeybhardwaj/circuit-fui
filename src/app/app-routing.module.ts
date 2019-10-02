@@ -11,10 +11,16 @@ import {
 import {
   PageNotFoundComponent
 } from './page-not-found/page-not-found.component';
+import {
+  UnauthorizedAccessComponent
+} from './unauthorized-access/unauthorized-access.component';
 
 const routes: Routes = [{
   path: 'home',
   component: HomeComponent
+}, {
+  path: 'unauthorized-access',
+  component: UnauthorizedAccessComponent
 }, {
   path: '',
   redirectTo: '/home',
