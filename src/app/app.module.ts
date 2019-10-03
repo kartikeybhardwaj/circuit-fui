@@ -15,6 +15,15 @@ import {
   BrowserAnimationsModule
 } from '@angular/platform-browser/animations';
 import {
+  MatIconModule
+} from '@angular/material/icon';
+import {
+  MatButtonModule
+} from '@angular/material/button';
+import {
+  MatRippleModule
+} from '@angular/material/core';
+import {
   HomeComponent
 } from './home/home.component';
 import {
@@ -26,18 +35,25 @@ import {
 import {
   AppStorageService
 } from './app.service';
+import {
+  NavigationPanelComponent
+} from './navigation-panel/navigation-panel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     PageNotFoundComponent,
-    UnauthorizedAccessComponent
+    UnauthorizedAccessComponent,
+    NavigationPanelComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatRippleModule
   ],
   providers: [
     AppStorageService
