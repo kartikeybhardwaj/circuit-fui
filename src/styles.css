@@ -15,13 +15,33 @@ a {
   text-decoration: none;
 }
 
-.content {
+.cursorPointer {
+  cursor: pointer;
+}
+
+.contentCenter {
   display: flex;
   margin: 32px auto;
   padding: 0 16px;
   max-width: 960px;
   flex-direction: column;
   align-items: center;
+}
+
+.colorWhite {
+  color: white;
+}
+
+.colorBlack {
+  color: black;
+}
+
+.colorGray {
+  color: gray;
+}
+
+.icon-display {
+  transform: scale(1.5);
 }
 
 svg#clouds {
