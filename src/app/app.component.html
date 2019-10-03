@@ -8,7 +8,7 @@
 <!-- end - clouds -->
 
 <ng-container *ngIf="appInfo.user === ''">
-  <div class="content">
+  <div class="contentCenter">
     <!-- start - terminal -->
     <div class="terminal">
       <pre><span class="terminalBot">circuit:</span> Let me gather bits and bytes...</pre>
@@ -19,6 +19,7 @@
 
 <ng-container *ngIf="appInfo.user">
   <router-outlet></router-outlet>
+  <app-navigation-panel></app-navigation-panel>
 </ng-container>
 
 <ng-container *ngIf="appInfo.user === null">
