@@ -6,18 +6,24 @@ import {
   RouterModule
 } from '@angular/router';
 import {
-  HomeComponent
-} from './home/home.component';
+  ProjectsComponent
+} from './projects/projects.component';
 import {
   PageNotFoundComponent
 } from './page-not-found/page-not-found.component';
 import {
   UnauthorizedAccessComponent
 } from './unauthorized-access/unauthorized-access.component';
+import {
+  MilestonesComponent
+} from './milestones/milestones.component';
 
 const routes: Routes = [{
-  path: 'home',
-  component: HomeComponent
+  path: 'projects',
+  component: ProjectsComponent
+}, {
+  path: 'milestones',
+  component: MilestonesComponent
 }, {
   path: 'unauthorized-access',
   component: UnauthorizedAccessComponent
