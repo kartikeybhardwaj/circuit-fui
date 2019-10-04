@@ -1,4 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  MatBottomSheet,
+  MatBottomSheetRef
+} from '@angular/material/bottom-sheet';
+import {
+  AppStorageService
+} from '../app.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation-panel',
@@ -7,9 +18,40 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationPanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public appInfo: AppStorageService,
+    private bottomSheet: MatBottomSheet
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  openMenuBottomSheet(): void {
+    // tslint:disable-next-line: no-use-before-declare
+    this.bottomSheet.open(BottomSheetMenu);
   }
 
+}
+
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'bottom-sheet-menu',
+  templateUrl: 'bottom-sheet-menu.html',
+})
+// tslint:disable-next-line: component-class-suffix
+export class BottomSheetMenu {
+
+  constructor(
+    public appInfo: AppStorageService,
+    private bottomSheetRef: MatBottomSheetRef < BottomSheetMenu >,
+    private router: Router
+  ) {}
+
+  gotoMilestone(projectIndex: any): void {
+    this.dissmissBottomSheet();
+    this.router.navigate(['milestones']);
+  }
+
+  dissmissBottomSheet(): void {
+    this.bottomSheetRef.dismiss();
+  }
 }
