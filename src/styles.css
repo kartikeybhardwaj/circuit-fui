@@ -7,12 +7,131 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+p, span, h1 {
+  margin: 0;
 }
 
 a {
   color: #6aabd1;
   text-decoration: none;
+}
+
+.page {
+  padding-bottom: 56px;
+}
+
+.bottomNavigation {
+  height: 56px;
+}
+
+.zeroMargin {
+  margin: 0 !important;
+}
+
+.zeroPadding {
+  padding: 0 !important;
+}
+
+.smallMarginTop {
+  margin-top: 1em !important;
+}
+
+.smallMarginRight {
+  margin-right: 1em !important;
+}
+
+.smallMarginBottom {
+  margin-bottom: 1em !important;
+}
+
+.smallMarginLeft {
+  margin-left: 1em !important;
+}
+
+.mediumMarginTop {
+  margin-top: 2em !important;
+}
+
+.mediumMarginRight {
+  margin-right: 2em !important;
+}
+
+.mediumMarginBottom {
+  margin-bottom: 2em !important;
+}
+
+.mediumMarginLeft {
+  margin-left: 2em !important;
+}
+
+.largeMarginTop {
+  margin-top: 3em !important;
+}
+
+.largeMarginRight {
+  margin-right: 3em !important;
+}
+
+.largeMarginBottom {
+  margin-bottom: 3em !important;
+}
+
+.largeMarginLeft {
+  margin-left: 3em !important;
+}
+
+.smallPaddingTop {
+  padding-top: 1em !important;
+}
+
+.smallPaddingRight {
+  padding-right: 1em !important;
+}
+
+.smallPaddingBottom {
+  padding-bottom: 1em !important;
+}
+
+.smallPaddingLeft {
+  padding-left: 1em !important;
+}
+
+.mediumPaddingTop {
+  padding-top: 2em !important;
+}
+
+.mediumPaddingRight {
+  padding-right: 2em !important;
+}
+
+.mediumPaddingBottom {
+  padding-bottom: 2em !important;
+}
+
+.mediumPaddingLeft {
+  padding-left: 2em !important;
+}
+
+.largePaddingTop {
+  padding-top: 3em !important;
+}
+
+.largePaddingRight {
+  padding-right: 3em !important;
+}
+
+.largePaddingBottom {
+  padding-bottom: 3em !important;
+}
+
+.largePaddingLeft {
+  padding-left: 3em !important;
+}
+
+.inlineBlock {
+  display: inline-block !important;
 }
 
 .cursorPointer {
@@ -21,7 +140,7 @@ a {
 
 .contentCenter {
   display: flex;
-  margin: 32px auto;
+  margin: 1em auto;
   padding: 0 16px;
   max-width: 960px;
   flex-direction: column;
@@ -103,4 +222,8 @@ svg#clouds {
   .terminal {
     width: 100%;
   }
+}
+
+.matProgressSpinner {
+  margin-top: 50px !important;
 }
