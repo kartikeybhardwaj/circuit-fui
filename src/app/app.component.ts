@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
       username: 'kartoon',
       displayname: 'kartoon'
     };
-    this.router.navigate(['home']);
+    this.router.navigate(['projects']);
   }
 
 }

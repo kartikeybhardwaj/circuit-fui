@@ -24,8 +24,17 @@ import {
   MatRippleModule
 } from '@angular/material/core';
 import {
-  HomeComponent
-} from './home/home.component';
+  MatBottomSheetModule
+} from '@angular/material/bottom-sheet';
+import {
+  MatListModule
+} from '@angular/material/list';
+import {
+  MatProgressSpinnerModule
+} from '@angular/material/progress-spinner';
+import {
+  ProjectsComponent
+} from './projects/projects.component';
 import {
   PageNotFoundComponent
 } from './page-not-found/page-not-found.component';
@@ -36,16 +45,24 @@ import {
   AppStorageService
 } from './app.service';
 import {
-  NavigationPanelComponent
+  NavigationPanelComponent,
+  BottomSheetMenu
 } from './navigation-panel/navigation-panel.component';
+import {
+  HeaderComponent
+} from './header/header.component';
+import { MilestonesComponent } from './milestones/milestones.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    ProjectsComponent,
     PageNotFoundComponent,
     UnauthorizedAccessComponent,
-    NavigationPanelComponent
+    NavigationPanelComponent,
+    BottomSheetMenu,
+    HeaderComponent,
+    MilestonesComponent
   ],
   imports: [
     BrowserModule,
@@ -53,10 +70,16 @@ import {
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
-    MatRippleModule
+    MatRippleModule,
+    MatBottomSheetModule,
+    MatListModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     AppStorageService
+  ],
+  entryComponents: [
+    BottomSheetMenu
   ],
   bootstrap: [AppComponent]
 })
