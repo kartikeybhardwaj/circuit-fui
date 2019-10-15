@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import { AppStorageService } from '../app.service';
 
 @Component({
   selector: 'app-unauthorized-access',
@@ -7,9 +11,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UnauthorizedAccessComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(
+    private appInfo: AppStorageService
+  ) {
+    appInfo.otherHeader = '401';
+    appInfo.navigationAddText = '';
+    appInfo.isNavigationAddTextVisible = false;
   }
+
+  ngOnInit() {}
 
 }

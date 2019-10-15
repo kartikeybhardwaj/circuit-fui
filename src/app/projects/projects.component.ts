@@ -18,13 +18,14 @@ export class ProjectsComponent implements OnInit {
     public appInfo: AppStorageService,
     private router: Router
   ) {
-    appInfo.headerText = 'Circuit projects';
+    appInfo.selectedProjectId = null;
+    appInfo.selectedMilestoneId = null;
+    appInfo.selectedPulseId = null;
+    appInfo.otherHeader = '';
+    appInfo.navigationAddText = 'Add Project';
+    appInfo.isNavigationAddTextVisible = true;
   }
 
   ngOnInit() {}
-
-  gotoMilestone(projectIndex: any): void {
-    this.router.navigate(['milestones']);
-  }
 
 }

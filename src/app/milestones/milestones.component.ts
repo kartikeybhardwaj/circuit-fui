@@ -5,6 +5,11 @@ import {
 import {
   AppStorageService
 } from '../app.service';
+import {
+  ActivatedRoute,
+  Router,
+  ActivatedRouteSnapshot
+} from '@angular/router';
 
 @Component({
   selector: 'app-milestones',
@@ -14,9 +19,19 @@ import {
 export class MilestonesComponent implements OnInit {
 
   constructor(
-    public appInfo: AppStorageService
+    public appInfo: AppStorageService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
-    appInfo.headerText = 'This is project name';
+    const activatedRouteSnapshot = activatedRoute.snapshot;
+    if (activatedRouteSnapshot.params && activatedRouteSnapshot.params.projectId) {
+      appInfo.selectedProjectId = activatedRouteSnapshot.params.projectId;
+    }
+    appInfo.selectedMilestoneId = null;
+    appInfo.selectedPulseId = null;
+    appInfo.otherHeader = '';
+    appInfo.navigationAddText = 'Add Milestone';
+    appInfo.isNavigationAddTextVisible = true;
   }
 
   ngOnInit() {}

@@ -4,7 +4,7 @@
     <pre><span class="terminalBot">circuit:</span> Hello {{appInfo.user.displayname}}, welcome to circuit</pre>
     <pre><span class="terminalBot">circuit:</span> Let me fetch your projects.. This should be quick! <span class="inlineBlock"><mat-progress-spinner class="inlineBlock" color="primary" mode="indeterminate" [diameter]="14"></mat-progress-spinner></span></pre>
     <pre><span class="terminalBot">circuit:</span> And I present you projects you're in..</pre>
-    <pre *ngFor="let project of appInfo.projects; index as index;">{{index + 1}}. <a class="cursorPointer" (click)="gotoMilestone(index)">{{project.name}}</a> ({{project.visibility}})</pre>
+    <pre *ngFor="let project of appInfo.projects; index as index;">{{index + 1}}. <mat-icon mat-list-icon class="icon-display-small" style="vertical-align: middle;">{{project.visibilityIcon}}</mat-icon> • <a class="cursorPointer" routerLink="/projects/123/milestones">{{project.name}}</a></pre>
   </div>
   <!-- end - terminal -->
 </div>

@@ -4,10 +4,16 @@ import {
 import {
   NgModule
 } from '@angular/core';
+import {
+  HttpClientModule
+} from '@angular/common/http';
 
 import {
   AppRoutingModule
 } from './app-routing.module';
+import {
+  FormsModule
+} from '@angular/forms';
 import {
   AppComponent
 } from './app.component';
@@ -51,7 +57,15 @@ import {
 import {
   HeaderComponent
 } from './header/header.component';
-import { MilestonesComponent } from './milestones/milestones.component';
+import {
+  MilestonesComponent
+} from './milestones/milestones.component';
+import {
+  PulsesComponent
+} from './pulses/pulses.component';
+import {
+  AddProjectComponent
+} from './add-project/add-project.component';
 
 @NgModule({
   declarations: [
@@ -62,12 +76,16 @@ import { MilestonesComponent } from './milestones/milestones.component';
     NavigationPanelComponent,
     BottomSheetMenu,
     HeaderComponent,
-    MilestonesComponent
+    MilestonesComponent,
+    PulsesComponent,
+    AddProjectComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
     MatButtonModule,
     MatIconModule,
     MatRippleModule,

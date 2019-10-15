@@ -4,7 +4,7 @@
     <pre><span class="terminalBot">circuit:</span> Let me fetch milestones for this project.. This should be quick! <span class="inlineBlock"><mat-progress-spinner class="inlineBlock" color="primary" mode="indeterminate" [diameter]="14"></mat-progress-spinner></span></pre>
     <pre><span class="terminalBot">circuit:</span> And here are they..</pre>
     <pre
-      *ngFor="let milestone of appInfo.milestones; index as index;">{{index + 1}}. <a class="cursorPointer">{{milestone.name}}</a></pre>
+      *ngFor="let milestone of appInfo.milestones; index as index;">{{index + 1}}. <a class="cursorPointer" routerLink="/projects/123/milestones/123/pulses">{{milestone.name}}</a></pre>
   </div>
   <!-- end - terminal -->
 </div>
