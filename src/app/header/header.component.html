@@ -1,3 +1,22 @@
-<div class="headerText smallMarginLeft smallMarginTop" *ngIf="!appInfo.selectedProjectId">
-  {{today}} &nbsp;&nbsp;•&nbsp;&nbsp; {{appInfo.headerText}}
+<div class="headerText smallMarginLeft smallMarginTop">
+  {{today}} &nbsp;&nbsp;•&nbsp;&nbsp;
+  <span class="cursorPointer" routerLink="/home">{{appInfo.constants.appName}}</span>
+  <span *ngIf="appInfo.otherHeader">
+    &nbsp;&nbsp;•&nbsp;&nbsp;
+    <span>{{appInfo.otherHeader}}</span>
+  </span>
+  <span *ngIf="appInfo.selectedProjectId && !appInfo.otherHeader">
+    &nbsp;&nbsp;•&nbsp;&nbsp;
+    <span class="cursorPointer"
+      [routerLink]="'/projects/' + appInfo.selectedProjectId + '/milestones'">{{appInfo.selectedProjectId}}</span>
+    <span *ngIf="appInfo.selectedMilestoneId">
+      &nbsp;&nbsp;•&nbsp;&nbsp;
+      <span class="cursorPointer"
+        [routerLink]="'/projects/' + appInfo.selectedProjectId + '/milestones/' + appInfo.selectedMilestoneId + '/pulses'">{{appInfo.selectedMilestoneId}}</span>
+      <span *ngIf="appInfo.selectedPulseId">
+        &nbsp;&nbsp;•&nbsp;&nbsp;
+        <span class="cursorPointer" routerLink="/home">{{appInfo.selectedPulseId}}</span>
+      </span>
+    </span>
+  </span>
 </div>
