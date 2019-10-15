@@ -159,8 +159,12 @@ a {
   color: gray;
 }
 
-.icon-display {
+.icon-display-large {
   transform: scale(1.5);
+}
+
+.icon-display-small {
+  transform: scale(0.7);
 }
 
 svg#clouds {
