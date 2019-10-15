@@ -1,0 +1,10 @@
+<div class="contentCenter">
+  <!-- start - terminal -->
+  <div class="terminal">
+    <pre><span class="terminalBot">circuit:</span> Let me fetch pulses for this milestones.. This should be quick! <span class="inlineBlock"><mat-progress-spinner class="inlineBlock" color="primary" mode="indeterminate" [diameter]="14"></mat-progress-spinner></span></pre>
+    <pre><span class="terminalBot">circuit:</span> And here are they..</pre>
+    <pre
+      *ngFor="let pulse of appInfo.pulses; index as index;">{{index + 1}}. <a class="cursorPointer">{{pulse.name}}</a></pre>
+  </div>
+  <!-- end - terminal -->
+</div>
