@@ -39,6 +39,15 @@ import {
   MatProgressSpinnerModule
 } from '@angular/material/progress-spinner';
 import {
+  TextFieldModule
+} from '@angular/cdk/text-field';
+import {
+  MatRadioModule
+} from '@angular/material/radio';
+import {
+  MatSelectModule
+} from '@angular/material/select';
+import {
   ProjectsComponent
 } from './projects/projects.component';
 import {
@@ -91,7 +100,10 @@ import {
     MatRippleModule,
     MatBottomSheetModule,
     MatListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    TextFieldModule,
+    MatRadioModule,
+    MatSelectModule
   ],
   providers: [
     AppStorageService
