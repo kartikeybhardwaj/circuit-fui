@@ -1,0 +1,24 @@
+<div class="contentCenter">
+  <!-- start - terminal -->
+  <div class="terminal">
+    <pre><span class="terminalBot floatLeft">Title: </span><span class="overflowHiddenBlock"><input type="text" class="transparentInput" [(ngModel)]="project.name"></span></pre>
+    <pre><span class="terminalBot floatLeft">Description: </span><span class="overflowHiddenBlock"><textarea id="description" class="transparentInput zeroPadding" cdkTextareaAutosize [(ngModel)]="project.description"></textarea></span></pre>
+    <pre><span class="terminalBot">Visibility: </span><mat-radio-group [(ngModel)]="project.visibility"><mat-radio-button value="public">Public</mat-radio-button> <mat-radio-button value="internal">Internal</mat-radio-button> <mat-radio-button value="private">Private</mat-radio-button></mat-radio-group></pre>
+    <pre><span class="terminalBot">Meta: </span><mat-form-field><mat-select [(ngModel)]="selectedMeta"><mat-option *ngFor="let meta of metas; index as index;" [value]="meta">{{meta.name}}</mat-option></mat-select></mat-form-field></pre>
+    <ng-container *ngIf="selectedMeta">
+      <ng-container *ngFor="let field of selectedMeta.fields; index as indexField;">
+        <ng-container *ngIf="field.valueType === 'list'">
+          <pre><span class="terminalBot">{{field.key}}: </span><mat-form-field><mat-select [(ngModel)]="fieldSelctedMeta[field.key]"><mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">{{value}}</mat-option></mat-select></mat-form-field></pre>
+        </ng-container>
+        <ng-container *ngIf="field.valueType === 'input'">
+          <pre><span class="terminalBot floatLeft">{{field.key}}: </span><span class="overflowHiddenBlock"><input type="text" class="transparentInput" [(ngModel)]="fieldSelctedMeta[field.key]"></span></pre>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <pre><span class="terminalBot">Users: </span></pre>
+    <pre><a class="cursorPointer" [ngClass]="isAdding ? 'disabled' : ''" (click)="addProject()">Add Project</a> <span class="inlineBlock" *ngIf="isAdding"><mat-progress-spinner class="inlineBlock" color="primary" mode="indeterminate" [diameter]="14"></mat-progress-spinner></span></pre>
+    <pre *ngIf="errorMessage.length"><span class="terminalBotError">meetup:</span> {{errorMessage}}</pre>
+    <pre *ngIf="message.length"><span class="terminalBot">meetup:</span> {{message}}</pre>
+  </div>
+  <!-- end - terminal -->
+</div>
