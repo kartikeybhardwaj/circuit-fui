@@ -34,7 +34,7 @@ const routes: Routes = [{
   path: 'projects/:projectId/milestones/:milestoneId/pulses',
   component: PulsesComponent
 }, {
-  path: 'projects/add',
+  path: 'add/project',
   component: AddProjectComponent
 }, {
   path: 'unauthorized-access',
