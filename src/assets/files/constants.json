@@ -1,3 +1,10 @@
 {
-    "appName": "Circuit"
+    "appName": "Circuit",
+    "buildingBlocks": {
+        "labels": {
+            "addProject": "Add Project",
+            "addMilestone": "Add Milestone",
+            "addPulse": "Add Pulse"
+        }
+    }
 }

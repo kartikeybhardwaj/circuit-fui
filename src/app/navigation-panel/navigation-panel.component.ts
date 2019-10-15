@@ -9,7 +9,9 @@ import {
 import {
   AppStorageService
 } from '../app.service';
-import { Router } from '@angular/router';
+import {
+  Router
+} from '@angular/router';
 
 @Component({
   selector: 'app-navigation-panel',
@@ -20,10 +22,23 @@ export class NavigationPanelComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private router: Router
   ) {}
 
   ngOnInit() {}
+
+  addBlocks(): void {
+    if (this.appInfo.isNavigationAddTextVisible) {
+      if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addProject) {
+        this.router.navigate(['/add/project']);
+      } else if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addMilestone) {
+        this.router.navigate(['/add/milestone']);
+      } else if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addPulse) {
+        this.router.navigate(['/add/pulse']);
+      }
+    }
+  }
 
   openMenuBottomSheet(): void {
     // tslint:disable-next-line: no-use-before-declare
@@ -42,7 +57,7 @@ export class BottomSheetMenu {
 
   constructor(
     public appInfo: AppStorageService,
-    private bottomSheetRef: MatBottomSheetRef < BottomSheetMenu >,
+    private bottomSheetRef: MatBottomSheetRef < BottomSheetMenu > ,
     private router: Router
   ) {}
 

@@ -22,7 +22,7 @@ export class ProjectsComponent implements OnInit {
     appInfo.selectedMilestoneId = null;
     appInfo.selectedPulseId = null;
     appInfo.otherHeader = '';
-    appInfo.navigationAddText = 'Add Project';
+    appInfo.navigationAddText = appInfo.constants.buildingBlocks.labels.addProject;
     appInfo.isNavigationAddTextVisible = true;
   }
 

@@ -6,7 +6,7 @@
   </div>
 
   <div class="bottomCenterNavigation" *ngIf="appInfo.isNavigationAddTextVisible">
-    <button mat-flat-button color="accent">
+    <button mat-flat-button color="accent" (click)="addBlocks()">
       <mat-icon class="colorWhite">add</mat-icon>
       <span class="colorWhite">{{appInfo.navigationAddText}}</span>
     </button>

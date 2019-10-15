@@ -30,7 +30,7 @@ export class MilestonesComponent implements OnInit {
     appInfo.selectedMilestoneId = null;
     appInfo.selectedPulseId = null;
     appInfo.otherHeader = '';
-    appInfo.navigationAddText = 'Add Milestone';
+    appInfo.navigationAddText = appInfo.constants.buildingBlocks.labels.addMilestone;
     appInfo.isNavigationAddTextVisible = true;
   }
 

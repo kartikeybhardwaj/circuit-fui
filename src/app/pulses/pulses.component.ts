@@ -31,7 +31,7 @@ export class PulsesComponent implements OnInit {
     }
     appInfo.selectedPulseId = null;
     appInfo.otherHeader = '';
-    appInfo.navigationAddText = 'Add Pulse';
+    appInfo.navigationAddText = appInfo.constants.buildingBlocks.labels.addProject;
     appInfo.isNavigationAddTextVisible = true;
   }
 
