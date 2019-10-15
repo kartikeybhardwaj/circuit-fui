@@ -17,13 +17,25 @@ import {
 import {
   MilestonesComponent
 } from './milestones/milestones.component';
+import {
+  PulsesComponent
+} from './pulses/pulses.component';
+import {
+  AddProjectComponent
+} from './add-project/add-project.component';
 
 const routes: Routes = [{
   path: 'projects',
   component: ProjectsComponent
 }, {
-  path: 'milestones',
+  path: 'projects/:projectId/milestones',
   component: MilestonesComponent
+}, {
+  path: 'projects/:projectId/milestones/:milestoneId/pulses',
+  component: PulsesComponent
+}, {
+  path: 'projects/add',
+  component: AddProjectComponent
 }, {
   path: 'unauthorized-access',
   component: UnauthorizedAccessComponent
