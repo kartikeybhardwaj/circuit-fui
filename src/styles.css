@@ -9,7 +9,9 @@ body {
   margin: 0;
 }
 
-p, span, h1 {
+p,
+span,
+h1 {
   margin: 0;
 }
 
@@ -18,12 +20,26 @@ a {
   text-decoration: none;
 }
 
+a.disabled {
+  color: #87bbda;
+  pointer-events: none;
+  cursor: default;
+}
+
 .page {
   padding-bottom: 56px;
 }
 
 .bottomNavigation {
   height: 56px;
+}
+
+.floatRight {
+  float: right;
+}
+
+.floatLeft {
+  float: left;
 }
 
 .zeroMargin {
@@ -167,6 +183,21 @@ a {
   transform: scale(0.7);
 }
 
+.overflowHiddenBlock {
+  display: block !important;
+  overflow: hidden;
+}
+
+.transparentInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: #a7af34;
+  font-size: 14px;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+}
+
 svg#clouds {
   position: fixed;
   bottom: -160px;
@@ -230,4 +261,40 @@ svg#clouds {
 
 .matProgressSpinner {
   margin-top: 50px !important;
+}
+
+.mat-form-field-infix {
+  padding: 0;
+  border-top: 0;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding: 0;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0;
+}
+
+.mat-form-field,
+.mat-option,
+.mat-calendar {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+}
+
+.mat-input-element {
+  caret-color: #a7af34;
+  color: #a7af34 !important;
+}
+
+.mat-form-field-underline {
+  display: none;
+}
+
+.mat-select-value {
+  color: #a7af34;
+}
+
+.mat-select-arrow {
+  visibility: hidden;
 }
