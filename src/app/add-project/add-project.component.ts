@@ -21,7 +21,6 @@ export class AddProjectComponent implements OnInit {
   projectMetas: any = [];
   selectedMeta: any = {};
 
-  memberNameToAdd = '';
   allRoles: any = [];
   selectedRole: any = {};
 
@@ -57,15 +56,11 @@ export class AddProjectComponent implements OnInit {
       }
     };
     this.getProjectMetas().then(
-      (response) => {
-        this.projectMetas = response;
-      },
+      (response) => {},
       (error) => {}
     );
     this.getRoles().then(
-      (response) => {
-        this.allRoles = response;
-      },
+      (response) => {},
       (error) => {}
     );
   }
@@ -77,6 +72,11 @@ export class AddProjectComponent implements OnInit {
   getProjectMetas(): any {
     return new Promise((resolve, reject) => {
       const projectMetas = [{
+        _id: '1234567890',
+        title: 'None',
+        description: 'nothing in here',
+        fields: []
+      }, {
         _id: '1234567890',
         title: 'meta 1',
         description: 'nothing in here',
@@ -111,7 +111,9 @@ export class AddProjectComponent implements OnInit {
           value: 'default value'
         }]
       }];
-      resolve(projectMetas);
+      this.projectMetas = projectMetas;
+      this.selectedMeta = this.projectMetas[0];
+      resolve(true);
     });
   }
 
@@ -158,7 +160,8 @@ export class AddProjectComponent implements OnInit {
         canModifyMilestones: false,
         canModifyPulses: false
       }];
-      resolve(roles);
+      this.allRoles = roles;
+      resolve(true);
     });
   }
 

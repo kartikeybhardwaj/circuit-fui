@@ -23,7 +23,7 @@
         <pre class="terminalPaddingLeftEM-1 zeroPaddingBottom"><a class="cursorPointer" (click)="deleteMember(indexMember)">Remove</a></pre>
       </div>
     </ng-container>
-    <pre class="terminalPaddingTop"><a class="cursorPointer" (click)="addMember()">  Add member</a></pre>
+    <pre class="terminalPaddingTop"><a class="cursorPointer" (click)="addMember()">  {{project.members.length === 0 ? 'Add a member' : 'Add another member'}}</a></pre>
     <pre><a class="cursorPointer" [ngClass]="isAdding ? 'disabled' : ''" (click)="addProject()">Add Project</a> <span class="inlineBlock" *ngIf="isAdding"><mat-progress-spinner class="inlineBlock" color="primary" mode="indeterminate" [diameter]="14"></mat-progress-spinner></span></pre>
     <pre *ngIf="errorMessage.length"><span class="terminalBotError">circuit:</span> {{errorMessage}}</pre>
     <pre *ngIf="message.length"><span class="terminalBot">circuit:</span> {{message}}</pre>
