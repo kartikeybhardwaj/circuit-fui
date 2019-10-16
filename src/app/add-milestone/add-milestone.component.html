@@ -1,0 +1,25 @@
+<div class="contentCenter">
+  <!-- start - terminal -->
+  <div class="terminal">
+    <pre><span class="terminalBot floatLeft">Title: </span><span class="overflowHiddenBlock"><input type="text" autocomplete="off" class="transparentInput" [(ngModel)]="milestone.title"></span></pre>
+    <pre><span class="terminalBot floatLeft">Description: </span><span class="overflowHiddenBlock"><textarea id="description" class="transparentInput zeroPadding" cdkTextareaAutosize [(ngModel)]="milestone.description"></textarea></span></pre>
+    <pre><span class="terminalBot">Meta: </span><mat-form-field><mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedMilestoneMetaId($event)"><mat-option *ngFor="let meta of milestoneMetas; index as index;" [value]="meta">{{meta.title}}</mat-option></mat-select></mat-form-field></pre>
+    <ng-container *ngIf="selectedMeta">
+      <ng-container *ngFor="let field of selectedMeta.fields; index as indexField;">
+        <ng-container *ngIf="field.valueType === 'select'">
+          <pre><span class="terminalBot">{{field.key}}: </span><mat-form-field><mat-select [(ngModel)]="milestone.fields[field.key]"><mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">{{value}}</mat-option></mat-select></mat-form-field></pre>
+        </ng-container>
+        <ng-container *ngIf="field.valueType === 'input'">
+          <pre><span class="terminalBot floatLeft">{{field.key}}: </span><span class="overflowHiddenBlock"><input type="text" autocomplete="off" class="transparentInput" [(ngModel)]="milestone.fields[field.key]"></span></pre>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <pre><span class="terminalBot">Timeline</span></pre>
+    <pre><span class="terminalBot">  Start:</span><mat-form-field><input class="datePickerInput" matInput [matDatepicker]="startpicker" disabled [(ngModel)]="startDate"><mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle><mat-datepicker #startpicker disabled="false"></mat-datepicker></mat-form-field>  H<mat-form-field><mat-select class="mat-select-width-time" [(ngModel)]="startHour"><mat-option *ngFor="let hour of hours; index as indexHour;" [value]="hour">{{hour}}</mat-option></mat-select></mat-form-field>M<mat-form-field><mat-select class="mat-select-width-time" [(ngModel)]="startMin"><mat-option *ngFor="let min of mins; index as indexMin;" [value]="min">{{min}}</mat-option></mat-select></mat-form-field></pre>
+    <pre><span class="terminalBot">  End:  </span><mat-form-field><input class="datePickerInput" matInput [matDatepicker]="endpicker" disabled [(ngModel)]="endDate"><mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle><mat-datepicker #endpicker disabled="false"></mat-datepicker></mat-form-field>  H<mat-form-field><mat-select class="mat-select-width-time" [(ngModel)]="endHour"><mat-option *ngFor="let hour of hours; index as indexHour;" [value]="hour">{{hour}}</mat-option></mat-select></mat-form-field>M<mat-form-field><mat-select class="mat-select-width-time" [(ngModel)]="endMin"><mat-option *ngFor="let min of mins; index as indexMin;" [value]="min">{{min}}</mat-option></mat-select></mat-form-field></pre>
+    <pre><a class="cursorPointer" [ngClass]="isAdding ? 'disabled' : ''" (click)="addMilestone()">Add milestone</a> <span class="inlineBlock" *ngIf="isAdding"><mat-progress-spinner class="inlineBlock" color="primary" mode="indeterminate" [diameter]="14"></mat-progress-spinner></span></pre>
+    <pre *ngIf="errorMessage.length"><span class="terminalBotError">circuit:</span> {{errorMessage}}</pre>
+    <pre *ngIf="message.length"><span class="terminalBot">circuit:</span> {{message}}</pre>
+  </div>
+  <!-- end - terminal -->
+</div>
