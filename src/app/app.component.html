@@ -20,7 +20,7 @@
   <app-unauthorized-access></app-unauthorized-access>
 </ng-container>
 
-<ng-container *ngIf="appInfo.user">
+<ng-container *ngIf="appInfo.user && !isSiteLoading">
   <app-header></app-header>
   <div class="page">
     <router-outlet></router-outlet>

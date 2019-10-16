@@ -27,7 +27,8 @@ import {
   MatButtonModule
 } from '@angular/material/button';
 import {
-  MatRippleModule
+  MatRippleModule,
+  MatNativeDateModule
 } from '@angular/material/core';
 import {
   MatBottomSheetModule
@@ -47,6 +48,12 @@ import {
 import {
   MatSelectModule
 } from '@angular/material/select';
+import {
+  MatDatepickerModule
+} from '@angular/material/datepicker';
+import {
+  MatInputModule
+} from '@angular/material/input';
 import {
   ProjectsComponent
 } from './projects/projects.component';
@@ -75,6 +82,9 @@ import {
 import {
   AddProjectComponent
 } from './add-project/add-project.component';
+import {
+  AddMilestoneComponent
+} from './add-milestone/add-milestone.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +97,8 @@ import {
     HeaderComponent,
     MilestonesComponent,
     PulsesComponent,
-    AddProjectComponent
+    AddProjectComponent,
+    AddMilestoneComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +114,10 @@ import {
     MatProgressSpinnerModule,
     TextFieldModule,
     MatRadioModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule
   ],
   providers: [
     AppStorageService

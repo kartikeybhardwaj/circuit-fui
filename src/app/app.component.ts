@@ -19,6 +19,8 @@ import {
 })
 export class AppComponent implements OnInit {
 
+  isSiteLoading = true;
+
   constructor(
     public appInfo: AppStorageService,
     private router: Router,
@@ -26,10 +28,11 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getConstants().then((response) => {
-      this.getUser();
+    this.getConstants().then((constants) => {
+      this.getUser().then((user) => {
+        this.isSiteLoading = false;
+      });
     });
-    this.getUser();
   }
 
   getConstants() {
@@ -46,12 +49,15 @@ export class AppComponent implements OnInit {
     });
   }
 
-  getUser(): void {
+  getUser(): any {
     // get user data and set to appInfo.user
-    this.appInfo.user = {
-      username: 'kartoon',
-      displayname: 'kartoon'
-    };
+    return new Promise((resolve, reject) => {
+      this.appInfo.user = {
+        username: 'kartoon',
+        displayname: 'kartoon'
+      };
+      resolve(true);
+    });
   }
 
 }
