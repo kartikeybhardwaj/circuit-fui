@@ -196,7 +196,7 @@ a.disabled {
 }
 
 .blockquote {
-  border-left: 2px solid white;
+  border-left: 2px solid #d1906a;
   margin-left: 2em;
 }
 
@@ -316,13 +316,31 @@ svg#clouds {
   }
 }
 
+.datePickerInput {
+  width: 6em !important;
+  min-width: 5em;
+  max-width: 10em !important;
+}
+
 .matProgressSpinner {
   margin-top: 50px !important;
 }
 
+.mat-form-field-flex {
+  display: block !important;
+}
+
 .mat-form-field-infix {
+  width: auto !important;
   padding: 0;
   border-top: 0;
+  float: right;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.mat-form-field-suffix {
+  float: left;
 }
 
 .mat-form-field-appearance-legacy .mat-form-field-wrapper {
@@ -331,6 +349,7 @@ svg#clouds {
 
 .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0;
+  margin-bottom: 1px;
 }
 
 .mat-form-field,
@@ -344,12 +363,24 @@ svg#clouds {
   color: #a7af34 !important;
 }
 
+.mat-form-field {
+  vertical-align: sub;
+}
+
 .mat-form-field-underline {
   display: none;
 }
 
 .mat-select-value {
   color: #a7af34;
+}
+
+.mat-select {
+  width: 180px !important;
+}
+
+.mat-select-width-time {
+  width: 60px !important;
 }
 
 .mat-select-arrow {
