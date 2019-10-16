@@ -1,5 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 
+::selection {
+  color: rgba(0, 0, 0, .87);
+  background-color: #CCE2FF;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0;
+  background: rgba(0, 0, 0, .10);
+}
+
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, .25);
+  -webkit-transition: color .2s ease;
+  transition: color .2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, .50);
+}
+
 html,
 body {
   height: 100%;
@@ -48,6 +76,10 @@ a.disabled {
 
 .zeroPadding {
   padding: 0 !important;
+}
+
+.zeroPaddingBottom {
+  padding-bottom: 0 !important;
 }
 
 .smallMarginTop {
@@ -163,6 +195,11 @@ a.disabled {
   align-items: center;
 }
 
+.blockquote {
+  border-left: 2px solid white;
+  margin-left: 2em;
+}
+
 .colorWhite {
   color: white;
 }
@@ -250,6 +287,26 @@ svg#clouds {
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
+}
+
+.terminalMarginTop {
+  margin-top: 1rem !important;
+}
+
+.terminalMarginBottom {
+  margin-bottom: 1rem !important;
+}
+
+.terminalPaddingTop {
+  padding-top: 1rem !important;
+}
+
+.terminalPaddingBottom {
+  padding-bottom: 1rem !important;
+}
+
+.terminalPaddingLeftEM-1 {
+  padding-left: 1em !important;
 }
 
 /* Responsive Styles */
