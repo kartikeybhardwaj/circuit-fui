@@ -1,24 +1,32 @@
 <div class="contentCenter">
   <!-- start - terminal -->
   <div class="terminal">
-    <pre><span class="terminalBot floatLeft">Title: </span><span class="overflowHiddenBlock"><input type="text" class="transparentInput" [(ngModel)]="project.name"></span></pre>
+    <pre><span class="terminalBot floatLeft">Title: </span><span class="overflowHiddenBlock"><input type="text" autocomplete="off" class="transparentInput" [(ngModel)]="project.title"></span></pre>
     <pre><span class="terminalBot floatLeft">Description: </span><span class="overflowHiddenBlock"><textarea id="description" class="transparentInput zeroPadding" cdkTextareaAutosize [(ngModel)]="project.description"></textarea></span></pre>
     <pre><span class="terminalBot">Visibility: </span><mat-radio-group [(ngModel)]="project.visibility"><mat-radio-button value="public">Public</mat-radio-button> <mat-radio-button value="internal">Internal</mat-radio-button> <mat-radio-button value="private">Private</mat-radio-button></mat-radio-group></pre>
-    <pre><span class="terminalBot">Meta: </span><mat-form-field><mat-select [(ngModel)]="selectedMeta"><mat-option *ngFor="let meta of metas; index as index;" [value]="meta">{{meta.name}}</mat-option></mat-select></mat-form-field></pre>
+    <pre><span class="terminalBot">Meta: </span><mat-form-field><mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedProjectMetaId($event)"><mat-option *ngFor="let meta of projectMetas; index as index;" [value]="meta">{{meta.title}}</mat-option></mat-select></mat-form-field></pre>
     <ng-container *ngIf="selectedMeta">
       <ng-container *ngFor="let field of selectedMeta.fields; index as indexField;">
-        <ng-container *ngIf="field.valueType === 'list'">
-          <pre><span class="terminalBot">{{field.key}}: </span><mat-form-field><mat-select [(ngModel)]="fieldSelctedMeta[field.key]"><mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">{{value}}</mat-option></mat-select></mat-form-field></pre>
+        <ng-container *ngIf="field.valueType === 'select'">
+          <pre><span class="terminalBot">{{field.key}}: </span><mat-form-field><mat-select [(ngModel)]="project.fields[field.key]"><mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">{{value}}</mat-option></mat-select></mat-form-field></pre>
         </ng-container>
         <ng-container *ngIf="field.valueType === 'input'">
-          <pre><span class="terminalBot floatLeft">{{field.key}}: </span><span class="overflowHiddenBlock"><input type="text" class="transparentInput" [(ngModel)]="fieldSelctedMeta[field.key]"></span></pre>
+          <pre><span class="terminalBot floatLeft">{{field.key}}: </span><span class="overflowHiddenBlock"><input type="text" autocomplete="off" class="transparentInput" [(ngModel)]="project.fields[field.key]"></span></pre>
         </ng-container>
       </ng-container>
     </ng-container>
-    <pre><span class="terminalBot">Users: </span></pre>
+    <pre class="zeroPaddingBottom"><span class="terminalBot">Members</span></pre>
+    <ng-container *ngFor="let member of project.members; index as indexMember;">
+      <div class="blockquote terminalMarginTop">
+        <pre class="terminalPaddingLeftEM-1"><span class="terminalBot floatLeft">Name: </span><span class="overflowHiddenBlock"><input type="text" autocomplete="off" class="transparentInput" [(ngModel)]="project.members[indexMember].username"></span></pre>
+        <pre class="terminalPaddingLeftEM-1"><span class="terminalBot floatLeft">Role: </span><mat-form-field><mat-select [(ngModel)]="project.members[indexMember].roleId"><mat-option *ngFor="let role of allRoles; index as indexRole;" [value]="role._id">{{role.title}}</mat-option></mat-select></mat-form-field></pre>
+        <pre class="terminalPaddingLeftEM-1 zeroPaddingBottom"><a class="cursorPointer" (click)="deleteMember(indexMember)">Remove</a></pre>
+      </div>
+    </ng-container>
+    <pre class="terminalPaddingTop"><a class="cursorPointer" (click)="addMember()">  Add member</a></pre>
     <pre><a class="cursorPointer" [ngClass]="isAdding ? 'disabled' : ''" (click)="addProject()">Add Project</a> <span class="inlineBlock" *ngIf="isAdding"><mat-progress-spinner class="inlineBlock" color="primary" mode="indeterminate" [diameter]="14"></mat-progress-spinner></span></pre>
-    <pre *ngIf="errorMessage.length"><span class="terminalBotError">meetup:</span> {{errorMessage}}</pre>
-    <pre *ngIf="message.length"><span class="terminalBot">meetup:</span> {{message}}</pre>
+    <pre *ngIf="errorMessage.length"><span class="terminalBotError">circuit:</span> {{errorMessage}}</pre>
+    <pre *ngIf="message.length"><span class="terminalBot">circuit:</span> {{message}}</pre>
   </div>
   <!-- end - terminal -->
 </div>

@@ -17,9 +17,13 @@ import {
 export class AddProjectComponent implements OnInit {
 
   project: any = {};
-  metas: any = [];
+
+  projectMetas: any = [];
   selectedMeta: any = {};
-  fieldSelctedMeta: any = {};
+
+  memberNameToAdd = '';
+  allRoles: any = [];
+  selectedRole: any = {};
 
   message = '';
   errorMessage = '';
@@ -39,25 +43,42 @@ export class AddProjectComponent implements OnInit {
 
   ngOnInit() {
     this.project = {
-      name: '',
+      title: '',
       description: '',
       visibility: 'internal',
-      meta: '',
-      fields: {}
+      projectMetaId: '',
+      fields: {},
+      members: [],
+      meta: {
+        addedBy: '1234567890',
+        addedOn: new Date(),
+        lastUpdatedBy: '1234567890',
+        lastUpdatedOn: new Date()
+      }
     };
-    this.getMetas().then(
+    this.getProjectMetas().then(
       (response) => {
-        this.metas = response;
+        this.projectMetas = response;
+      },
+      (error) => {}
+    );
+    this.getRoles().then(
+      (response) => {
+        this.allRoles = response;
       },
       (error) => {}
     );
   }
 
-  getMetas(): any {
+  changedProjectMetaId(event: any): void {
+    this.project.fields = {};
+  }
+
+  getProjectMetas(): any {
     return new Promise((resolve, reject) => {
-      const metas = [{
+      const projectMetas = [{
         _id: '1234567890',
-        name: 'meta 1',
+        title: 'meta 1',
         description: 'nothing in here',
         fields: [{
           key: 'select 1',
@@ -74,7 +95,7 @@ export class AddProjectComponent implements OnInit {
         }]
       }, {
         _id: '0987654321',
-        name: 'meta 2',
+        title: 'meta 2',
         description: 'nothing in here',
         fields: [{
           key: 'select 1',
@@ -90,8 +111,66 @@ export class AddProjectComponent implements OnInit {
           value: 'default value'
         }]
       }];
-      resolve(metas);
+      resolve(projectMetas);
     });
+  }
+
+  getRoles(): any {
+    return new Promise((resolve, reject) => {
+      const roles = [{
+        _id: '1234567890',
+        title: 'Super User',
+        description: 'Super User who can do anything.',
+        isSuperUser: true,
+        canModifyUsersRole: true,
+        canModifyLocations: true,
+        canModifyProjects: true,
+        canModifyMilestones: true,
+        canModifyPulses: true
+      }, {
+        _id: '1234567890',
+        title: 'Project Manager',
+        description: 'Just some designation',
+        isSuperUser: false,
+        canModifyUsersRole: true,
+        canModifyLocations: true,
+        canModifyProjects: true,
+        canModifyMilestones: true,
+        canModifyPulses: true
+      }, {
+        _id: '1234567890',
+        title: 'Project Member',
+        description: 'Just some designation',
+        isSuperUser: false,
+        canModifyUsersRole: false,
+        canModifyLocations: true,
+        canModifyProjects: false,
+        canModifyMilestones: false,
+        canModifyPulses: true
+      }, {
+        _id: '1234567890',
+        title: 'That one guy',
+        description: 'Just some designation',
+        isSuperUser: false,
+        canModifyUsersRole: false,
+        canModifyLocations: true,
+        canModifyProjects: false,
+        canModifyMilestones: false,
+        canModifyPulses: false
+      }];
+      resolve(roles);
+    });
+  }
+
+  addMember(): void {
+    this.project.members.push({
+      username: '',
+      roleId: ''
+    });
+  }
+
+  deleteMember(indexMember): void {
+    this.project.members.splice(indexMember, 1);
   }
 
   addProject(): void {
