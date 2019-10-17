@@ -26,6 +26,9 @@ import {
 import {
   AddMilestoneComponent
 } from './add-milestone/add-milestone.component';
+import {
+  AddPulseComponent
+} from './add-pulse/add-pulse.component';
 
 const routes: Routes = [{
   path: 'projects',
@@ -42,6 +45,9 @@ const routes: Routes = [{
 }, {
   path: 'add/milestone',
   component: AddMilestoneComponent
+}, {
+  path: 'add/pulse',
+  component: AddPulseComponent
 }, {
   path: 'unauthorized-access',
   component: UnauthorizedAccessComponent

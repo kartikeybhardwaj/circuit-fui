@@ -12,7 +12,8 @@ import {
   AppRoutingModule
 } from './app-routing.module';
 import {
-  FormsModule
+  FormsModule,
+  ReactiveFormsModule
 } from '@angular/forms';
 import {
   AppComponent
@@ -55,6 +56,13 @@ import {
   MatInputModule
 } from '@angular/material/input';
 import {
+  MatChipsModule
+} from '@angular/material/chips';
+import {
+  MatAutocompleteModule
+} from '@angular/material/autocomplete';
+
+import {
   ProjectsComponent
 } from './projects/projects.component';
 import {
@@ -85,6 +93,9 @@ import {
 import {
   AddMilestoneComponent
 } from './add-milestone/add-milestone.component';
+import {
+  AddPulseComponent
+} from './add-pulse/add-pulse.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +109,8 @@ import {
     MilestonesComponent,
     PulsesComponent,
     AddProjectComponent,
-    AddMilestoneComponent
+    AddMilestoneComponent,
+    AddPulseComponent
   ],
   imports: [
     BrowserModule,
@@ -106,6 +118,7 @@ import {
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
     MatRippleModule,
@@ -117,7 +130,9 @@ import {
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatInputModule
+    MatInputModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   providers: [
     AppStorageService
