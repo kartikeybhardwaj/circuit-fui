@@ -61,6 +61,15 @@ import {
 import {
   MatAutocompleteModule
 } from '@angular/material/autocomplete';
+import {
+  MatTableModule
+} from '@angular/material/table';
+import {
+  MatPaginatorModule
+} from '@angular/material/paginator';
+import {
+  MatSortModule
+} from '@angular/material/sort';
 
 import {
   ProjectsComponent
@@ -132,7 +141,10 @@ import {
     MatNativeDateModule,
     MatInputModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [
     AppStorageService
