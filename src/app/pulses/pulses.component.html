@@ -1,10 +1,60 @@
 <div class="contentCenter">
-  <!-- start - terminal -->
-  <div class="terminal">
-    <pre><span class="terminalBot">circuit:</span> Let me fetch pulses for this milestones.. This should be quick! <span class="inlineBlock"><mat-progress-spinner class="inlineBlock" color="primary" mode="indeterminate" [diameter]="14"></mat-progress-spinner></span></pre>
-    <pre><span class="terminalBot">circuit:</span> And here are they..</pre>
-    <pre
-      *ngFor="let pulse of appInfo.pulses; index as index;">{{index + 1}}. <a class="cursorPointer">{{pulse.name}}</a></pre>
+
+  <mat-progress-spinner *ngIf="isFetching" color="primary" mode="indeterminate" [diameter]="35"></mat-progress-spinner>
+
+  <div class="headerText colorBright smallMarginTop">Pulses</div>
+
+  <mat-form-field class="width-100">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+  <div class="mat-elevation-z8 width-100">
+    <table mat-table [dataSource]="dataSourcePulses" multiTemplateDataRows matSort class="width-100">
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsForPulses; index as columnIndex;">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columnsToDisplayPulses[columnIndex]}} </th>
+        <ng-container *ngIf="['index', 'title', 'assigneesListCount'].includes(column)">
+          <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+        </ng-container>
+        <ng-container *ngIf="column === 'timeline'">
+          <td mat-cell *matCellDef="let element"> {{element[column].to}} </td>
+        </ng-container>
+        <ng-container *ngIf="column === 'todo'">
+          <td mat-cell *matCellDef="let element">
+            <button mat-button class="floatRight" (click)="pulseClick(element)">
+              <mat-icon class="colorBright">arrow_forward</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+      </ng-container>
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsForPulses.length">
+          <div class="table-element-detail"
+            [@detailExpand]="element == expandedElementPulses ? 'expanded' : 'collapsed'">
+            <div class="tableContent">
+              <div class="smallMarginTop"><strong>Title</strong>:&nbsp;{{element.title}}</div>
+              <div class="mediumMarginTop"><strong>Description</strong>:&nbsp;{{element.description}}</div>
+              <div class="mediumMarginTop"><strong>Timeline</strong>:&nbsp;{{element.timeline.from}} -
+                {{element.timeline.to}}</div>
+              <div class="mediumMarginTop" *ngFor="let field of element.fields; index as indexField;">
+                <strong>{{field.key}}</strong>: {{field[field.key]}}
+              </div>
+              <div class="smallMarginTop">
+                <strong>Assignees</strong>:
+                <button mat-button
+                  *ngFor="let assignee of element.assigneesList; index as indexAssignee;">{{assignee.name}}</button>
+              </div>
+              <div class="smallMarginTop">Pulse created
+                by&nbsp;<strong>{{element.meta.addedBy}}</strong>&nbsp;on&nbsp;{{element.meta.addedOn}}</div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsForPulses"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsForPulses;" class="table-element-row"
+        [class.table-expanded-row]="expandedElementPulses === element"
+        (click)="expandedElementPulses = expandedElementPulses === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="table-detail-row"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
   </div>
-  <!-- end - terminal -->
 </div>
