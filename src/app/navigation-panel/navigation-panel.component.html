@@ -2,18 +2,18 @@
 
   <div matRipple [matRippleColor]="'#EEEEEE'" [matRippleUnbounded]="true" class="bottomLeftNavigation cursorPointer"
     (click)="openMenuBottomSheet()">
-    <mat-icon class="icon-display-large colorGray">menu</mat-icon>
+    <mat-icon class="icon-display-large colorBright">menu</mat-icon>
   </div>
 
   <div class="bottomCenterNavigation" *ngIf="appInfo.isNavigationAddTextVisible">
     <button mat-flat-button color="accent" (click)="addBlocks()">
-      <mat-icon class="colorWhite">add</mat-icon>
-      <span class="colorWhite">{{appInfo.navigationAddText}}</span>
+      <mat-icon class="colorBright">add</mat-icon>
+      <span class="colorBright">{{appInfo.navigationAddText}}</span>
     </button>
   </div>
 
   <div matRipple [matRippleColor]="'#EEEEEE'" [matRippleUnbounded]="true" class="bottomRightNavigation cursorPointer">
-    <mat-icon class="icon-display-large colorGray">more_vert</mat-icon>
+    <mat-icon class="icon-display-large colorBright">more_vert</mat-icon>
   </div>
 
 </div>

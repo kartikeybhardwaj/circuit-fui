@@ -1,6 +1,11 @@
 {
     "appName": "Circuit",
     "buildingBlocks": {
+        "icons": {
+            "public": "public",
+            "internal": "enhanced_encryption",
+            "private": "security"
+        },
         "labels": {
             "addProject": "Add Project",
             "addMilestone": "Add Milestone",

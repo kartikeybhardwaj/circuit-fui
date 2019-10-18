@@ -31,10 +31,12 @@
 html,
 body {
   height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
 }
 
 body {
   margin: 0;
+  background-color: #303030;
 }
 
 p,
@@ -43,7 +45,7 @@ h1 {
   margin: 0;
 }
 
-a {
+/* a {
   color: #6aabd1;
   text-decoration: none;
 }
@@ -52,7 +54,7 @@ a.disabled {
   color: #87bbda;
   pointer-events: none;
   cursor: default;
-}
+} */
 
 .page {
   padding-bottom: 56px;
@@ -60,6 +62,10 @@ a.disabled {
 
 .bottomNavigation {
   height: 56px;
+}
+
+.capitalizeFirstLetter::first-letter {
+  text-transform: uppercase;
 }
 
 .floatRight {
@@ -186,6 +192,15 @@ a.disabled {
   cursor: pointer;
 }
 
+.cursorPointerTableRow {
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.cursorPointerTableRow:hover {
+  background-color: #303030;
+}
+
 .contentCenter {
   display: flex;
   margin: 1em auto;
@@ -195,28 +210,46 @@ a.disabled {
   align-items: center;
 }
 
+.centerHorizontalFlex {
+  display: flex;
+  justify-content: center;
+}
+
+.centerHorizontal {
+  position: relative !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.centerVerticalFlex {
+  display: flex;
+  align-items: center;
+}
+
+.centerVertical {
+  position: relative !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
 .blockquote {
   border-left: 2px solid #d1906a;
   margin-left: 2em;
 }
 
-.colorWhite {
+.colorBright {
   color: white;
 }
 
-.colorBlack {
-  color: black;
-}
-
-.colorGray {
-  color: gray;
+.colorDark {
+  color: #303030;
 }
 
 .width-100 {
   width: 100% !important;
 }
 
-.verticallyMiddle {
+.verticalAlignMiddle {
   vertical-align: middle !important;
 }
 
@@ -228,12 +261,12 @@ a.disabled {
   transform: scale(0.7);
 }
 
-.overflowHiddenBlock {
+/* .overflowHiddenBlock {
   display: block !important;
   overflow: hidden;
-}
+} */
 
-.transparentInput {
+/* .transparentInput {
   background: transparent;
   border: none;
   outline: none;
@@ -241,13 +274,13 @@ a.disabled {
   color: #a7af34;
   font-size: 14px;
   font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-}
+} */
 
 svg#clouds {
+  z-index: -10;
   position: fixed;
   bottom: -160px;
   left: -230px;
-  z-index: -10;
   width: 1920px;
 }
 
@@ -324,88 +357,6 @@ svg#clouds {
   }
 }
 
-.datePickerInput {
-  width: 6em !important;
-  min-width: 5em;
-  max-width: 10em !important;
-}
-
-.matProgressSpinner {
-  margin-top: 50px !important;
-}
-
-.mat-form-field-flex {
-  display: block !important;
-}
-
-.mat-form-field-infix {
-  width: auto !important;
-  padding: 0;
-  border-top: 0;
-  float: right;
-  margin-top: 5px;
-  margin-left: 5px;
-}
-
-.mat-form-field-suffix {
-  float: left;
-}
-
-.mat-form-field-appearance-legacy .mat-form-field-wrapper {
-  padding: 0;
-}
-
-.mat-form-field-appearance-legacy .mat-form-field-infix {
-  padding: 0;
-  margin-bottom: 1px;
-}
-
-.mat-form-field-type-mat-chip-list>.mat-form-field-wrapper>.mat-form-field-flex>.mat-form-field-infix {
-  margin: 0;
-  padding: 0;
-}
-
-.mat-form-field-type-mat-chip-list>.mat-form-field-wrapper>.mat-form-field-flex {
-  display: inline-flex !important;
-}
-
-.mat-form-field,
-.mat-option,
-.mat-calendar,
-.mat-chip {
-  font-size: 14px;
-  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-}
-
 .mat-input-element {
-  caret-color: #a7af34;
-  color: #a7af34 !important;
-}
-
-.mat-form-field {
-  vertical-align: sub;
-}
-
-.mat-select-value {
-  color: #a7af34;
-}
-
-.mat-select {
-  width: 180px !important;
-}
-
-.mat-select-width-time {
-  width: 60px !important;
-}
-
-.mat-select-arrow {
-  visibility: hidden;
-}
-
-.mat-form-field-underline {
-  display: none;
-}
-
-.mat-form-field-subscript-wrapper {
-  display: none;
+  color: white !important;
 }
