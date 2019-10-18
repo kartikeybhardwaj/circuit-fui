@@ -33,7 +33,7 @@ export interface MilestonesList {
   title: string;
   description: string;
   timeline: Timeline;
-  pulsesList: Pulses[];
+  pulsesList: Pulse[];
   pulsesListCount: number;
   milestoneMetaId: string;
   fields: any[];
@@ -45,7 +45,7 @@ export interface Timeline {
   to: string;
 }
 
-export interface Pulses {
+export interface Pulse {
   _id: string;
   title: string;
 }
@@ -80,9 +80,9 @@ export class MilestonesComponent implements OnInit {
 
   MILESTONES_DATA: MilestonesList[];
   dataSourceMilestones: MatTableDataSource < MilestonesList > ;
-  columnsForMilestones = ['index', 'title', 'timeline', 'pulsesListCount', 'gotoPulse'];
+  columnsForMilestones = ['index', 'title', 'timeline', 'pulsesListCount', 'todo'];
   columnsToDisplayMilestones = ['#', 'Milestone', 'End date', 'Pulses count', ''];
-  expandedElementProjects: MilestonesList | null;
+  expandedElementMilestones: MilestonesList | null;
 
   @ViewChild(MatPaginator, {
     static: true

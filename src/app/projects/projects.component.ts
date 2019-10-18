@@ -34,7 +34,7 @@ export interface ProjectsList {
   visibility: string;
   visibilityIcon: string;
   members: MembersList[];
-  milestonesList: Milestones[];
+  milestonesList: Milestone[];
   milestonesListCount: number;
   projectMetaId: string;
   fields: any[];
@@ -48,7 +48,7 @@ export interface MembersList {
   roleName: string;
 }
 
-export interface Milestones {
+export interface Milestone {
   _id: string;
   title: string;
 }
