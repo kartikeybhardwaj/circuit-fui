@@ -34,7 +34,7 @@ export interface ProjectsList {
   visibility: string;
   visibilityIcon: string;
   members: MembersList[];
-  milestonesList: string[];
+  milestonesList: Milestones[];
   milestonesListCount: number;
   projectMetaId: string;
   fields: any[];
@@ -46,6 +46,11 @@ export interface MembersList {
   name: string;
   roleId: string;
   roleName: string;
+}
+
+export interface Milestones {
+  _id: string;
+  title: string;
 }
 
 export interface ProjectsMeta {
@@ -78,7 +83,7 @@ export class ProjectsComponent implements OnInit {
 
   PROJECTS_DATA: ProjectsList[];
   dataSourceProjects: MatTableDataSource < ProjectsList > ;
-  columnsForProjects = ['index', 'title', 'milestonesListCount', 'visibilityIcon', 'gotoMilestone'];
+  columnsForProjects = ['index', 'title', 'milestonesListCount', 'visibilityIcon', 'todo'];
   columnsToDisplayProjects = ['#', 'Projects', 'Milestones count', 'Visibility', ''];
   expandedElementProjects: ProjectsList | null;
 
@@ -113,16 +118,20 @@ export class ProjectsComponent implements OnInit {
         _id: '1234567890',
         name: 'some user',
         roleId: '2',
-        roleName: 'Project Manager',
-
+        roleName: 'Project Manager'
       }, {
         _id: '1234567890',
         name: 'some user',
         roleId: '4',
-        roleName: 'That one guy',
-
+        roleName: 'That one guy'
       }],
-      milestonesList: ['0', '1', '2', '3'],
+      milestonesList: [{
+        _id: '1234567890',
+        title: 'milestone title 1'
+      }, {
+        _id: '1234567890',
+        title: 'milestone title 2'
+      }],
       milestonesListCount: 4,
       projectMetaId: 'string',
       fields: [{
@@ -161,7 +170,13 @@ export class ProjectsComponent implements OnInit {
         roleName: 'That one guy',
 
       }],
-      milestonesList: ['0', '1', '2', '3'],
+      milestonesList: [{
+        _id: '1234567890',
+        title: 'milestone title 1'
+      }, {
+        _id: '1234567890',
+        title: 'milestone title 2'
+      }],
       milestonesListCount: 4,
       projectMetaId: 'string',
       fields: [{
@@ -200,7 +215,13 @@ export class ProjectsComponent implements OnInit {
         roleName: 'That one guy',
 
       }],
-      milestonesList: ['0', '1', '2', '3'],
+      milestonesList: [{
+        _id: '1234567890',
+        title: 'milestone title 1'
+      }, {
+        _id: '1234567890',
+        title: 'milestone title 2'
+      }],
       milestonesListCount: 4,
       projectMetaId: 'string',
       fields: [{
@@ -239,163 +260,13 @@ export class ProjectsComponent implements OnInit {
         roleName: 'That one guy',
 
       }],
-      milestonesList: ['0', '1', '2', '3'],
-      milestonesListCount: 4,
-      projectMetaId: 'string',
-      fields: [{
-        key: 'key_1',
-        key_1: 'value_1'
-      }, {
-        key: 'key_2',
-        key_2: 'value_2'
-      }, {
-        key: 'key_3',
-        key_3: 'value_3'
-      }],
-      meta: {
-        addedBy: 'some user',
-        addedOn: this.appInfo.getLongDate(new Date().getTime()),
-        lastUpdatedBy: 'some user',
-        lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-      }
-    }, {
-      index: 5,
-      _id: '1234567890',
-      title: 'this is some random title',
-      description: 'this is some description',
-      visibility: 'public',
-      visibilityIcon: 'public',
-      members: [{
+      milestonesList: [{
         _id: '1234567890',
-        name: 'some user',
-        roleId: '2',
-        roleName: 'Project Manager',
-
+        title: 'milestone title 1'
       }, {
         _id: '1234567890',
-        name: 'some user',
-        roleId: '4',
-        roleName: 'That one guy',
-
+        title: 'milestone title 2'
       }],
-      milestonesList: ['0', '1', '2', '3'],
-      milestonesListCount: 4,
-      projectMetaId: 'string',
-      fields: [{
-        key: 'key_1',
-        key_1: 'value_1'
-      }, {
-        key: 'key_2',
-        key_2: 'value_2'
-      }, {
-        key: 'key_3',
-        key_3: 'value_3'
-      }],
-      meta: {
-        addedBy: 'some user',
-        addedOn: this.appInfo.getLongDate(new Date().getTime()),
-        lastUpdatedBy: 'some user',
-        lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-      }
-    }, {
-      index: 6,
-      _id: '1234567890',
-      title: 'this is some random title',
-      description: 'this is some description',
-      visibility: 'public',
-      visibilityIcon: 'public',
-      members: [{
-        _id: '1234567890',
-        name: 'some user',
-        roleId: '2',
-        roleName: 'Project Manager',
-
-      }, {
-        _id: '1234567890',
-        name: 'some user',
-        roleId: '4',
-        roleName: 'That one guy',
-
-      }],
-      milestonesList: ['0', '1', '2', '3'],
-      milestonesListCount: 4,
-      projectMetaId: 'string',
-      fields: [{
-        key: 'key_1',
-        key_1: 'value_1'
-      }, {
-        key: 'key_2',
-        key_2: 'value_2'
-      }, {
-        key: 'key_3',
-        key_3: 'value_3'
-      }],
-      meta: {
-        addedBy: 'some user',
-        addedOn: this.appInfo.getLongDate(new Date().getTime()),
-        lastUpdatedBy: 'some user',
-        lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-      }
-    }, {
-      index: 7,
-      _id: '1234567890',
-      title: 'this is some random title',
-      description: 'this is some description',
-      visibility: 'public',
-      visibilityIcon: 'public',
-      members: [{
-        _id: '1234567890',
-        name: 'some user',
-        roleId: '2',
-        roleName: 'Project Manager',
-
-      }, {
-        _id: '1234567890',
-        name: 'some user',
-        roleId: '4',
-        roleName: 'That one guy',
-
-      }],
-      milestonesList: ['0', '1', '2', '3'],
-      milestonesListCount: 4,
-      projectMetaId: 'string',
-      fields: [{
-        key: 'key_1',
-        key_1: 'value_1'
-      }, {
-        key: 'key_2',
-        key_2: 'value_2'
-      }, {
-        key: 'key_3',
-        key_3: 'value_3'
-      }],
-      meta: {
-        addedBy: 'some user',
-        addedOn: this.appInfo.getLongDate(new Date().getTime()),
-        lastUpdatedBy: 'some user',
-        lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-      }
-    }, {
-      index: 8,
-      _id: '1234567890',
-      title: 'this is some random title',
-      description: 'this is some description',
-      visibility: 'public',
-      visibilityIcon: 'public',
-      members: [{
-        _id: '1234567890',
-        name: 'some user',
-        roleId: '2',
-        roleName: 'Project Manager',
-
-      }, {
-        _id: '1234567890',
-        name: 'some user',
-        roleId: '4',
-        roleName: 'That one guy',
-
-      }],
-      milestonesList: ['0', '1', '2', '3'],
       milestonesListCount: 4,
       projectMetaId: 'string',
       fields: [{
