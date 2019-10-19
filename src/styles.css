@@ -232,17 +232,34 @@ a.disabled {
   transform: translateY(-50%) !important;
 }
 
-.blockquote {
-  border-left: 2px solid #d1906a;
-  margin-left: 2em;
+.makeRows {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.makeRowChild {
+  flex: 1 0 21%;
+  margin: 5px;
+}
+
+.justifyFlexStart {
+  justify-content: flex-start;
+}
+
+.innerMatCard {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex !important;
+  padding: 16px 16px !important;
+  max-width: 960px;
+  flex-direction: column;
 }
 
 .colorBright {
-  color: white;
+  color: white !important;
 }
 
 .colorDark {
-  color: #303030;
+  color: #303030 !important;
 }
 
 .width-100 {
