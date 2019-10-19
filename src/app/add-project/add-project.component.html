@@ -1,32 +1,78 @@
 <div class="contentCenter">
-  <!-- start - terminal -->
-  <div class="terminal">
-    <pre><span class="terminalBot floatLeft">Title: </span><span class="overflowHiddenBlock"><input type="text" autocomplete="off" class="transparentInput" [(ngModel)]="project.title"></span></pre>
-    <pre><span class="terminalBot floatLeft">Description: </span><span class="overflowHiddenBlock"><textarea id="description" class="transparentInput zeroPadding" cdkTextareaAutosize [(ngModel)]="project.description"></textarea></span></pre>
-    <pre><span class="terminalBot">Visibility: </span><mat-radio-group [(ngModel)]="project.visibility"><mat-radio-button value="public">Public</mat-radio-button> <mat-radio-button value="internal">Internal</mat-radio-button> <mat-radio-button value="private">Private</mat-radio-button></mat-radio-group></pre>
-    <pre><span class="terminalBot">Meta: </span><mat-form-field><mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedProjectMetaId($event)"><mat-option *ngFor="let meta of projectMetas; index as index;" [value]="meta">{{meta.title}}</mat-option></mat-select></mat-form-field></pre>
+  <mat-card class="width-100 mat-elevation-z8 smallMarginTop">
+    <mat-form-field class="width-100">
+      <input matInput [(ngModel)]="project.title" placeholder="Title" autocomplete="off" type="text" value="">
+    </mat-form-field>
+    <mat-form-field class="width-100">
+      <textarea matInput cdkTextareaAutosize [(ngModel)]="project.description" placeholder="Description"
+        autocomplete="off" type="text" value=""></textarea>
+    </mat-form-field>
+    <div class="width-100 colorBright smallMarginTop">
+      <label><strong>Visibility</strong>:</label>
+      <mat-radio-group [(ngModel)]="project.visibility">
+        <mat-radio-button class="smallMarginLeft" value="public">Public</mat-radio-button>
+        <mat-radio-button class="smallMarginLeft" value="internal">Internal</mat-radio-button>
+        <mat-radio-button class="smallMarginLeft" value="private">Private</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <mat-form-field class="width-100 mediumMarginTop">
+      <mat-label>Meta</mat-label>
+      <mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedProjectMetaId($event)">
+        <mat-option *ngFor="let meta of projectMetas; index as index;" [value]="meta">
+          {{meta.title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <ng-container *ngIf="selectedMeta">
       <ng-container *ngFor="let field of selectedMeta.fields; index as indexField;">
         <ng-container *ngIf="field.valueType === 'select'">
-          <pre><span class="terminalBot">{{field.key}}: </span><mat-form-field><mat-select [(ngModel)]="project.fields[field.key]"><mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">{{value}}</mat-option></mat-select></mat-form-field></pre>
+          <mat-form-field class="width-100">
+            <mat-label>{{field.key}}</mat-label>
+            <mat-select [(ngModel)]="project.fields[field.key]">
+              <mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">{{value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </ng-container>
         <ng-container *ngIf="field.valueType === 'input'">
-          <pre><span class="terminalBot floatLeft">{{field.key}}: </span><span class="overflowHiddenBlock"><input type="text" autocomplete="off" class="transparentInput" [(ngModel)]="project.fields[field.key]"></span></pre>
+          <mat-form-field class="width-100">
+            <input matInput [(ngModel)]="project.fields[field.key]" [placeholder]="field.key" autocomplete="off"
+              type="text" value="">
+          </mat-form-field>
         </ng-container>
       </ng-container>
     </ng-container>
-    <pre class="zeroPaddingBottom"><span class="terminalBot">Members</span></pre>
-    <ng-container *ngFor="let member of project.members; index as indexMember;">
-      <div class="blockquote terminalMarginTop">
-        <pre class="terminalPaddingLeftEM-1"><span class="terminalBot floatLeft">Name: </span><span class="overflowHiddenBlock"><input type="text" autocomplete="off" class="transparentInput" [(ngModel)]="project.members[indexMember].username"></span></pre>
-        <pre class="terminalPaddingLeftEM-1"><span class="terminalBot floatLeft">Role: </span><mat-form-field><mat-select [(ngModel)]="project.members[indexMember].roleId"><mat-option *ngFor="let role of allRoles; index as indexRole;" [value]="role._id">{{role.title}}</mat-option></mat-select></mat-form-field></pre>
-        <pre class="terminalPaddingLeftEM-1 zeroPaddingBottom"><a class="cursorPointer" (click)="deleteMember(indexMember)">Remove</a></pre>
+    <div class="width-100 colorBright smallMarginTop">
+      <label><strong>Members</strong>:</label>
+      <div class="makeRows" *ngIf="project.members.length">
+        <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
+          *ngFor="let member of project.members; index as indexMember;">
+          <mat-form-field class="width-100">
+            <input matInput [(ngModel)]="project.members[indexMember].username" placeholder="Username"
+              autocomplete="off" type="text" value="">
+          </mat-form-field>
+          <mat-form-field class="width-100">
+            <mat-label>Role</mat-label>
+            <mat-select [(ngModel)]="project.members[indexMember].roleId">
+              <mat-option *ngFor="let role of allRoles; index as indexRole;" [value]="role._id">
+                {{role.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-stroked-button color="warn" (click)="deleteMember(indexMember)">
+            Remove
+          </button>
+        </mat-card>
       </div>
-    </ng-container>
-    <pre class="terminalPaddingTop"><a class="cursorPointer" (click)="addMember()">  {{project.members.length === 0 ? 'Add a member' : 'Add another member'}}</a></pre>
-    <pre><a class="cursorPointer" [ngClass]="isAdding ? 'disabled' : ''" (click)="addProject()">Add Project</a> <span class="inlineBlock" *ngIf="isAdding"><mat-progress-spinner class="inlineBlock" color="primary" mode="indeterminate" [diameter]="14"></mat-progress-spinner></span></pre>
-    <pre *ngIf="errorMessage.length"><span class="terminalBotError">circuit:</span> {{errorMessage}}</pre>
-    <pre *ngIf="message.length"><span class="terminalBot">circuit:</span> {{message}}</pre>
+      <button mat-button (click)="addMember()" [ngClass]="project.members.length === 0 ? '' : 'smallMarginTop'">
+        {{project.members.length === 0 ? 'Add a member' : 'Add another member'}}
+      </button>
+    </div>
+  </mat-card>
+  <div class="rebootAlignItems width-100 smallMarginTop">
+    <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isAdding" (click)="addProject()">
+      Add project
+    </button>
+    <mat-progress-spinner *ngIf="isAdding" class="inlineBlock smallMarginLeft floatLeft" color="primary" mode="indeterminate" [diameter]="36">
+    </mat-progress-spinner>
   </div>
-  <!-- end - terminal -->
 </div>

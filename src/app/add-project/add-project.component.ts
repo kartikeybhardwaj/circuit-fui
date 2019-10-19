@@ -24,8 +24,6 @@ export class AddProjectComponent implements OnInit {
   allRoles: any = [];
   selectedRole: any = {};
 
-  message = '';
-  errorMessage = '';
   isAdding = false;
 
   constructor(
@@ -177,9 +175,10 @@ export class AddProjectComponent implements OnInit {
   }
 
   addProject(): void {
-    this.message = '';
-    this.errorMessage = '';
     this.isAdding = true;
+    setTimeout(() => {
+      this.isAdding = false;
+    }, 2500);
   }
 
 }
