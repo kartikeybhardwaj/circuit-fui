@@ -70,6 +70,9 @@ import {
 import {
   MatSortModule
 } from '@angular/material/sort';
+import {
+  MatCardModule
+} from '@angular/material/card';
 
 import {
   ProjectsComponent
@@ -144,7 +147,8 @@ import {
     MatAutocompleteModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatCardModule
   ],
   providers: [
     AppStorageService
