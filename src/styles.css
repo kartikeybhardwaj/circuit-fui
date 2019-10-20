@@ -377,3 +377,43 @@ svg#clouds {
 .mat-input-element {
   color: white !important;
 }
+
+:not(.mat-calendar-body-disabled):hover>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-semi-selected),
+.cdk-keyboard-focused .mat-calendar-body-active>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-semi-selected),
+.cdk-program-focused .mat-calendar-body-active>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-semi-selected) {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+:not(.mat-calendar-body-disabled):hover>.mat-calendar-body-semi-selected,
+.cdk-keyboard-focused .mat-calendar-body-active>.mat-calendar-body-semi-selected,
+.cdk-program-focused .mat-calendar-body-active>.mat-calendar-body-semi-selected {
+  background-color: #d1906a;
+  color: white;
+}
+
+.mat-calendar-body-begin-range:not(.mat-calendar-body-end-range) {
+  border-radius: 100% 0 0 100%;
+  background-color: #deb196;
+}
+
+.mat-calendar-body-end-range:not(.mat-calendar-body-begin-range) {
+  border-radius: 0 100% 100% 0;
+  background-color: #deb196;
+}
+
+.mat-calendar-body>tr .mat-calendar-cell-semi-selected~.mat-calendar-cell-semi-selected {
+  border-radius: 0;
+}
+
+.mat-calendar-cell-semi-selected {
+  background-color: #deb196;
+}
+
+.mat-calendar-cell-over>.mat-calendar-body-cell-content {
+  border: #d1906a 1px solid;
+}
+
+.mat-calendar-cell-over>.mat-calendar-body-cell-content,
+.mat-calendar-cell-semi-selected>.mat-calendar-body-cell-content {
+  color: black;
+}
