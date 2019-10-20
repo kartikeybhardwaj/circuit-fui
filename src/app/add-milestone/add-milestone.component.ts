@@ -21,27 +21,9 @@ export class AddMilestoneComponent implements OnInit {
   milestoneMetas: any = [];
   selectedMeta: any = {};
 
-  message = '';
-  errorMessage = '';
   isAdding = false;
 
-  startDate = '';
-  endDate = '';
-  startHour = 'Hour';
-  endHour = 'Hour';
-  startMin = 'Min';
-  endMin = 'Min';
-
-  hours = ['Hour', '00', '01', '02', '03',
-    '04', '05', '06', '07', '08', '09', '10',
-    '11', '12', '13', '14', '15', '16', '17',
-    '18', '19', '20', '21', '22', '23'
-  ];
-
-  mins = ['Min', '00', '05', '10',
-    '15', '20', '25', '30', '35',
-    '40', '45', '50', '55'
-  ];
+  timeline: any = '';
 
   constructor(
     public appInfo: AppStorageService,
@@ -126,9 +108,12 @@ export class AddMilestoneComponent implements OnInit {
   }
 
   addMilestone(): void {
-    this.message = '';
-    this.errorMessage = '';
+    // this.timeline.begin
+    // this.timeline.end
     this.isAdding = true;
+    setTimeout(() => {
+      this.isAdding = false;
+    }, 3000);
   }
 
 }
