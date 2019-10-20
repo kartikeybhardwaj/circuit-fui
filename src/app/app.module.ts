@@ -75,6 +75,11 @@ import {
 } from '@angular/material/card';
 
 import {
+  SatDatepickerModule,
+  SatNativeDateModule
+} from 'saturn-datepicker';
+
+import {
   ProjectsComponent
 } from './projects/projects.component';
 import {
@@ -148,7 +153,9 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatCardModule
+    MatCardModule,
+    SatDatepickerModule,
+    SatNativeDateModule
   ],
   providers: [
     AppStorageService
