@@ -1,28 +1,62 @@
 <div class="contentCenter">
-  <!-- start - terminal -->
-  <div class="terminal">
-    <pre><span class="terminalBot floatLeft">Title: </span><span class="overflowHiddenBlock"><input type="text" autocomplete="off" class="transparentInput" [(ngModel)]="pulse.title"></span></pre>
-    <pre><span class="terminalBot floatLeft">Description: </span><span class="overflowHiddenBlock"><textarea id="description" class="transparentInput zeroPadding" cdkTextareaAutosize [(ngModel)]="pulse.description"></textarea></span></pre>
-    <pre><span class="terminalBot">Meta: </span><mat-form-field><mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedPulseMetaId($event)"><mat-option *ngFor="let meta of pulseMetas; index as index;" [value]="meta">{{meta.title}}</mat-option></mat-select></mat-form-field></pre>
+  <mat-card class="width-100 mat-elevation-z8 smallMarginTop">
+    <!-- title -->
+    <mat-form-field class="width-100">
+      <input matInput [(ngModel)]="pulse.title" placeholder="Title" autocomplete="off" type="text" value="">
+    </mat-form-field>
+    <!-- description -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <textarea matInput cdkTextareaAutosize [(ngModel)]="pulse.description" placeholder="Description"
+        autocomplete="off" type="text" value=""></textarea>
+    </mat-form-field>
+    <!-- timeline -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="pulseTimeline"
+        [(ngModel)]="pulse.timeline">
+      <sat-datepicker #pulseTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
+      <sat-datepicker-toggle matSuffix [for]="pulseTimeline"></sat-datepicker-toggle>
+    </mat-form-field>
+    <!-- meta -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <mat-label>Meta</mat-label>
+      <mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedPulseMetaId($event)">
+        <mat-option *ngFor="let meta of pulseMetas; index as index;" [value]="meta">
+          {{meta.title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- metas -->
     <ng-container *ngIf="selectedMeta">
-      <ng-container *ngFor="let field of selectedMeta.fields; index as indexField;">
-        <ng-container *ngIf="field.valueType === 'select'">
-          <pre><span class="terminalBot">{{field.key}}: </span><mat-form-field><mat-select [(ngModel)]="pulse.fields[field.key]"><mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">{{value}}</mat-option></mat-select></mat-form-field></pre>
-        </ng-container>
-        <ng-container *ngIf="field.valueType === 'input'">
-          <pre><span class="terminalBot floatLeft">{{field.key}}: </span><span class="overflowHiddenBlock"><input type="text" autocomplete="off" class="transparentInput" [(ngModel)]="pulse.fields[field.key]"></span></pre>
-        </ng-container>
-      </ng-container>
+      <div class="makeRows width-100" *ngIf="selectedMeta.fields.length">
+        <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
+          *ngFor="let field of selectedMeta.fields; index as indexField;">
+          <ng-container *ngIf="field.valueType === 'select'">
+            <mat-form-field class="smallMarginTop">
+              <mat-label>{{field.key}}</mat-label>
+              <mat-select [(ngModel)]="pulse.fields[field.key]">
+                <mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">{{value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="field.valueType === 'input'">
+            <mat-form-field class="smallMarginTop">
+              <input matInput [(ngModel)]="pulse.fields[field.key]" [placeholder]="field.key" autocomplete="off"
+                type="text" value="">
+            </mat-form-field>
+          </ng-container>
+        </mat-card>
+      </div>
     </ng-container>
-    <pre class="inlineBlock "><span class="terminalBot">Assignees: </span></pre>
-    <mat-form-field class="inlineBlock verticallyMiddle">
+    <!-- assignees -->
+    <mat-form-field class="width-100 smallMarginTop">
       <mat-chip-list #assigneeList>
-        <mat-chip *ngFor="let assignee of assignees" [selectable]="selectableAssignee" [removable]="removableAssignee"
+        <mat-chip *ngFor="let assignee of pulse.assignees" [selectable]="selectableAssignee" [removable]="removableAssignee"
           (removed)="removeAssignee(assignee)">
           {{assignee}}
           <mat-icon matChipRemove *ngIf="removableAssignee">cancel</mat-icon>
         </mat-chip>
-        <input #assigneeInput [formControl]="assigneeCtrl" [matAutocomplete]="autoAssignee"
+        <input placeholder="Assignees" #assigneeInput [formControl]="assigneeCtrl" [matAutocomplete]="autoAssignee"
           [matChipInputFor]="assigneeList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
           [matChipInputAddOnBlur]="addOnBlurAssignee" (matChipInputTokenEnd)="addAssignee($event)">
       </mat-chip-list>
@@ -32,14 +66,14 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-    <div style="height: 7px;"></div>
-    <pre><span class="terminalBot">Timeline</span></pre>
-    <pre><span class="terminalBot">  Start:</span><mat-form-field><input class="datePickerInput" matInput [matDatepicker]="startpicker" disabled [(ngModel)]="startDate"><mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle><mat-datepicker #startpicker disabled="false"></mat-datepicker></mat-form-field>  H<mat-form-field><mat-select class="mat-select-width-time" [(ngModel)]="startHour"><mat-option *ngFor="let hour of hours; index as indexHour;" [value]="hour">{{hour}}</mat-option></mat-select></mat-form-field>M<mat-form-field><mat-select class="mat-select-width-time" [(ngModel)]="startMin"><mat-option *ngFor="let min of mins; index as indexMin;" [value]="min">{{min}}</mat-option></mat-select></mat-form-field></pre>
-    <pre><span class="terminalBot">  End:  </span><mat-form-field><input class="datePickerInput" matInput [matDatepicker]="endpicker" disabled [(ngModel)]="endDate"><mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle><mat-datepicker #endpicker disabled="false"></mat-datepicker></mat-form-field>  H<mat-form-field><mat-select class="mat-select-width-time" [(ngModel)]="endHour"><mat-option *ngFor="let hour of hours; index as indexHour;" [value]="hour">{{hour}}</mat-option></mat-select></mat-form-field>M<mat-form-field><mat-select class="mat-select-width-time" [(ngModel)]="endMin"><mat-option *ngFor="let min of mins; index as indexMin;" [value]="min">{{min}}</mat-option></mat-select></mat-form-field></pre>
-    <pre><a class="cursorPointer" [ngClass]="isAdding ? 'disabled' : ''" (click)="addPulse()">Add pulse</a> <span class="inlineBlock" *ngIf="isAdding"><mat-progress-spinner class="inlineBlock" color="primary" mode="indeterminate" [diameter]="14"></mat-progress-spinner></span></pre>
-    <pre *ngIf="errorMessage.length"><span class="terminalBotError">circuit:</span> {{errorMessage}}</pre>
-    <pre *ngIf="message.length"><span class="terminalBot">circuit:</span> {{message}}</pre>
-    <div style="height: 500px;"></div>
+  </mat-card>
+  <!-- add -->
+  <div class="rebootAlignItems width-100 smallMarginTop">
+    <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isAdding" (click)="addPulse()">
+      Add pulse
+    </button>
+    <mat-progress-spinner *ngIf="isAdding" class="inlineBlock smallMarginLeft floatLeft" color="primary"
+      mode="indeterminate" [diameter]="36">
+    </mat-progress-spinner>
   </div>
-  <!-- end - terminal -->
 </div>

@@ -44,27 +44,7 @@ export class AddPulseComponent implements OnInit {
   pulseMetas: any = [];
   selectedMeta: any = {};
 
-  message = '';
-  errorMessage = '';
   isAdding = false;
-
-  startDate = '';
-  endDate = '';
-  startHour = 'Hour';
-  endHour = 'Hour';
-  startMin = 'Min';
-  endMin = 'Min';
-
-  hours = ['Hour', '00', '01', '02', '03',
-    '04', '05', '06', '07', '08', '09', '10',
-    '11', '12', '13', '14', '15', '16', '17',
-    '18', '19', '20', '21', '22', '23'
-  ];
-
-  mins = ['Min', '00', '05', '10',
-    '15', '20', '25', '30', '35',
-    '40', '45', '50', '55'
-  ];
 
   selectableAssignee = true;
   removableAssignee = true;
@@ -72,7 +52,6 @@ export class AddPulseComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   assigneeCtrl = new FormControl();
   filteredAssignees: Observable < string[] > ;
-  assignees: string[] = [];
   allAssignees: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
   @ViewChild('assigneeInput', {
@@ -99,8 +78,10 @@ export class AddPulseComponent implements OnInit {
     this.pulse = {
       title: '',
       description: '',
+      timeline: {},
       pulseMetaId: '',
       fields: {},
+      assignees: [],
       meta: {
         addedBy: '1234567890',
         addedOn: new Date(),
@@ -125,9 +106,8 @@ export class AddPulseComponent implements OnInit {
       const input = event.input;
       const value = event.value.trim();
       // Add our assignee
-      const indexOfValue = this.allAssignees.indexOf(value);
-      if (indexOfValue !== -1) {
-        this.assignees.push(value);
+      if (this.allAssignees.indexOf(value) !== -1 && this.pulse.assignees.indexOf(value) === -1) {
+        this.pulse.assignees.push(value);
       }
       // Reset the input value
       if (input) {
@@ -138,16 +118,19 @@ export class AddPulseComponent implements OnInit {
   }
 
   removeAssignee(assignee: string): void {
-    const index = this.assignees.indexOf(assignee);
+    const index = this.pulse.assignees.indexOf(assignee);
     if (index >= 0) {
-      this.assignees.splice(index, 1);
+      this.pulse.assignees.splice(index, 1);
     }
   }
 
   selectedAssignee(event: MatAutocompleteSelectedEvent): void {
-    this.assignees.push(event.option.viewValue);
-    this.assigneeInput.nativeElement.value = '';
-    this.assigneeCtrl.setValue(null);
+    const value = event.option.viewValue;
+    if (this.allAssignees.indexOf(value) !== -1 && this.pulse.assignees.indexOf(value) === -1) {
+      this.pulse.assignees.push(value);
+      this.assigneeInput.nativeElement.value = '';
+      this.assigneeCtrl.setValue(null);
+    }
   }
 
   private _filter(value: string): string[] {
@@ -204,9 +187,10 @@ export class AddPulseComponent implements OnInit {
   }
 
   addPulse(): void {
-    this.message = '';
-    this.errorMessage = '';
     this.isAdding = true;
+    setTimeout(() => {
+      this.isAdding = false;
+    }, 3000);
   }
 
 }
