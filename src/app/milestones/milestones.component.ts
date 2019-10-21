@@ -41,8 +41,8 @@ export interface MilestonesList {
 }
 
 export interface Timeline {
-  from: string;
-  to: string;
+  begin: string;
+  end: string;
 }
 
 export interface Pulse {
@@ -114,8 +114,8 @@ export class MilestonesComponent implements OnInit {
       title: 'this is some title',
       description: 'this is some description',
       timeline: {
-        from: this.appInfo.getShortDate(new Date().getTime()),
-        to: this.appInfo.getShortDate(new Date().getTime())
+        begin: this.appInfo.getShortDate(new Date().getTime()),
+        end: this.appInfo.getShortDate(new Date().getTime())
       },
       pulsesList: [{
         _id: '1234567890',
@@ -148,8 +148,8 @@ export class MilestonesComponent implements OnInit {
       title: 'this is some random title',
       description: 'this is some description',
       timeline: {
-        from: this.appInfo.getShortDate(new Date().getTime()),
-        to: this.appInfo.getShortDate(new Date().getTime())
+        begin: this.appInfo.getShortDate(new Date().getTime()),
+        end: this.appInfo.getShortDate(new Date().getTime())
       },
       pulsesList: [{
         _id: '1234567890',

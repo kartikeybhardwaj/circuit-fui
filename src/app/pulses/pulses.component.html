@@ -32,8 +32,8 @@
             <div class="tableContent">
               <div class="smallMarginTop"><strong>Title</strong>:&nbsp;{{element.title}}</div>
               <div class="mediumMarginTop"><strong>Description</strong>:&nbsp;{{element.description}}</div>
-              <div class="mediumMarginTop"><strong>Timeline</strong>:&nbsp;{{element.timeline.from}} -
-                {{element.timeline.to}}</div>
+              <div class="mediumMarginTop"><strong>Timeline</strong>:&nbsp;{{element.timeline.begin}} -
+                {{element.timeline.end}}</div>
               <div class="mediumMarginTop" *ngFor="let field of element.fields; index as indexField;">
                 <strong>{{field.key}}</strong>: {{field[field.key]}}
               </div>
