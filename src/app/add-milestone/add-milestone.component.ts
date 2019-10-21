@@ -40,6 +40,7 @@ export class AddMilestoneComponent implements OnInit {
     this.milestone = {
       title: '',
       description: '',
+      timeline: {},
       milestoneMetaId: '',
       fields: {},
       meta: {
@@ -108,8 +109,6 @@ export class AddMilestoneComponent implements OnInit {
   }
 
   addMilestone(): void {
-    // this.timeline.begin
-    // this.timeline.end
     this.isAdding = true;
     setTimeout(() => {
       this.isAdding = false;
