@@ -11,6 +11,9 @@ import {
 import {
   HttpClient
 } from '@angular/common/http';
+import {
+  ProjectStorageService
+} from './projects/projects.service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +26,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
+    private projectsInfo: ProjectStorageService,
     private router: Router,
     private http: HttpClient
   ) {}
@@ -30,7 +34,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.getConstants().then((constants) => {
       this.getUser().then((user) => {
-        this.isSiteLoading = false;
+        this.projectsInfo.getProjects().then((projects) => {
+          this.isSiteLoading = false;
+        });
       });
     });
   }
