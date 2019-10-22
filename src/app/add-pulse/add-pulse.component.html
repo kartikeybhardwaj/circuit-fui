@@ -16,6 +16,26 @@
       <sat-datepicker #pulseTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
       <sat-datepicker-toggle matSuffix [for]="pulseTimeline"></sat-datepicker-toggle>
     </mat-form-field>
+    <div class="makeRows">
+      <!-- begin time -->
+      <mat-form-field class="width-100 smallMarginTop makeRowChild zeroMargin">
+        <mat-label>Begin:</mat-label>
+        <mat-select [(ngModel)]="startTime">
+          <mat-option *ngFor="let time of timeHours; index as index;" [value]="time">
+            {{time}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- end time -->
+      <mat-form-field class="width-100 smallMarginTop makeRowChild zeroMargin">
+        <mat-label>End:</mat-label>
+        <mat-select [(ngModel)]="endTime">
+          <mat-option *ngFor="let time of timeHours; index as index;" [value]="time">
+            {{time}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <!-- meta -->
     <mat-form-field class="width-100 smallMarginTop">
       <mat-label>Meta</mat-label>
@@ -51,8 +71,8 @@
     <!-- assignees -->
     <mat-form-field class="width-100 smallMarginTop">
       <mat-chip-list #assigneeList>
-        <mat-chip *ngFor="let assignee of pulse.assignees" [selectable]="selectableAssignee" [removable]="removableAssignee"
-          (removed)="removeAssignee(assignee)">
+        <mat-chip *ngFor="let assignee of pulse.assignees" [selectable]="selectableAssignee"
+          [removable]="removableAssignee" (removed)="removeAssignee(assignee)">
           {{assignee}}
           <mat-icon matChipRemove *ngIf="removableAssignee">cancel</mat-icon>
         </mat-chip>
