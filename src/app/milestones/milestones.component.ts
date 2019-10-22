@@ -26,6 +26,9 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+import {
+  MilestoneStorageService
+} from './milestones.service';
 
 export interface MilestonesList {
   index: number;
@@ -93,6 +96,7 @@ export class MilestonesComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
+    private milestoneInfo: MilestoneStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
@@ -108,75 +112,18 @@ export class MilestonesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.MILESTONES_DATA = [{
-      index: 1,
-      _id: '1234567890',
-      title: 'this is some title',
-      description: 'this is some description',
-      timeline: {
-        begin: this.appInfo.getShortDate(new Date().getTime()),
-        end: this.appInfo.getShortDate(new Date().getTime())
-      },
-      pulsesList: [{
-        _id: '1234567890',
-        title: 'pulse title 1'
-      }, {
-        _id: '1234567890',
-        title: 'pulse title 2'
-      }],
-      pulsesListCount: 2,
-      milestoneMetaId: 'string',
-      fields: [{
-        key: 'key_1',
-        key_1: 'value_1'
-      }, {
-        key: 'key_2',
-        key_2: 'value_2'
-      }, {
-        key: 'key_3',
-        key_3: 'value_3'
-      }],
-      meta: {
-        addedBy: 'some user',
-        addedOn: this.appInfo.getLongDate(new Date().getTime()),
-        lastUpdatedBy: 'some user',
-        lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-      }
-    }, {
-      index: 2,
-      _id: '1234567890',
-      title: 'this is some random title',
-      description: 'this is some description',
-      timeline: {
-        begin: this.appInfo.getShortDate(new Date().getTime()),
-        end: this.appInfo.getShortDate(new Date().getTime())
-      },
-      pulsesList: [{
-        _id: '1234567890',
-        title: 'pulse title 1'
-      }, {
-        _id: '1234567890',
-        title: 'pulse title 2'
-      }],
-      pulsesListCount: 2,
-      milestoneMetaId: 'string',
-      fields: [{
-        key: 'key_1',
-        key_1: 'value_1'
-      }, {
-        key: 'key_2',
-        key_2: 'value_2'
-      }, {
-        key: 'key_3',
-        key_3: 'value_3'
-      }],
-      meta: {
-        addedBy: 'some user',
-        addedOn: this.appInfo.getLongDate(new Date().getTime()),
-        lastUpdatedBy: 'some user',
-        lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-      }
-    }];
+    if (this.appInfo.milestones) {
+      this.fillData();
+    } else {
+      this.milestoneInfo.getMilestones()
+        .then((milestones) => {
+          this.fillData();
+        })
+        .catch((error) => {});
+    }
+  }
+
+  fillData(): void {
     this.appInfo.milestones = this.MILESTONES_DATA;
     this.dataSourceMilestones = new MatTableDataSource(this.MILESTONES_DATA);
     this.dataSourceMilestones.paginator = this.paginatorMilestones;
