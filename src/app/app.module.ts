@@ -113,6 +113,15 @@ import {
 import {
   AddPulseComponent
 } from './add-pulse/add-pulse.component';
+import {
+  ProjectStorageService
+} from './projects/projects.service';
+import {
+  MilestoneStorageService
+} from './milestones/milestones.service';
+import {
+  PulseStorageService
+} from './pulses/pulses.service';
 
 @NgModule({
   declarations: [
@@ -158,7 +167,10 @@ import {
     SatNativeDateModule
   ],
   providers: [
-    AppStorageService
+    AppStorageService,
+    ProjectStorageService,
+    MilestoneStorageService,
+    PulseStorageService
   ],
   entryComponents: [
     BottomSheetMenu
