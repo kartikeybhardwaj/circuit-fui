@@ -6,7 +6,8 @@ import {
   AppStorageService
 } from '../app.service';
 import {
-  Router
+  Router,
+  ActivatedRoute
 } from '@angular/router';
 
 @Component({
@@ -15,7 +16,6 @@ import {
   styleUrls: ['./add-milestone.component.css']
 })
 export class AddMilestoneComponent implements OnInit {
-
   milestone: any = {};
 
   milestoneMetas: any = [];
@@ -27,8 +27,13 @@ export class AddMilestoneComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
+    private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
+    const activatedRouteSnapshot = activatedRoute.snapshot;
+    if (activatedRouteSnapshot.params && activatedRouteSnapshot.params.projectId) {
+      appInfo.selectedProjectId = activatedRouteSnapshot.params.projectId;
+    }
     appInfo.selectedMilestoneId = null;
     appInfo.selectedPulseId = null;
     appInfo.otherHeader = 'Add Milestone';

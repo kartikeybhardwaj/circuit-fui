@@ -8,7 +8,8 @@ import {
   AppStorageService
 } from '../app.service';
 import {
-  Router
+  Router,
+  ActivatedRoute
 } from '@angular/router';
 import {
   COMMA,
@@ -38,7 +39,6 @@ import {
   styleUrls: ['./add-pulse.component.css']
 })
 export class AddPulseComponent implements OnInit {
-
   pulse: any = {};
 
   pulseMetas: any = [];
@@ -81,8 +81,16 @@ export class AddPulseComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
+    private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
+    const activatedRouteSnapshot = activatedRoute.snapshot;
+    if (activatedRouteSnapshot.params &&
+      activatedRouteSnapshot.params.projectId &&
+      activatedRouteSnapshot.params.milestoneId) {
+      appInfo.selectedProjectId = activatedRouteSnapshot.params.projectId;
+      appInfo.selectedMilestoneId = activatedRouteSnapshot.params.milestoneId;
+    }
     appInfo.selectedPulseId = null;
     appInfo.otherHeader = 'Add Pulse';
     appInfo.navigationAddText = '';
