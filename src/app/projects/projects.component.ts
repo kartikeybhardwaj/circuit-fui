@@ -130,7 +130,12 @@ export class ProjectsComponent implements OnInit {
   //   console.log(projectId, memberId, roleId);
   // }
 
-  projectClick(project: ProjectsList): void {
+  editProjectClick(project: ProjectsList): void {
+    console.log(project);
+    this.router.navigate(['/project/project_id/edit']);
+  }
+
+  gotoMilestoneClick(project: ProjectsList): void {
     console.log(project);
     this.router.navigate(['/projects/project_name/milestones']);
   }

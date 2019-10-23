@@ -114,13 +114,11 @@ export class ProjectStorageService {
           name: 'some user',
           roleId: '2',
           roleName: 'Project Manager',
-
         }, {
           _id: '1234567890',
           name: 'some user',
           roleId: '4',
           roleName: 'That one guy',
-
         }],
         milestonesList: [{
           _id: '1234567890',
@@ -159,13 +157,11 @@ export class ProjectStorageService {
           name: 'some user',
           roleId: '2',
           roleName: 'Project Manager',
-
         }, {
           _id: '1234567890',
           name: 'some user',
           roleId: '4',
           roleName: 'That one guy',
-
         }],
         milestonesList: [{
           _id: '1234567890',

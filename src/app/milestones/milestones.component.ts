@@ -124,7 +124,7 @@ export class MilestonesComponent implements OnInit {
   }
 
   fillData(): void {
-    this.appInfo.milestones = this.MILESTONES_DATA;
+    this.MILESTONES_DATA = this.appInfo.milestones;
     this.dataSourceMilestones = new MatTableDataSource(this.MILESTONES_DATA);
     this.dataSourceMilestones.paginator = this.paginatorMilestones;
     this.dataSourceMilestones.sort = this.sortMilestones;
@@ -138,7 +138,12 @@ export class MilestonesComponent implements OnInit {
     }
   }
 
-  milestoneClick(milestone: MilestonesList) {
+  editMilestoneClick(milestone: MilestonesList): void {
+    console.log(milestone);
+    this.router.navigate(['/project/project_id/milestone/milestone_id/edit']);
+  }
+
+  gotoPulseClick(milestone: MilestonesList) {
     console.log(milestone);
     this.router.navigate(['/projects/project_name/milestones/milestone_name/pulses']);
   }

@@ -153,9 +153,9 @@ export class PulsesComponent implements OnInit {
     }
   }
 
-  pulseClick(pulse: PulsesList) {
+  editPulseClick(pulse: PulsesList): void {
     console.log(pulse);
-    this.router.navigate(['/projects/project_name/milestones/milestone_name/pulses']);
+    this.router.navigate(['/project/project_id/milestone/milestone_id/pulse/pulse_id/edit']);
   }
 
 }
