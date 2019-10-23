@@ -1,0 +1,101 @@
+<div class="contentCenter">
+  <mat-card class="width-100 mat-elevation-z8 smallMarginTop">
+    <!-- title -->
+    <mat-form-field class="width-100">
+      <input matInput [(ngModel)]="pulse.title" placeholder="Title" autocomplete="off" type="text" value="">
+    </mat-form-field>
+    <!-- description -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <textarea matInput cdkTextareaAutosize [(ngModel)]="pulse.description" placeholder="Description"
+        autocomplete="off" type="text" value=""></textarea>
+    </mat-form-field>
+    <!-- timeline -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="pulseTimeline"
+        [(ngModel)]="pulse.timeline">
+      <sat-datepicker #pulseTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
+      <sat-datepicker-toggle matSuffix [for]="pulseTimeline"></sat-datepicker-toggle>
+    </mat-form-field>
+    <div class="makeRows">
+      <!-- begin time -->
+      <mat-form-field class="width-100 smallMarginTop makeRowChild zeroMargin">
+        <mat-label>Begin:</mat-label>
+        <mat-select [(ngModel)]="startTime">
+          <mat-option *ngFor="let time of timeHours; index as index;" [value]="time">
+            {{time}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- end time -->
+      <mat-form-field class="width-100 smallMarginTop makeRowChild zeroMargin">
+        <mat-label>End:</mat-label>
+        <mat-select [(ngModel)]="endTime">
+          <mat-option *ngFor="let time of timeHours; index as index;" [value]="time">
+            {{time}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- meta -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <mat-label>Meta</mat-label>
+      <mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedPulseMetaId($event)">
+        <mat-option *ngFor="let meta of pulseMetas; index as index;" [value]="meta">
+          {{meta.title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- metas -->
+    <ng-container *ngIf="selectedMeta">
+      <div class="makeRows width-100"
+        *ngIf="pulse.fields && pulse.fields.length && selectedMeta.fields && selectedMeta.fields.length">
+        <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
+          *ngFor="let field of selectedMeta.fields; index as indexField;">
+          <ng-container *ngIf="field.valueType === 'select'">
+            <mat-form-field class="smallMarginTop">
+              <mat-label>{{field.key}}</mat-label>
+              <mat-select [(ngModel)]="pulse.fields[indexField][field.key]">
+                <mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">
+                  {{value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="field.valueType === 'input'">
+            <mat-form-field class="smallMarginTop">
+              <input matInput [(ngModel)]="pulse.fields[indexField][field.key]" [placeholder]="field.key"
+                autocomplete="off" type="text" value="">
+            </mat-form-field>
+          </ng-container>
+        </mat-card>
+      </div>
+    </ng-container>
+    <!-- assignees -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <mat-chip-list #assigneeList>
+        <mat-chip *ngFor="let assignee of pulse.assignees" [selectable]="selectableAssignee"
+          [removable]="removableAssignee" (removed)="removeAssignee(assignee)">
+          {{assignee}}
+          <mat-icon matChipRemove *ngIf="removableAssignee">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="Assignees" #assigneeInput [formControl]="assigneeCtrl" [matAutocomplete]="autoAssignee"
+          [matChipInputFor]="assigneeList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlurAssignee" (matChipInputTokenEnd)="addAssignee($event)">
+      </mat-chip-list>
+      <mat-autocomplete #autoAssignee="matAutocomplete" (optionSelected)="selectedAssignee($event)">
+        <mat-option *ngFor="let assignee of filteredAssignees | async" [value]="assignee">
+          {{assignee}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </mat-card>
+  <!-- update -->
+  <div class="rebootAlignItems width-100 smallMarginTop">
+    <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isUpdating" (click)="updatePulse()">
+      Update pulse
+    </button>
+    <mat-progress-spinner *ngIf="isUpdating" class="inlineBlock smallMarginLeft floatLeft" color="primary"
+      mode="indeterminate" [diameter]="36">
+    </mat-progress-spinner>
+  </div>
+</div>

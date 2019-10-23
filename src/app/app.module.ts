@@ -122,6 +122,15 @@ import {
 import {
   PulseStorageService
 } from './pulses/pulses.service';
+import {
+  EditProjectComponent
+} from './edit-project/edit-project.component';
+import {
+  EditMilestoneComponent
+} from './edit-milestone/edit-milestone.component';
+import {
+  EditPulseComponent
+} from './edit-pulse/edit-pulse.component';
 
 @NgModule({
   declarations: [
@@ -136,7 +145,10 @@ import {
     PulsesComponent,
     AddProjectComponent,
     AddMilestoneComponent,
-    AddPulseComponent
+    AddPulseComponent,
+    EditProjectComponent,
+    EditMilestoneComponent,
+    EditPulseComponent
   ],
   imports: [
     BrowserModule,

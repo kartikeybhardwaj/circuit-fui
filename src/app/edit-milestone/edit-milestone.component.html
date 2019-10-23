@@ -1,0 +1,64 @@
+<div class="contentCenter">
+  <mat-card class="width-100 mat-elevation-z8 smallMarginTop">
+    <!-- title -->
+    <mat-form-field class="width-100">
+      <input matInput [(ngModel)]="milestone.title" placeholder="Title" autocomplete="off" type="text" value="">
+    </mat-form-field>
+    <!-- description -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <textarea matInput cdkTextareaAutosize [(ngModel)]="milestone.description" placeholder="Description"
+        autocomplete="off" type="text" value=""></textarea>
+    </mat-form-field>
+    <!-- timeline -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="milestoneTimeline"
+        [(ngModel)]="milestone.timeline">
+      <sat-datepicker #milestoneTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
+      <sat-datepicker-toggle matSuffix [for]="milestoneTimeline"></sat-datepicker-toggle>
+    </mat-form-field>
+    <!-- meta -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <mat-label>Meta</mat-label>
+      <mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedMilestoneMetaId($event)">
+        <mat-option *ngFor="let meta of milestoneMetas; index as index;" [value]="meta">
+          {{meta.title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- metas -->
+    <ng-container *ngIf="selectedMeta">
+      <div class="makeRows width-100"
+        *ngIf="milestone.fields && milestone.fields.length && selectedMeta.fields && selectedMeta.fields.length">
+        <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
+          *ngFor="let field of selectedMeta.fields; index as indexField;">
+          <ng-container *ngIf="field.valueType === 'select'">
+            <mat-form-field class="smallMarginTop">
+              <mat-label>{{field.key}}</mat-label>
+              <mat-select [(ngModel)]="milestone.fields[indexField][field.key]">
+                <mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">
+                  {{value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="field.valueType === 'input'">
+            <mat-form-field class="smallMarginTop">
+              <input matInput [(ngModel)]="milestone.fields[indexField][field.key]" [placeholder]="field.key"
+                autocomplete="off" type="text" value="">
+            </mat-form-field>
+          </ng-container>
+        </mat-card>
+      </div>
+    </ng-container>
+  </mat-card>
+  <!-- update -->
+  <div class="rebootAlignItems width-100 smallMarginTop">
+    <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isUpdating"
+      (click)="updateMilestone()">
+      Update milestone
+    </button>
+    <mat-progress-spinner *ngIf="isUpdating" class="inlineBlock smallMarginLeft floatLeft" color="primary"
+      mode="indeterminate" [diameter]="36">
+    </mat-progress-spinner>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<div class="contentCenter">
+  <mat-card class="width-100 mat-elevation-z8 smallMarginTop">
+    <!-- title -->
+    <mat-form-field class="width-100">
+      <input matInput [(ngModel)]="project.title" placeholder="Title" autocomplete="off" type="text" value="">
+    </mat-form-field>
+    <!-- description -->
+    <mat-form-field class="width-100">
+      <textarea matInput cdkTextareaAutosize [(ngModel)]="project.description" placeholder="Description"
+        autocomplete="off" type="text" value=""></textarea>
+    </mat-form-field>
+    <!-- visibility -->
+    <div class="width-100 colorBright smallMarginTop">
+      <label><strong>Visibility</strong>:</label>
+      <mat-radio-group [(ngModel)]="project.visibility">
+        <mat-radio-button class="smallMarginLeft" value="public">Public</mat-radio-button>
+        <mat-radio-button class="smallMarginLeft" value="internal">Internal</mat-radio-button>
+        <mat-radio-button class="smallMarginLeft" value="private">Private</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <!-- meta -->
+    <mat-form-field class="width-100 mediumMarginTop">
+      <mat-label>Meta</mat-label>
+      <mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedProjectMetaId($event)">
+        <mat-option *ngFor="let meta of projectMetas; index as index;" [value]="meta">
+          {{meta.title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- metas -->
+    <ng-container *ngIf="selectedMeta">
+      <div class="makeRows width-100"
+        *ngIf="project.fields && project.fields.length && selectedMeta.fields && selectedMeta.fields.length">
+        <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
+          *ngFor="let field of selectedMeta.fields; index as indexField;">
+          <ng-container *ngIf="field.valueType === 'select'">
+            <mat-form-field class="smallMarginTop">
+              <mat-label>{{field.key}}</mat-label>
+              <mat-select [(ngModel)]="project.fields[indexField][field.key]">
+                <mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">
+                  {{value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="field.valueType === 'input'">
+            <mat-form-field class="smallMarginTop">
+              <input matInput [(ngModel)]="project.fields[indexField][field.key]" [placeholder]="field.key"
+                autocomplete="off" type="text" value="">
+            </mat-form-field>
+          </ng-container>
+        </mat-card>
+      </div>
+    </ng-container>
+    <!-- members -->
+    <div class="width-100 colorBright smallMarginTop">
+      <label><strong>Members</strong>:</label>
+      <div class="makeRows" *ngIf="project.members.length">
+        <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
+          *ngFor="let member of project.members; index as indexMember;">
+          <mat-form-field>
+            <input matInput [(ngModel)]="project.members[indexMember].username" placeholder="Username"
+              autocomplete="off" type="text" value="">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Role</mat-label>
+            <mat-select [(ngModel)]="project.members[indexMember].roleId">
+              <mat-option *ngFor="let role of allRoles; index as indexRole;" [value]="role._id">
+                {{role.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-stroked-button color="warn" (click)="deleteMember(indexMember)">
+            Remove
+          </button>
+        </mat-card>
+      </div>
+      <button mat-button (click)="addMember()" [ngClass]="project.members.length === 0 ? '' : 'smallMarginTop'">
+        {{project.members.length === 0 ? 'Add a member' : 'Add another member'}}
+      </button>
+    </div>
+  </mat-card>
+  <!-- update -->
+  <div class="rebootAlignItems width-100 smallMarginTop">
+    <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isUpdating" (click)="updateProject()">
+      Update project
+    </button>
+    <mat-progress-spinner *ngIf="isUpdating" class="inlineBlock smallMarginLeft floatLeft" color="primary"
+      mode="indeterminate" [diameter]="36">
+    </mat-progress-spinner>
+  </div>
+</div>

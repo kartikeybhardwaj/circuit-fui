@@ -29,6 +29,15 @@ import {
 import {
   AddPulseComponent
 } from './add-pulse/add-pulse.component';
+import {
+  EditProjectComponent
+} from './edit-project/edit-project.component';
+import {
+  EditMilestoneComponent
+} from './edit-milestone/edit-milestone.component';
+import {
+  EditPulseComponent
+} from './edit-pulse/edit-pulse.component';
 
 const routes: Routes = [{
   path: 'projects',
@@ -40,14 +49,23 @@ const routes: Routes = [{
   path: 'projects/:projectId/milestones/:milestoneId/pulses',
   component: PulsesComponent
 }, {
-  path: 'add/project',
+  path: 'project/add',
   component: AddProjectComponent
 }, {
-  path: 'add/milestone',
+  path: 'project/:projectId/milestone/add',
   component: AddMilestoneComponent
 }, {
-  path: 'add/pulse',
+  path: 'project/:projectId/milestone/:milestoneId/pulse/add',
   component: AddPulseComponent
+}, {
+  path: 'project/:projectId/edit',
+  component: EditProjectComponent
+}, {
+  path: 'project/:projectId/milestone/:milestoneId/edit',
+  component: EditMilestoneComponent
+}, {
+  path: 'project/:projectId/milestone/:milestoneId/pulse/:pulseId/edit',
+  component: EditPulseComponent
 }, {
   path: 'unauthorized-access',
   component: UnauthorizedAccessComponent
