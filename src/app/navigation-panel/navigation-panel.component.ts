@@ -31,11 +31,11 @@ export class NavigationPanelComponent implements OnInit {
   addBlocks(): void {
     if (this.appInfo.isNavigationAddTextVisible) {
       if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addProject) {
-        this.router.navigate(['/add/project']);
+        this.router.navigate(['/project/add']);
       } else if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addMilestone) {
-        this.router.navigate(['/add/milestone']);
+        this.router.navigate(['/project/project_id/milestone/add']);
       } else if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addPulse) {
-        this.router.navigate(['/add/pulse']);
+        this.router.navigate(['/project/project_id/milestone/milestone_id/pulse/add']);
       }
     }
   }

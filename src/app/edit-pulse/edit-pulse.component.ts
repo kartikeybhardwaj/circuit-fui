@@ -92,7 +92,7 @@ export class EditPulseComponent implements OnInit {
       appInfo.selectedMilestoneId = activatedRouteSnapshot.params.milestoneId;
     }
     appInfo.selectedPulseId = null;
-    appInfo.otherHeader = 'Add Pulse';
+    appInfo.otherHeader = 'Edit Pulse';
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
     this.filteredAssignees = this.assigneeCtrl.valueChanges.pipe(

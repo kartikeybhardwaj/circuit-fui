@@ -12,7 +12,7 @@
     <!-- timeline -->
     <mat-form-field class="width-100 smallMarginTop">
       <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="milestoneTimeline"
-        [(ngModel)]="timeline">
+        [(ngModel)]="milestone.timeline">
       <sat-datepicker #milestoneTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
       <sat-datepicker-toggle matSuffix [for]="milestoneTimeline"></sat-datepicker-toggle>
     </mat-form-field>
