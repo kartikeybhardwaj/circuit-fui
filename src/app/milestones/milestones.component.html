@@ -42,11 +42,14 @@
               </div>
               <div class="smallMarginTop">
                 <strong>Pulses</strong>:
-                <button mat-button
-                  *ngFor="let pulse of element.pulsesList; index as indexPulse;">{{pulse.title}}</button>
+                <button mat-button *ngFor="let pulse of element.pulsesList; index as indexPulse;">
+                  {{pulse.title}}
+                </button>
               </div>
-              <div class="smallMarginTop">Milestone created
-                by&nbsp;<strong>{{element.meta.addedBy}}</strong>&nbsp;on&nbsp;{{element.meta.addedOn}}</div>
+              <div class="smallMarginTop">
+                Milestone created
+                by&nbsp;<strong>{{element.meta.addedBy}}</strong>&nbsp;on&nbsp;{{element.meta.addedOn}}
+              </div>
             </div>
           </div>
         </td>
