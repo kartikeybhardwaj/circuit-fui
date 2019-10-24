@@ -27,7 +27,7 @@ export class TravelsStorageService {
 
   getMyTravels(): any {
     return new Promise((resolve, reject) => {
-      this.appInfo.myTravels = [];
+      const travels: MyTravelsList[] = [];
       for (let i = 0; i < this.appInfo.user.otherLocations.length; i++) {
         let locationName = '';
         this.appInfo.allLocations.some((thisLocation) => {
@@ -36,7 +36,7 @@ export class TravelsStorageService {
             return true;
           }
         });
-        this.appInfo.myTravels.push({
+        travels.push({
           index: i + 1,
           _id: this.appInfo.user.otherLocations[i].locationId,
           name: locationName,
@@ -44,6 +44,7 @@ export class TravelsStorageService {
           isUpdating: false
         });
       }
+      this.appInfo.myTravels = travels;
       resolve(this.appInfo.myTravels);
     });
   }
