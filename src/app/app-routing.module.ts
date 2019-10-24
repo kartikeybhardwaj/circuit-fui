@@ -41,6 +41,9 @@ import {
 import {
   TravelsComponent
 } from './travels/travels.component';
+import {
+  BlockCalendarComponent
+} from './block-calendar/block-calendar.component';
 
 const routes: Routes = [{
   path: 'projects',
@@ -72,6 +75,9 @@ const routes: Routes = [{
 }, {
   path: 'travels',
   component: TravelsComponent
+}, {
+  path: 'block-calendar',
+  component: BlockCalendarComponent
 }, {
   path: 'unauthorized-access',
   component: UnauthorizedAccessComponent
