@@ -26,6 +26,7 @@ export class AppStorageService {
   pulses: any = null;
   allLocations: any = null;
   myTravels: any = null;
+  myBlockages: any = null;
 
   roles = [{
     _id: '1',

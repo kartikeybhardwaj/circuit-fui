@@ -140,6 +140,12 @@ import {
 import {
   TravelsStorageService
 } from './travels/travels.service';
+import {
+  BlockCalendarComponent
+} from './block-calendar/block-calendar.component';
+import {
+  BlockagesStorageService
+} from './block-calendar/block-calendar.service';
 
 @NgModule({
   declarations: [
@@ -158,7 +164,8 @@ import {
     EditProjectComponent,
     EditMilestoneComponent,
     EditPulseComponent,
-    TravelsComponent
+    TravelsComponent,
+    BlockCalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -194,7 +201,8 @@ import {
     ProjectStorageService,
     MilestoneStorageService,
     PulseStorageService,
-    TravelsStorageService
+    TravelsStorageService,
+    BlockagesStorageService
   ],
   entryComponents: [
     BottomSheetMenu
