@@ -38,6 +38,9 @@ import {
 import {
   EditPulseComponent
 } from './edit-pulse/edit-pulse.component';
+import {
+  TravelsComponent
+} from './travels/travels.component';
 
 const routes: Routes = [{
   path: 'projects',
@@ -66,6 +69,9 @@ const routes: Routes = [{
 }, {
   path: 'project/:projectId/milestone/:milestoneId/pulse/:pulseId/edit',
   component: EditPulseComponent
+}, {
+  path: 'travels',
+  component: TravelsComponent
 }, {
   path: 'unauthorized-access',
   component: UnauthorizedAccessComponent
