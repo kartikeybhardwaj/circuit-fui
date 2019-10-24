@@ -77,14 +77,14 @@
         {{project.members.length === 0 ? 'Add a member' : 'Add another member'}}
       </button>
     </div>
+    <!-- add -->
+    <div class="smallMarginTop">
+      <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isAdding" (click)="addProject()">
+        Add project
+      </button>
+      <mat-progress-spinner *ngIf="isAdding" class="inlineBlock smallMarginLeft floatLeft" color="primary"
+        mode="indeterminate" [diameter]="36">
+      </mat-progress-spinner>
+    </div>
   </mat-card>
-  <!-- add -->
-  <div class="rebootAlignItems width-100 smallMarginTop">
-    <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isAdding" (click)="addProject()">
-      Add project
-    </button>
-    <mat-progress-spinner *ngIf="isAdding" class="inlineBlock smallMarginLeft floatLeft" color="primary"
-      mode="indeterminate" [diameter]="36">
-    </mat-progress-spinner>
-  </div>
 </div>

@@ -22,6 +22,15 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div class="smallMarginTop">
+        <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isUpdatingBaseLocation"
+          (click)="updateBaseLocation()">
+          Update base location
+        </button>
+        <mat-progress-spinner *ngIf="isUpdatingBaseLocation" class="inlineBlock smallMarginLeft floatLeft"
+          color="primary" mode="indeterminate" [diameter]="36">
+        </mat-progress-spinner>
+      </div>
     </mat-card>
     <mat-card class="makeRowChild width-100 mat-elevation-z8 smallMarginTop">
       <!-- travelling location -->
@@ -42,23 +51,16 @@
         <sat-datepicker #travelTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="travelTimeline"></sat-datepicker-toggle>
       </mat-form-field>
+      <div class="smallMarginTop">
+        <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isAddingTravel"
+          (click)="addTravel()">
+          Add travel
+        </button>
+        <mat-progress-spinner *ngIf="isAddingTravel" class="inlineBlock smallMarginLeft floatLeft" color="primary"
+          mode="indeterminate" [diameter]="36">
+        </mat-progress-spinner>
+      </div>
     </mat-card>
-  </div>
-  <div class="rebootAlignItems width-100 smallMarginTop">
-    <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isUpdatingBaseLocation"
-      (click)="updateBaseLocation()">
-      Update base location
-    </button>
-    <mat-progress-spinner *ngIf="isUpdatingBaseLocation" class="inlineBlock smallMarginLeft floatLeft" color="primary"
-      mode="indeterminate" [diameter]="36">
-    </mat-progress-spinner>
-    <button mat-flat-button class="colorBright floatRight" color="accent" [disabled]="isAddingTravel"
-      (click)="addTravel()">
-      Add travel
-    </button>
-    <mat-progress-spinner *ngIf="isAddingTravel" class="inlineBlock smallMarginRight floatRight" color="primary"
-      mode="indeterminate" [diameter]="36">
-    </mat-progress-spinner>
   </div>
 </div>
 
@@ -121,8 +123,8 @@
                   </div>
                 </div>
                 <div class="rebootAlignItems width-100 smallMarginTop">
-                  <button mat-flat-button class="colorBright floatLeft" color="accent"
-                    [disabled]="element.isUpdating" (click)="updateTravel(element)">
+                  <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="element.isUpdating"
+                    (click)="updateTravel(element)">
                     Update travel
                   </button>
                   <mat-progress-spinner *ngIf="element.isUpdating" class="inlineBlock smallMarginLeft floatLeft"

@@ -86,14 +86,14 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
+    <!-- add -->
+    <div class="smallMarginTop">
+      <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isAdding" (click)="addPulse()">
+        Add pulse
+      </button>
+      <mat-progress-spinner *ngIf="isAdding" class="inlineBlock smallMarginLeft floatLeft" color="primary"
+        mode="indeterminate" [diameter]="36">
+      </mat-progress-spinner>
+    </div>
   </mat-card>
-  <!-- add -->
-  <div class="rebootAlignItems width-100 smallMarginTop">
-    <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isAdding" (click)="addPulse()">
-      Add pulse
-    </button>
-    <mat-progress-spinner *ngIf="isAdding" class="inlineBlock smallMarginLeft floatLeft" color="primary"
-      mode="indeterminate" [diameter]="36">
-    </mat-progress-spinner>
-  </div>
 </div>

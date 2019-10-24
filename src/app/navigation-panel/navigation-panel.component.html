@@ -24,9 +24,13 @@
       <mat-icon>account_circle</mat-icon>
       <span>kartoon</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="navigateTo('/travels')">
       <mat-icon>flight_takeoff</mat-icon>
-      <span>Travelling?</span>
+      <span>My travels</span>
+    </button>
+    <button mat-menu-item (click)="navigateTo('/block-calendar')">
+      <mat-icon>block</mat-icon>
+      <span>Block calendar</span>
     </button>
   </mat-menu>
 

@@ -28,6 +28,10 @@ export class NavigationPanelComponent implements OnInit {
 
   ngOnInit() {}
 
+  navigateTo(path: string): void {
+    this.router.navigate([path]);
+  }
+
   addBlocks(): void {
     if (this.appInfo.isNavigationAddTextVisible) {
       if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addProject) {
@@ -63,7 +67,7 @@ export class BottomSheetMenu {
 
   gotoMilestone(projectIndex: any): void {
     this.dissmissBottomSheet();
-    this.router.navigate(['/projects/123/milestones']);
+    this.router.navigate(['/projects/project_id/milestones']);
   }
 
   dissmissBottomSheet(): void {
