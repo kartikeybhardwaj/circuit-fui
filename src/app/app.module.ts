@@ -73,6 +73,9 @@ import {
 import {
   MatCardModule
 } from '@angular/material/card';
+import {
+  MatMenuModule
+} from '@angular/material/menu';
 
 import {
   SatDatepickerModule,
@@ -131,6 +134,12 @@ import {
 import {
   EditPulseComponent
 } from './edit-pulse/edit-pulse.component';
+import {
+  TravelsComponent
+} from './travels/travels.component';
+import {
+  TravelsStorageService
+} from './travels/travels.service';
 
 @NgModule({
   declarations: [
@@ -148,7 +157,8 @@ import {
     AddPulseComponent,
     EditProjectComponent,
     EditMilestoneComponent,
-    EditPulseComponent
+    EditPulseComponent,
+    TravelsComponent
   ],
   imports: [
     BrowserModule,
@@ -175,6 +185,7 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatCardModule,
+    MatMenuModule,
     SatDatepickerModule,
     SatNativeDateModule
   ],
@@ -182,7 +193,8 @@ import {
     AppStorageService,
     ProjectStorageService,
     MilestoneStorageService,
-    PulseStorageService
+    PulseStorageService,
+    TravelsStorageService
   ],
   entryComponents: [
     BottomSheetMenu

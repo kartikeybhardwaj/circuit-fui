@@ -1,10 +1,12 @@
 <div class="bottomNavigation">
 
-  <div matRipple [matRippleColor]="'#EEEEEE'" [matRippleUnbounded]="true" class="bottomLeftNavigation cursorPointer"
+  <!-- bottom sheet menu -->
+  <div class="bottomLeftNavigation cursorPointer" matRipple [matRippleColor]="'#8E8E8E'" [matRippleUnbounded]="true"
     (click)="openMenuBottomSheet()">
     <mat-icon class="icon-display-large colorBright">menu</mat-icon>
   </div>
 
+  <!-- add blocks -->
   <div class="bottomCenterNavigation" *ngIf="appInfo.isNavigationAddTextVisible">
     <button mat-flat-button color="accent" (click)="addBlocks()">
       <mat-icon class="colorBright">add</mat-icon>
@@ -12,8 +14,20 @@
     </button>
   </div>
 
-  <div matRipple [matRippleColor]="'#EEEEEE'" [matRippleUnbounded]="true" class="bottomRightNavigation cursorPointer">
+  <!-- more in menu -->
+  <div matRipple [matRippleColor]="'#8E8E8E'" [matRippleUnbounded]="true" [matMenuTriggerFor]="menu"
+    class="bottomRightNavigation cursorPointer">
     <mat-icon class="icon-display-large colorBright">more_vert</mat-icon>
   </div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>account_circle</mat-icon>
+      <span>kartoon</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>flight_takeoff</mat-icon>
+      <span>Travelling?</span>
+    </button>
+  </mat-menu>
 
 </div>

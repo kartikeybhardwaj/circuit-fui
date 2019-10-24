@@ -59,8 +59,47 @@ export class AppComponent implements OnInit {
     // get user data and set to appInfo.user
     return new Promise((resolve, reject) => {
       this.appInfo.user = {
+        _id: '1',
+        index: '1',
         username: 'kartoon',
-        displayname: 'kartoon'
+        displayname: 'kartoon',
+        baseLocation: '1',
+        otherLocations: [{
+          locationId: '2',
+          timeline: {
+            begin: new Date(),
+            end: new Date()
+          }
+        }, {
+          locationId: '3',
+          timeline: {
+            begin: new Date(),
+            end: new Date()
+          }
+        }],
+        nonAvailability: [{
+          reason: 'just not available',
+          timeline: {
+            begin: new Date(),
+            end: new Date()
+          }
+        }],
+        access: {
+          projects: [{
+            projectId: 'ObjectId()',
+            milestones: [{
+              milestoneId: 'ObjectId()',
+              pulses: [{
+                pulseId: 'ObjectId()'
+              }]
+            }]
+          }]
+        },
+        meta: {
+          addedBy: 'ObjectId()',
+          addedOn: new Date(),
+          lastSeen: new Date()
+        }
       };
       resolve(true);
     });

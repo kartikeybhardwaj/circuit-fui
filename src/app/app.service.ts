@@ -24,6 +24,8 @@ export class AppStorageService {
   projects: any = null;
   milestones: any = null;
   pulses: any = null;
+  allLocations: any = null;
+  myTravels: any = null;
 
   roles = [{
     _id: '1',
