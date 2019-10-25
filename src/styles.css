@@ -65,6 +65,7 @@ a.disabled {
 }
 
 .bottomNavigation {
+  z-index: 1;
   height: 56px;
 }
 
@@ -386,6 +387,8 @@ svg#clouds {
   border-radius: 20px !important;
 }
 
+/* saturn date picker css */
+
 :not(.mat-calendar-body-disabled):hover>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-semi-selected),
 .cdk-keyboard-focused .mat-calendar-body-active>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-semi-selected),
 .cdk-program-focused .mat-calendar-body-active>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-semi-selected) {
@@ -424,4 +427,29 @@ svg#clouds {
 .mat-calendar-cell-over>.mat-calendar-body-cell-content,
 .mat-calendar-cell-semi-selected>.mat-calendar-body-cell-content {
   color: black;
+}
+
+/* full calendar css override */
+
+.fc, .fc-day-header {
+  color: white !important;
+}
+
+.fc-today, .fc-list-heading, tr.fc-list-item.fc-allow-mouse-resize {
+  color: #303030;
+  background: #deb196 !important;
+}
+
+.fc-widget-header {
+  color: #303030;
+}
+
+.fc-button-primary {
+  color: white !important;
+  background-color: #d1906a !important;
+  border-color: #d1906a !important;
+}
+
+.fc-list-empty {
+  background: transparent !important;
 }
