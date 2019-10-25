@@ -83,6 +83,10 @@ import {
 } from 'saturn-datepicker';
 
 import {
+  FullCalendarModule
+} from '@fullcalendar/angular';
+
+import {
   ProjectsComponent
 } from './projects/projects.component';
 import {
@@ -146,6 +150,9 @@ import {
 import {
   BlockagesStorageService
 } from './block-calendar/block-calendar.service';
+import {
+  HomeComponent
+} from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -165,7 +172,8 @@ import {
     EditMilestoneComponent,
     EditPulseComponent,
     TravelsComponent,
-    BlockCalendarComponent
+    BlockCalendarComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -194,7 +202,8 @@ import {
     MatCardModule,
     MatMenuModule,
     SatDatepickerModule,
-    SatNativeDateModule
+    SatNativeDateModule,
+    FullCalendarModule
   ],
   providers: [
     AppStorageService,
