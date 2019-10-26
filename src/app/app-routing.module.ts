@@ -47,10 +47,16 @@ import {
 import {
   HomeComponent
 } from './home/home.component';
+import {
+  UserCalendarComponent
+} from './user-calendar/user-calendar.component';
 
 const routes: Routes = [{
   path: 'home',
   component: HomeComponent
+}, {
+  path: 'users/:username',
+  component: UserCalendarComponent
 }, {
   path: 'projects',
   component: ProjectsComponent
