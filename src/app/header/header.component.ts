@@ -5,6 +5,9 @@ import {
 import {
   AppStorageService
 } from '../app.service';
+import {
+  HeaderStorageService
+} from './header.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +19,8 @@ export class HeaderComponent implements OnInit {
   today: string;
 
   constructor(
-    public appInfo: AppStorageService
+    public appInfo: AppStorageService,
+    public headerInfo: HeaderStorageService
   ) {
     this.today = appInfo.getShortDate(new Date().getTime());
   }

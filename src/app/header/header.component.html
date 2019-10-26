@@ -19,4 +19,9 @@
       </span>
     </span>
   </span>
+  <span *ngIf="headerInfo.isWorking">
+    <mat-progress-spinner class="inlineBlock smallMarginLeft" color="primary"
+      mode="indeterminate" [diameter]="18">
+    </mat-progress-spinner>
+  </span>
 </div>
