@@ -106,6 +106,9 @@ import {
   HeaderComponent
 } from './header/header.component';
 import {
+  HeaderStorageService
+} from './header/header.service';
+import {
   MilestonesComponent
 } from './milestones/milestones.component';
 import {
@@ -153,6 +156,9 @@ import {
 import {
   HomeComponent
 } from './home/home.component';
+import {
+  UserCalendarComponent
+} from './user-calendar/user-calendar.component';
 
 @NgModule({
   declarations: [
@@ -173,7 +179,8 @@ import {
     EditPulseComponent,
     TravelsComponent,
     BlockCalendarComponent,
-    HomeComponent
+    HomeComponent,
+    UserCalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -207,6 +214,7 @@ import {
   ],
   providers: [
     AppStorageService,
+    HeaderStorageService,
     ProjectStorageService,
     MilestoneStorageService,
     PulseStorageService,
