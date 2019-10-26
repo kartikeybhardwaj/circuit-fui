@@ -1,0 +1,8 @@
+<div class="contentCenter">
+    <full-calendar class="width-100 smallMarginTop" defaultView="dayGridMonth" [header]="calendarHeader"
+    [weekends]="calendarWeekends" [weekNumbers]="calendarWeekNumbers" [selectable]="calendarSelectable"
+    [businessHours]="calendarBusinessHours" [nowIndicator]="calendarNowIndicator" [eventLimit]="calendarEventLimit"
+    [editable]="calendarEditable" [plugins]="calendarPlugins" [events]="calendarEvents"
+    (eventClick)="pulseClick($event)" (eventResize)="pulseResize($event)" (eventDrop)="pulseDrop($event)">
+  </full-calendar>
+</div>
