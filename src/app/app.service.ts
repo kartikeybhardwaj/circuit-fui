@@ -21,7 +21,6 @@ export class AppStorageService {
   };
   httpOptionsWithAuth: any = null;
 
-  projects: any = null;
   milestones: any = null;
   pulses: any = null;
   allLocations: any = null;
