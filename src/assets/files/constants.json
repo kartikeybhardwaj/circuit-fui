@@ -1,5 +1,9 @@
 {
     "appName": "Circuit",
+    "urls": {
+        "getUser": "http://localhost:3200/get-user",
+        "getProjects": "http://localhost:3200/get-projects"
+    },
     "buildingBlocks": {
         "icons": {
             "public": "public",
@@ -11,5 +15,8 @@
             "addMilestone": "Add Milestone",
             "addPulse": "Add Pulse"
         }
+    },
+    "messages": {
+        "someErrorOccurred": "Some error occurred"
     }
 }
