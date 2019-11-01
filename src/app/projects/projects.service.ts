@@ -4,192 +4,72 @@ import {
 import {
   AppStorageService
 } from '../app.service';
+import {
+  HttpClient
+} from '@angular/common/http';
 
 @Injectable()
 export class ProjectStorageService {
 
+  projects: ProjectData[] = [];
+  idMapProjects: any = {};
+
   constructor(
-    private appInfo: AppStorageService
+    private appInfo: AppStorageService,
+    private http: HttpClient
   ) {}
 
   getProjects(): any {
     return new Promise((resolve, reject) => {
-      this.appInfo.projects = [{
-        index: 1,
-        _id: '1234567890',
-        title: 'this is some title',
-        description: 'this is some description',
-        visibility: 'public',
-        visibilityIcon: 'public',
-        members: [{
-          _id: '1234567890',
-          name: 'some user',
-          roleId: '2',
-          roleName: 'Project Manager'
-        }, {
-          _id: '1234567890',
-          name: 'some user',
-          roleId: '4',
-          roleName: 'That one guy'
-        }],
-        milestonesList: [{
-          _id: '1234567890',
-          title: 'milestone title 1'
-        }, {
-          _id: '1234567890',
-          title: 'milestone title 2'
-        }],
-        milestonesListCount: 4,
-        projectMetaId: 'string',
-        fields: [{
-          key: 'key_1',
-          key_1: 'value_1'
-        }, {
-          key: 'key_2',
-          key_2: 'value_2'
-        }, {
-          key: 'key_3',
-          key_3: 'value_3'
-        }],
-        meta: {
-          addedBy: 'some user',
-          addedOn: this.appInfo.getLongDate(new Date().getTime()),
-          lastUpdatedBy: 'some user',
-          lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-        }
-      }, {
-        index: 2,
-        _id: '1234567890',
-        title: 'this is some random title',
-        description: 'this is some description',
-        visibility: 'public',
-        visibilityIcon: 'public',
-        members: [{
-          _id: '1234567890',
-          name: 'some user',
-          roleId: '2',
-          roleName: 'Project Manager',
-
-        }, {
-          _id: '1234567890',
-          name: 'some user',
-          roleId: '4',
-          roleName: 'That one guy',
-
-        }],
-        milestonesList: [{
-          _id: '1234567890',
-          title: 'milestone title 1'
-        }, {
-          _id: '1234567890',
-          title: 'milestone title 2'
-        }],
-        milestonesListCount: 4,
-        projectMetaId: 'string',
-        fields: [{
-          key: 'key_1',
-          key_1: 'value_1'
-        }, {
-          key: 'key_2',
-          key_2: 'value_2'
-        }, {
-          key: 'key_3',
-          key_3: 'value_3'
-        }],
-        meta: {
-          addedBy: 'some user',
-          addedOn: this.appInfo.getLongDate(new Date().getTime()),
-          lastUpdatedBy: 'some user',
-          lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-        }
-      }, {
-        index: 3,
-        _id: '1234567890',
-        title: 'this is some random title',
-        description: 'this is some description',
-        visibility: 'private',
-        visibilityIcon: this.appInfo.constants.buildingBlocks.icons.private,
-        members: [{
-          _id: '1234567890',
-          name: 'some user',
-          roleId: '2',
-          roleName: 'Project Manager',
-        }, {
-          _id: '1234567890',
-          name: 'some user',
-          roleId: '4',
-          roleName: 'That one guy',
-        }],
-        milestonesList: [{
-          _id: '1234567890',
-          title: 'milestone title 1'
-        }, {
-          _id: '1234567890',
-          title: 'milestone title 2'
-        }],
-        milestonesListCount: 4,
-        projectMetaId: 'string',
-        fields: [{
-          key: 'key_1',
-          key_1: 'value_1'
-        }, {
-          key: 'key_2',
-          key_2: 'value_2'
-        }, {
-          key: 'key_3',
-          key_3: 'value_3'
-        }],
-        meta: {
-          addedBy: 'some user',
-          addedOn: this.appInfo.getLongDate(new Date().getTime()),
-          lastUpdatedBy: 'some user',
-          lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-        }
-      }, {
-        index: 4,
-        _id: '1234567890',
-        title: 'this is some random title',
-        description: 'this is some description',
-        visibility: 'internal',
-        visibilityIcon: this.appInfo.constants.buildingBlocks.icons.internal,
-        members: [{
-          _id: '1234567890',
-          name: 'some user',
-          roleId: '2',
-          roleName: 'Project Manager',
-        }, {
-          _id: '1234567890',
-          name: 'some user',
-          roleId: '4',
-          roleName: 'That one guy',
-        }],
-        milestonesList: [{
-          _id: '1234567890',
-          title: 'milestone title 1'
-        }, {
-          _id: '1234567890',
-          title: 'milestone title 2'
-        }],
-        milestonesListCount: 4,
-        projectMetaId: 'string',
-        fields: [{
-          key: 'key_1',
-          key_1: 'value_1'
-        }, {
-          key: 'key_2',
-          key_2: 'value_2'
-        }, {
-          key: 'key_3',
-          key_3: 'value_3'
-        }],
-        meta: {
-          addedBy: 'some user',
-          addedOn: this.appInfo.getLongDate(new Date().getTime()),
-          lastUpdatedBy: 'some user',
-          lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-        }
-      }];
-      resolve(true);
+      this.http.get(this.appInfo.constants.urls.getProjects, this.appInfo.httpOptions).subscribe(
+        (response: any) => {
+          if (response.responseId && response.responseId === 211) {
+            this.projects = [];
+            this.idMapProjects = response.data.idMap;
+            response.data.projects.forEach(project => {
+              const members: ProjectMemberData[] = [];
+              project.members.forEach(member => {
+                members.push({
+                  userId: member.userId.$oid,
+                  roleId: member.roleId.$oid
+                });
+              });
+              const milestonesList: string[] = [];
+              project.milestonesList.forEach(milestone => {
+                milestonesList.push(milestone.$oid);
+              });
+              this.projects.push({
+                projectId: project._id.$oid,
+                index: project.index,
+                title: project.title,
+                description: project.description,
+                visibility: project.visibility,
+                visibilityIcon: this.appInfo.constants.buildingBlocks.icons[project.visibility],
+                members,
+                milestonesList,
+                milestonesListCount: project.milestonesList.length,
+                projectMetaId: project.projectMetaId.$oid,
+                fields: project.fields,
+                meta: {
+                  addedBy: project.meta.addedBy.$oid,
+                  addedOn: this.appInfo.getLongDate(project.meta.addedOn.$date),
+                  lastUpdatedBy: project.meta.lastUpdatedBy ? project.meta.lastUpdatedBy.$oid : null,
+                  lastUpdatedOn: project.meta.lastUpdatedOn ? this.appInfo.getLongDate(project.meta.lastUpdatedOn.$date) : null
+                }
+              });
+            });
+            resolve(this.projects);
+          } else {
+            if (response.message) {
+              reject(response.message);
+            } else {
+              reject(this.appInfo.constants.messages.someErrorOccurred);
+            }
+          }
+        },
+        (error: any) => {
+          reject(error);
+        });
     });
   }
 
