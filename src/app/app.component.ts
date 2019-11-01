@@ -37,18 +37,24 @@ export class AppComponent implements OnInit {
         this.projectsInfo.getProjects().then((projects) => {
           this.isSiteLoading = false;
         });
+      }).catch((error) => {
+        this.isSiteLoading = false;
+        this.appInfo.user = null;
       });
+    }).catch((error) => {
+      this.isSiteLoading = false;
+      this.appInfo.user = null;
     });
   }
 
   getConstants() {
     return new Promise((resolve, reject) => {
       this.http.get(this.appInfo.fetchConstantsURI, this.appInfo.httpOptions).subscribe(
-        (response) => {
+        (response: any) => {
           this.appInfo.constants = response;
           resolve(true);
         },
-        (error) => {
+        (error: any) => {
           reject(false);
         }
       );
@@ -58,50 +64,15 @@ export class AppComponent implements OnInit {
   getUser(): any {
     // get user data and set to appInfo.user
     return new Promise((resolve, reject) => {
-      this.appInfo.user = {
-        _id: '1',
-        index: '1',
-        username: 'kartoon',
-        displayname: 'kartoon',
-        baseLocation: '1',
-        otherLocations: [{
-          locationId: '2',
-          timeline: {
-            begin: new Date(),
-            end: new Date()
-          }
-        }, {
-          locationId: '3',
-          timeline: {
-            begin: new Date(),
-            end: new Date()
-          }
-        }],
-        nonAvailability: [{
-          reason: 'just not available',
-          timeline: {
-            begin: new Date(),
-            end: new Date()
-          }
-        }],
-        access: {
-          projects: [{
-            projectId: 'ObjectId()',
-            milestones: [{
-              milestoneId: 'ObjectId()',
-              pulses: [{
-                pulseId: 'ObjectId()'
-              }]
-            }]
-          }]
+      this.http.get(this.appInfo.constants.urls.getUser, this.appInfo.httpOptions).subscribe(
+        (response: any) => {
+          this.appInfo.user = response.data;
+          resolve(true);
         },
-        meta: {
-          addedBy: 'ObjectId()',
-          addedOn: new Date(),
-          lastSeen: new Date()
+        (error: any) => {
+          reject(false);
         }
-      };
-      resolve(true);
+      );
     });
   }
 
