@@ -22,7 +22,7 @@
   <mat-menu #menu="matMenu">
     <button mat-menu-item>
       <mat-icon>account_circle</mat-icon>
-      <span>kartoon</span>
+      <span>{{appInfo.user.displayname}}</span>
     </button>
     <button mat-menu-item (click)="navigateTo('/travels')">
       <mat-icon>flight_takeoff</mat-icon>
