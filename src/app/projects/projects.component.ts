@@ -25,40 +25,9 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-
-export interface ProjectsList {
-  index: number;
-  _id: string;
-  title: string;
-  description: string;
-  visibility: string;
-  visibilityIcon: string;
-  members: MembersList[];
-  milestonesList: Milestone[];
-  milestonesListCount: number;
-  projectMetaId: string;
-  fields: any[];
-  meta: ProjectsMeta;
-}
-
-export interface MembersList {
-  _id: string;
-  name: string;
-  roleId: string;
-  roleName: string;
-}
-
-export interface Milestone {
-  _id: string;
-  title: string;
-}
-
-export interface ProjectsMeta {
-  addedBy: string;
-  addedOn: string;
-  lastUpdatedBy: string;
-  lastUpdatedOn: string;
-}
+import {
+  ProjectStorageService
+} from './projects.service';
 
 @Component({
   selector: 'app-projects',
@@ -81,11 +50,11 @@ export class ProjectsComponent implements OnInit {
 
   isFetching = true;
 
-  PROJECTS_DATA: ProjectsList[];
-  dataSourceProjects: MatTableDataSource < ProjectsList > ;
+  PROJECTS_DATA: ProjectData[];
+  dataSourceProjects: MatTableDataSource < ProjectData > ;
   columnsForProjects = ['index', 'title', 'milestonesListCount', 'visibilityIcon', 'todo'];
   columnsToDisplayProjects = ['#', 'Projects', 'Milestones count', 'Visibility', ''];
-  expandedElementProjects: ProjectsList | null;
+  expandedElementProjects: ProjectData | null;
 
   @ViewChild(MatPaginator, {
     static: true
@@ -96,6 +65,7 @@ export class ProjectsComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
+    public projectInfo: ProjectStorageService,
     private router: Router
   ) {
     appInfo.selectedProjectId = null;
@@ -107,8 +77,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.PROJECTS_DATA = this.appInfo.projects;
-    this.appInfo.projects = this.PROJECTS_DATA;
+    this.PROJECTS_DATA = JSON.parse(JSON.stringify(this.projectInfo.projects));
     this.dataSourceProjects = new MatTableDataSource(this.PROJECTS_DATA);
     this.dataSourceProjects.paginator = this.paginatorProjects;
     this.dataSourceProjects.sort = this.sortProjects;
@@ -122,20 +91,12 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  // changedMemberRole(projectId: string, member: MembersList, memberId: string, roleId: string): void {
-  //   member.isUpdatingRole = true;
-  //   setTimeout(() => {
-  //     member.isUpdatingRole = false;
-  //   }, 2000);
-  //   console.log(projectId, memberId, roleId);
-  // }
-
-  editProjectClick(project: ProjectsList): void {
+  editProjectClick(project: ProjectData): void {
     console.log(project);
     this.router.navigate(['/project/project_id/edit']);
   }
 
-  gotoMilestoneClick(project: ProjectsList): void {
+  gotoMilestoneClick(project: ProjectData): void {
     console.log(project);
     this.router.navigate(['/projects/project_name/milestones']);
   }
