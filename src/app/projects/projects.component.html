@@ -42,32 +42,23 @@
                 <span class="capitalizeFirstLetter">{{element.visibility}}</span>
               </div>
               <div class="mediumMarginTop" *ngFor="let field of element.fields; index as indexField;">
-                <strong>{{field.key}}</strong>: {{field[field.key]}}
+                <strong>{{field.key}}</strong>: {{field.value}}
               </div>
               <div class="mediumMarginTop smallMarginBottom"><strong>Members</strong>:</div>
               <ng-container *ngFor="let member of element.members; index as indexMembers;">
                 <div>
-                  <button mat-button>{{member.name}}</button>: <span class="smallMarginLeft">{{member.roleName}}</span>
-                  <!-- <mat-form-field class="inlineBlock smallMarginLeft">
-                    <mat-label>Role</mat-label>
-                    <mat-select [(value)]="member.roleId"
-                      (selectionChange)="changedMemberRole(element._id, member, member._id, member.roleId)">
-                      <mat-option *ngFor="let role of appInfo.roles; index as indexRoles;" [value]="role._id">
-                        {{role.title}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field> -->
-                  <mat-progress-spinner class="inlineBlock smallMarginLeft" *ngIf="member.isUpdatingRole"
-                    color="primary" mode="indeterminate" [diameter]="19"></mat-progress-spinner>
+                  <button mat-button>{{projectInfo.idMapProjects[member.userId]}}</button>: <span class="smallMarginLeft">{{member.roleId}}</span>
                 </div>
               </ng-container>
               <div class="smallMarginTop">
                 <strong>Milestones</strong>:
-                <button mat-button
-                  *ngFor="let milestone of element.milestonesList; index as indexMilestone;">{{milestone.title}}</button>
+                <button mat-button *ngFor="let milestoneId of element.milestonesList; index as indexMilestone;">
+                  {{projectInfo.idMapProjects[milestoneId]}}
+                </button>
               </div>
-              <div class="smallMarginTop">Project created
-                by&nbsp;<strong>{{element.meta.addedBy}}</strong>&nbsp;on&nbsp;{{element.meta.addedOn}}</div>
+              <div class="smallMarginTop">
+                Project created by&nbsp;{{element.meta.addedBy}}&nbsp;on&nbsp;{{element.meta.addedOn}}
+              </div>
             </div>
           </div>
         </td>
