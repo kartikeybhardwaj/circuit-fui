@@ -12,6 +12,9 @@ import {
 import {
   Router
 } from '@angular/router';
+import {
+  ProjectStorageService
+} from '../projects/projects.service';
 
 @Component({
   selector: 'app-navigation-panel',
@@ -61,6 +64,7 @@ export class BottomSheetMenu {
 
   constructor(
     public appInfo: AppStorageService,
+    public projectInfo: ProjectStorageService,
     private bottomSheetRef: MatBottomSheetRef < BottomSheetMenu > ,
     private router: Router
   ) {}
