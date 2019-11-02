@@ -29,36 +29,9 @@ import {
 import {
   MilestoneStorageService
 } from './milestones.service';
-
-export interface MilestonesList {
-  index: number;
-  _id: string;
-  title: string;
-  description: string;
-  timeline: Timeline;
-  pulsesList: Pulse[];
-  pulsesListCount: number;
-  milestoneMetaId: string;
-  fields: any[];
-  meta: MilestonesMeta;
-}
-
-export interface Timeline {
-  begin: string;
-  end: string;
-}
-
-export interface Pulse {
-  _id: string;
-  title: string;
-}
-
-export interface MilestonesMeta {
-  addedBy: string;
-  addedOn: string;
-  lastUpdatedBy: string;
-  lastUpdatedOn: string;
-}
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-milestones',
@@ -81,11 +54,11 @@ export class MilestonesComponent implements OnInit {
 
   isFetching = true;
 
-  MILESTONES_DATA: MilestonesList[];
-  dataSourceMilestones: MatTableDataSource < MilestonesList > ;
+  MILESTONES_DATA: MilestoneData[];
+  dataSourceMilestones: MatTableDataSource < MilestoneData > ;
   columnsForMilestones = ['index', 'title', 'timeline', 'pulsesListCount', 'todo'];
   columnsToDisplayMilestones = ['#', 'Milestone', 'End date', 'Pulses count', ''];
-  expandedElementMilestones: MilestonesList | null;
+  expandedElementMilestones: MilestoneData | null;
 
   @ViewChild(MatPaginator, {
     static: true
@@ -96,9 +69,10 @@ export class MilestonesComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
-    private milestoneInfo: MilestoneStorageService,
+    public milestoneInfo: MilestoneStorageService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     const activatedRouteSnapshot = activatedRoute.snapshot;
     if (activatedRouteSnapshot.params && activatedRouteSnapshot.params.projectId) {
@@ -112,23 +86,22 @@ export class MilestonesComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.appInfo.milestones) {
-      this.fillData();
-    } else {
-      this.milestoneInfo.getMilestones()
-        .then((milestones) => {
-          this.fillData();
-        })
-        .catch((error) => {});
-    }
+    this.milestoneInfo.getMilestones(this.appInfo.selectedProjectId)
+      .then((milestones) => {
+        this.fillData();
+        this.isFetching = false;
+      })
+      .catch((error) => {
+        this.isFetching = false;
+        this.openSnackBar(error, null);
+      });
   }
 
   fillData(): void {
-    this.MILESTONES_DATA = this.appInfo.milestones;
+    this.MILESTONES_DATA = this.milestoneInfo.milestones;
     this.dataSourceMilestones = new MatTableDataSource(this.MILESTONES_DATA);
     this.dataSourceMilestones.paginator = this.paginatorMilestones;
     this.dataSourceMilestones.sort = this.sortMilestones;
-    this.isFetching = false;
   }
 
   applyFilter(filterValue: string) {
@@ -138,14 +111,21 @@ export class MilestonesComponent implements OnInit {
     }
   }
 
-  editMilestoneClick(milestone: MilestonesList): void {
+  editMilestoneClick(milestone: MilestoneData): void {
     console.log(milestone);
     this.router.navigate(['/project/project_id/milestone/milestone_id/edit']);
   }
 
-  gotoPulseClick(milestone: MilestonesList) {
-    console.log(milestone);
-    this.router.navigate(['/projects/project_name/milestones/milestone_name/pulses']);
+  gotoPulseClick(milestone: MilestoneData) {
+    this.router.navigate(['/projects/' + this.appInfo.selectedProjectId + '/milestones/' + milestone.milestoneId + '/pulses']);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'center', // left, right, start, end, center
+      verticalPosition: 'bottom', // top, bottom
+      duration: 5000
+    });
   }
 
 }
