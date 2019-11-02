@@ -8,6 +8,15 @@ import {
 import {
   HeaderStorageService
 } from './header.service';
+import {
+  ProjectStorageService
+} from '../projects/projects.service';
+import {
+  MilestoneStorageService
+} from '../milestones/milestones.service';
+import {
+  PulseStorageService
+} from '../pulses/pulses.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +29,10 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
-    public headerInfo: HeaderStorageService
+    public headerInfo: HeaderStorageService,
+    public projectInfo: ProjectStorageService,
+    public milestoneInfo: MilestoneStorageService,
+    public pulseInfo: PulseStorageService
   ) {
     this.today = appInfo.getShortDate(new Date().getTime());
   }

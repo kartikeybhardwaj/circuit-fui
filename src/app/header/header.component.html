@@ -7,21 +7,25 @@
   </span>
   <span *ngIf="appInfo.selectedProjectId && !appInfo.otherHeader">
     &nbsp;&nbsp;•&nbsp;&nbsp;
-    <span class="cursorPointer"
-      [routerLink]="'/projects/' + appInfo.selectedProjectId + '/milestones'">{{appInfo.selectedProjectId}}</span>
+    <span class="cursorPointer" [routerLink]="'/projects/' + appInfo.selectedProjectId + '/milestones'">
+      {{projectInfo.idMapProjects[appInfo.selectedProjectId]}}
+    </span>
     <span *ngIf="appInfo.selectedMilestoneId">
       &nbsp;&nbsp;•&nbsp;&nbsp;
       <span class="cursorPointer"
-        [routerLink]="'/projects/' + appInfo.selectedProjectId + '/milestones/' + appInfo.selectedMilestoneId + '/pulses'">{{appInfo.selectedMilestoneId}}</span>
+        [routerLink]="'/projects/' + appInfo.selectedProjectId + '/milestones/' + appInfo.selectedMilestoneId + '/pulses'">
+        {{milestoneInfo.idMapMilestones[appInfo.selectedMilestoneId]}}
+      </span>
       <span *ngIf="appInfo.selectedPulseId">
         &nbsp;&nbsp;•&nbsp;&nbsp;
-        <span class="cursorPointer" routerLink="/home">{{appInfo.selectedPulseId}}</span>
+        <span class="cursorPointer" routerLink="/home">
+          {{pulseInfo.idMapPulses[appInfo.selectedPulseId]}}
+        </span>
       </span>
     </span>
   </span>
   <span *ngIf="headerInfo.isWorking">
-    <mat-progress-spinner class="inlineBlock smallMarginLeft" color="primary"
-      mode="indeterminate" [diameter]="18">
+    <mat-progress-spinner class="inlineBlock smallMarginLeft" color="primary" mode="indeterminate" [diameter]="18">
     </mat-progress-spinner>
   </span>
 </div>
