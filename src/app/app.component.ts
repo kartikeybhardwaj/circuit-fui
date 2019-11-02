@@ -14,6 +14,9 @@ import {
 import {
   ProjectStorageService
 } from './projects/projects.service';
+import {
+  RoleStorageService
+} from './roles/roles.service';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +29,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
-    private projectsInfo: ProjectStorageService,
+    private projectInfo: ProjectStorageService,
+    private roleInfo: RoleStorageService,
     private router: Router,
     private http: HttpClient
   ) {}
@@ -34,8 +38,16 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.getConstants().then((constants) => {
       this.getUser().then((user) => {
-        this.projectsInfo.getProjects().then((projects) => {
+        this.roleInfo.getRoles().then((roles) => {
+          this.projectInfo.getProjects().then((projects) => {
+            this.isSiteLoading = false;
+          }).catch((error) => {
+            this.isSiteLoading = false;
+            this.appInfo.user = null;
+          });
+        }).catch((error) => {
           this.isSiteLoading = false;
+          this.appInfo.user = null;
         });
       }).catch((error) => {
         this.isSiteLoading = false;
