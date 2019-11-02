@@ -76,6 +76,9 @@ import {
 import {
   MatMenuModule
 } from '@angular/material/menu';
+import {
+  MatSnackBarModule
+} from '@angular/material/snack-bar';
 
 import {
   SatDatepickerModule,
@@ -215,6 +218,7 @@ import {
     MatSortModule,
     MatCardModule,
     MatMenuModule,
+    MatSnackBarModule,
     SatDatepickerModule,
     SatNativeDateModule,
     FullCalendarModule
