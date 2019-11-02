@@ -3,7 +3,8 @@
     "urls": {
         "getUser": "http://localhost:3200/get-user",
         "getRoles": "http://localhost:3200/get-roles",
-        "getProjects": "http://localhost:3200/get-projects"
+        "getProjects": "http://localhost:3200/get-projects",
+        "getMilestones": "http://localhost:3200/get-milestones"
     },
     "buildingBlocks": {
         "icons": {
