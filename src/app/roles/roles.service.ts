@@ -28,7 +28,7 @@ export class RoleStorageService {
             this.idMapRoles = response.data.idMap;
             response.data.roles.forEach(role => {
               this.roles.push({
-                roleId: role._id.$oid,
+                roleId: role._id,
                 index: role.index,
                 title: role.title,
                 description: role.description,
@@ -38,10 +38,10 @@ export class RoleStorageService {
                 canModifyMilestones: role.canModifyMilestones,
                 canModifyPulses: role.canModifyPulses,
                 meta: {
-                  addedBy: role.meta.addedBy ? role.meta.addedBy.$oid : null,
-                  addedOn: role.meta.addedOn ? this.appInfo.getLongDate(role.meta.addedOn.$date) : null,
-                  lastUpdatedBy: role.meta.lastUpdatedBy ? role.meta.lastUpdatedBy.$oid : null,
-                  lastUpdatedOn: role.meta.lastUpdatedOn ? this.appInfo.getLongDate(role.meta.lastUpdatedOn.$date) : null
+                  addedBy: role.meta.addedBy ? role.meta.addedBy : null,
+                  addedOn: role.meta.addedOn ? this.appInfo.getLongDate(role.meta.addedOn) : null,
+                  lastUpdatedBy: role.meta.lastUpdatedBy ? role.meta.lastUpdatedBy : null,
+                  lastUpdatedOn: role.meta.lastUpdatedOn ? this.appInfo.getLongDate(role.meta.lastUpdatedOn) : null
                 }
               });
             });

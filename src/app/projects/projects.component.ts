@@ -102,7 +102,7 @@ export class ProjectsComponent implements OnInit {
 
   gotoMilestoneClick(project: ProjectData): void {
     console.log(project);
-    this.router.navigate(['/projects/project_name/milestones']);
+    this.router.navigate(['/projects/' + project.projectId + '/milestones']);
   }
 
 }

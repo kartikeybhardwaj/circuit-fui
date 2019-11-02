@@ -25,7 +25,7 @@ declare interface ProjectFieldData {
 
 declare interface ProjectMetaData {
   addedBy: string;
-  addedOn: string;
+  addedOn: number;
   lastUpdatedBy: string;
-  lastUpdatedOn: string;
+  lastUpdatedOn: number;
 }

@@ -30,16 +30,16 @@ export class ProjectStorageService {
               const members: ProjectMemberData[] = [];
               project.members.forEach(member => {
                 members.push({
-                  userId: member.userId.$oid,
-                  roleId: member.roleId.$oid
+                  userId: member.userId,
+                  roleId: member.roleId
                 });
               });
               const milestonesList: string[] = [];
               project.milestonesList.forEach(milestone => {
-                milestonesList.push(milestone.$oid);
+                milestonesList.push(milestone);
               });
               this.projects.push({
-                projectId: project._id.$oid,
+                projectId: project._id,
                 index: project.index,
                 title: project.title,
                 description: project.description,
@@ -48,13 +48,13 @@ export class ProjectStorageService {
                 members,
                 milestonesList,
                 milestonesListCount: project.milestonesList.length,
-                projectMetaId: project.projectMetaId.$oid,
+                projectMetaId: project.projectMetaId,
                 fields: project.fields,
                 meta: {
-                  addedBy: project.meta.addedBy.$oid,
-                  addedOn: this.appInfo.getLongDate(project.meta.addedOn.$date),
-                  lastUpdatedBy: project.meta.lastUpdatedBy ? project.meta.lastUpdatedBy.$oid : null,
-                  lastUpdatedOn: project.meta.lastUpdatedOn ? this.appInfo.getLongDate(project.meta.lastUpdatedOn.$date) : null
+                  addedBy: project.meta.addedBy,
+                  addedOn: project.meta.addedOn,
+                  lastUpdatedBy: project.meta.lastUpdatedBy ? project.meta.lastUpdatedBy : null,
+                  lastUpdatedOn: project.meta.lastUpdatedOn ? project.meta.lastUpdatedOn : null
                 }
               });
             });

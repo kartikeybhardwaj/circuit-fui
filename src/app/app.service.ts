@@ -13,7 +13,7 @@ export class AppStorageService {
 
   user: any = '';
 
-  httpOptions = {
+  httpOptions: any = {
     withCredentials: true,
     headers: new HttpHeaders({
       'content-type': 'application/json'
@@ -21,7 +21,6 @@ export class AppStorageService {
   };
   httpOptionsWithAuth: any = null;
 
-  milestones: any = null;
   pulses: any = null;
   allLocations: any = null;
   myTravels: any = null;
