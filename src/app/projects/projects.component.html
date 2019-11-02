@@ -47,7 +47,7 @@
               <div class="mediumMarginTop smallMarginBottom"><strong>Members</strong>:</div>
               <ng-container *ngFor="let member of element.members; index as indexMembers;">
                 <div>
-                  <button mat-button>{{projectInfo.idMapProjects[member.userId]}}</button>: <span class="smallMarginLeft">{{member.roleId}}</span>
+                  <button mat-button>{{projectInfo.idMapProjects[member.userId]}}</button>: <span class="smallMarginLeft">{{roleInfo.idMapRoles[member.roleId]}}</span>
                 </div>
               </ng-container>
               <div class="smallMarginTop">
@@ -57,7 +57,7 @@
                 </button>
               </div>
               <div class="smallMarginTop">
-                Project created by&nbsp;{{element.meta.addedBy}}&nbsp;on&nbsp;{{element.meta.addedOn}}
+                Project created by&nbsp;{{projectInfo.idMapProjects[element.meta.addedBy]}}&nbsp;on&nbsp;{{element.meta.addedOn}}
               </div>
             </div>
           </div>

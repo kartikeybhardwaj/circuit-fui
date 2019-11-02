@@ -28,6 +28,9 @@ import {
 import {
   ProjectStorageService
 } from './projects.service';
+import {
+  RoleStorageService
+} from '../roles/roles.service';
 
 @Component({
   selector: 'app-projects',
@@ -66,6 +69,7 @@ export class ProjectsComponent implements OnInit {
   constructor(
     public appInfo: AppStorageService,
     public projectInfo: ProjectStorageService,
+    public roleInfo: RoleStorageService,
     private router: Router
   ) {
     appInfo.selectedProjectId = null;
