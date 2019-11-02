@@ -159,6 +159,12 @@ import {
 import {
   UserCalendarComponent
 } from './user-calendar/user-calendar.component';
+import {
+  RolesComponent
+} from './roles/roles.component';
+import {
+  RoleStorageService
+} from './roles/roles.service';
 
 @NgModule({
   declarations: [
@@ -180,7 +186,8 @@ import {
     TravelsComponent,
     BlockCalendarComponent,
     HomeComponent,
-    UserCalendarComponent
+    UserCalendarComponent,
+    RolesComponent
   ],
   imports: [
     BrowserModule,
@@ -219,7 +226,8 @@ import {
     MilestoneStorageService,
     PulseStorageService,
     TravelsStorageService,
-    BlockagesStorageService
+    BlockagesStorageService,
+    RoleStorageService
   ],
   entryComponents: [
     BottomSheetMenu
