@@ -4,88 +4,68 @@ import {
 import {
   AppStorageService
 } from '../app.service';
+import {
+  HttpClient
+} from '@angular/common/http';
 
 @Injectable()
 export class PulseStorageService {
 
+  pulses: PulseData[] = [];
+  idMapPulses: any = {};
+
   constructor(
-    private appInfo: AppStorageService
+    private appInfo: AppStorageService,
+    private http: HttpClient
   ) {}
 
-  getPulses(): any {
+  getPulses(projectId: string, milestoneId: string): any {
     return new Promise((resolve, reject) => {
-      this.appInfo.pulses = [{
-        index: 1,
-        _id: '1234567890',
-        title: 'this is some title',
-        description: 'this is some description',
-        timeline: {
-          begin: this.appInfo.getShortDate(new Date().getTime()),
-          end: this.appInfo.getShortDate(new Date().getTime())
+      const httpOptions = this.appInfo.httpOptions;
+      httpOptions.params = {
+        projectId,
+        milestoneId
+      };
+      this.http.get(this.appInfo.constants.urls.getPulses, httpOptions).subscribe(
+        (response: any) => {
+          if (response.responseId && response.responseId === 211) {
+            this.pulses = [];
+            this.idMapPulses = response.data.idMap;
+            response.data.pulses.forEach(pulse => {
+              this.pulses.push({
+                pulseId: pulse._id,
+                index: pulse.index,
+                title: pulse.title,
+                description: pulse.description,
+                color: pulse.color,
+                timeline: pulse.timeline,
+                assignees: pulse.assignees,
+                assigneesListCount: pulse.assignees.length,
+                comments: pulse.comments,
+                pulseMetaId: pulse.pulseMetaId,
+                fields: pulse.fields,
+                linkedProjectId: pulse.linkedProjectId,
+                linkedMilestoneId: pulse.linkedMilestoneId,
+                meta: {
+                  addedBy: pulse.meta.addedBy,
+                  addedOn: pulse.meta.addedOn,
+                  lastUpdatedBy: pulse.meta.lastUpdatedBy ? pulse.meta.lastUpdatedBy : null,
+                  lastUpdatedOn: pulse.meta.lastUpdatedOn ? pulse.meta.lastUpdatedOn : null
+                }
+              });
+            });
+            resolve(this.pulses);
+          } else {
+            if (response.message) {
+              reject(response.message);
+            } else {
+              reject(this.appInfo.constants.messages.someErrorOccurred);
+            }
+          }
         },
-        assigneesList: [{
-          _id: '1234567890',
-          name: 'some username'
-        }, {
-          _id: '1234567890',
-          name: 'another username'
-        }],
-        assigneesListCount: 2,
-        comments: [],
-        pulseMetaId: 'string',
-        fields: [{
-          key: 'key_1',
-          key_1: 'value_1'
-        }, {
-          key: 'key_2',
-          key_2: 'value_2'
-        }, {
-          key: 'key_3',
-          key_3: 'value_3'
-        }],
-        meta: {
-          addedBy: 'some user',
-          addedOn: this.appInfo.getLongDate(new Date().getTime()),
-          lastUpdatedBy: 'some user',
-          lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-        }
-      }, {
-        index: 2,
-        _id: '1234567890',
-        title: 'this is some random title',
-        description: 'this is some description',
-        timeline: {
-          begin: this.appInfo.getShortDate(new Date().getTime()),
-          end: this.appInfo.getShortDate(new Date().getTime())
-        },
-        assigneesList: [{
-          _id: '1234567890',
-          name: 'some username'
-        }, {
-          _id: '1234567890',
-          name: 'another username'
-        }],
-        assigneesListCount: 2,
-        comments: [],
-        pulseMetaId: 'string',
-        fields: [{
-          key: 'key_1',
-          key_1: 'value_1'
-        }, {
-          key: 'key_2',
-          key_2: 'value_2'
-        }, {
-          key: 'key_3',
-          key_3: 'value_3'
-        }],
-        meta: {
-          addedBy: 'some user',
-          addedOn: this.appInfo.getLongDate(new Date().getTime()),
-          lastUpdatedBy: 'some user',
-          lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-        }
-      }];
-      resolve(true);
+        (error: any) => {
+          reject(error);
+        });
     });
   }
 
