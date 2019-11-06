@@ -4,7 +4,8 @@
         "getUser": "http://localhost:3200/get-user",
         "getRoles": "http://localhost:3200/get-roles",
         "getProjects": "http://localhost:3200/get-projects",
-        "getMilestones": "http://localhost:3200/get-milestones"
+        "getMilestones": "http://localhost:3200/get-milestones",
+        "getPulses": "http://localhost:3200/get-pulses"
     },
     "buildingBlocks": {
         "icons": {
