@@ -21,7 +21,6 @@ export class AppStorageService {
   };
   httpOptionsWithAuth: any = null;
 
-  pulses: any = null;
   allLocations: any = null;
   myTravels: any = null;
   myBlockages: any = null;

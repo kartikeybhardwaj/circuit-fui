@@ -30,48 +30,6 @@ import {
   PulseStorageService
 } from './pulses.service';
 
-export interface PulsesList {
-  index: number;
-  _id: string;
-  title: string;
-  description: string;
-  timeline: Timeline;
-  assigneesList: Assignee[];
-  assigneesListCount: number;
-  comments: Comments[];
-  pulseMetaId: string;
-  fields: any[];
-  meta: PulsesMeta;
-}
-
-export interface Timeline {
-  begin: string;
-  end: string;
-}
-
-export interface Assignee {
-  _id: string;
-  name: string;
-}
-
-export interface PulsesMeta {
-  addedBy: string;
-  addedOn: string;
-  lastUpdatedBy: string;
-  lastUpdatedOn: string;
-}
-
-export interface Comments {
-  index: number;
-  comment: string;
-  meta: CommentsMeta;
-}
-
-export interface CommentsMeta {
-  addedBy: string;
-  addedOn: string;
-}
-
 @Component({
   selector: 'app-pulses',
   templateUrl: './pulses.component.html',
@@ -93,11 +51,11 @@ export class PulsesComponent implements OnInit {
 
   isFetching = true;
 
-  PULSES_DATA: PulsesList[];
-  dataSourcePulses: MatTableDataSource < PulsesList > ;
+  PULSES_DATA: PulseData[];
+  dataSourcePulses: MatTableDataSource < PulseData > ;
   columnsForPulses = ['index', 'title', 'timeline', 'assigneesListCount', 'todo'];
   columnsToDisplayPulses = ['#', 'Pulse', 'End date', 'Assignees count', ''];
-  expandedElementPulses: PulsesList | null;
+  expandedElementPulses: PulseData | null;
 
   @ViewChild(MatPaginator, {
     static: true
@@ -126,20 +84,15 @@ export class PulsesComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.appInfo.pulses) {
-      this.fillData();
-    } else {
-      this.pulseInfo.getPulses()
-        .then((pulses) => {
-          this.fillData();
-        })
-        .catch((error) => {});
-    }
+    this.pulseInfo.getPulses(this.appInfo.selectedProjectId, this.appInfo.selectedMilestoneId)
+      .then((pulses) => {
+        this.fillData();
+      })
+      .catch((error) => {});
   }
 
   fillData(): void {
-    this.PULSES_DATA = this.appInfo.pulses;
-    this.appInfo.pulses = this.PULSES_DATA;
+    this.PULSES_DATA = this.pulseInfo.pulses;
     this.dataSourcePulses = new MatTableDataSource(this.PULSES_DATA);
     this.dataSourcePulses.paginator = this.paginatorPulses;
     this.dataSourcePulses.sort = this.sortPulses;
@@ -153,9 +106,12 @@ export class PulsesComponent implements OnInit {
     }
   }
 
-  editPulseClick(pulse: PulsesList): void {
+  editPulseClick(pulse: PulseData): void {
     console.log(pulse);
-    this.router.navigate(['/project/project_id/milestone/milestone_id/pulse/pulse_id/edit']);
+    this.router.navigate(['/project/' + this.appInfo.selectedProjectId +
+      '/milestone/' + this.appInfo.selectedMilestoneId +
+      '/pulse/' + pulse.pulseId + '/edit'
+    ]);
   }
 
 }
