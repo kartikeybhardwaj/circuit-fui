@@ -24,7 +24,19 @@ export class MetaProjectsStorageService {
       this.http.get(this.appInfo.constants.urls.getMetaProjects, this.appInfo.httpOptions).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
-            this.metaProjects = [];
+            this.metaProjects = [{
+              metaProjectId: null,
+              index: null,
+              title: 'None',
+              description: '',
+              fields: [],
+              meta: {
+                addedBy: null,
+                addedOn: null,
+                lastUpdatedBy: null,
+                lastUpdatedOn: null
+              }
+            }];
             this.idMapMetaProjects = response.data.idMap;
             response.data.metaProjects.forEach(metaProject => {
               this.metaProjects.push({
