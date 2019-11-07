@@ -21,29 +21,30 @@
     <!-- meta -->
     <mat-form-field class="width-100 mediumMarginTop">
       <mat-label>Meta</mat-label>
-      <mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedProjectMetaId($event)">
-        <mat-option *ngFor="let meta of projectMetas; index as index;" [value]="meta">
+      <mat-select [(ngModel)]="projectMetaId" (selectionChange)="changedProjectMetaId($event)">
+        <mat-option *ngFor="let meta of metaProjectsInfo.metaProjects; index as index;" [value]="meta">
           {{meta.title}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <!-- metas -->
-    <ng-container *ngIf="selectedMeta">
-      <div class="makeRows width-100" *ngIf="selectedMeta.fields.length">
+    <ng-container *ngIf="projectMetaId">
+      <div class="makeRows width-100" *ngIf="projectMetaId.fields.length">
         <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
-          *ngFor="let field of selectedMeta.fields; index as indexField;">
+          *ngFor="let field of projectMetaId.fields; index as indexField;">
           <ng-container *ngIf="field.valueType === 'select'">
             <mat-form-field class="smallMarginTop">
               <mat-label>{{field.key}}</mat-label>
-              <mat-select [(ngModel)]="project.fields[field.key]">
-                <mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">{{value}}
+              <mat-select [(ngModel)]="project.fields[indexField].value">
+                <mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">
+                  {{value}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </ng-container>
           <ng-container *ngIf="field.valueType === 'input'">
             <mat-form-field class="smallMarginTop">
-              <input matInput [(ngModel)]="project.fields[field.key]" [placeholder]="field.key" autocomplete="off"
+              <input matInput [(ngModel)]="project.fields[indexField].value" [placeholder]="field.key" autocomplete="off"
                 type="text" value="">
             </mat-form-field>
           </ng-container>
@@ -63,7 +64,7 @@
           <mat-form-field>
             <mat-label>Role</mat-label>
             <mat-select [(ngModel)]="project.members[indexMember].roleId">
-              <mat-option *ngFor="let role of allRoles; index as indexRole;" [value]="role._id">
+              <mat-option *ngFor="let role of roleInfo.roles; index as indexRole;" [value]="role.roleId">
                 {{role.title}}
               </mat-option>
             </mat-select>
