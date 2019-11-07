@@ -168,6 +168,12 @@ import {
 import {
   RoleStorageService
 } from './roles/roles.service';
+import {
+  MetaProjectsComponent
+} from './meta-projects/meta-projects.component';
+import {
+  MetaProjectsStorageService
+} from './meta-projects/meta-projects.service';
 
 @NgModule({
   declarations: [
@@ -190,7 +196,8 @@ import {
     BlockCalendarComponent,
     HomeComponent,
     UserCalendarComponent,
-    RolesComponent
+    RolesComponent,
+    MetaProjectsComponent
   ],
   imports: [
     BrowserModule,
@@ -231,7 +238,8 @@ import {
     PulseStorageService,
     TravelsStorageService,
     BlockagesStorageService,
-    RoleStorageService
+    RoleStorageService,
+    MetaProjectsStorageService
   ],
   entryComponents: [
     BottomSheetMenu
