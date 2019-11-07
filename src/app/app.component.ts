@@ -17,6 +17,9 @@ import {
 import {
   RoleStorageService
 } from './roles/roles.service';
+import {
+  MetaProjectsStorageService
+} from './meta-projects/meta-projects.service';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +34,7 @@ export class AppComponent implements OnInit {
     public appInfo: AppStorageService,
     private projectInfo: ProjectStorageService,
     private roleInfo: RoleStorageService,
+    private metaProjectInfo: MetaProjectsStorageService,
     private router: Router,
     private http: HttpClient
   ) {}
@@ -41,6 +45,7 @@ export class AppComponent implements OnInit {
         this.roleInfo.getRoles().then((roles) => {
           this.projectInfo.getProjects().then((projects) => {
             this.isSiteLoading = false;
+            this.metaProjectInfo.getMetaProjects();
           }).catch((error) => {
             this.isSiteLoading = false;
             this.appInfo.user = null;
