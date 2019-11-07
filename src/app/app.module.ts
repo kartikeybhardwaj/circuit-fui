@@ -174,6 +174,12 @@ import {
 import {
   MetaProjectsStorageService
 } from './meta-projects/meta-projects.service';
+import {
+  AddProjectPayloadValidator
+} from './json-schema-validatior/add-project';
+import {
+  AddProjectStorageService
+} from './add-project/add-project.service';
 
 @NgModule({
   declarations: [
@@ -239,7 +245,9 @@ import {
     TravelsStorageService,
     BlockagesStorageService,
     RoleStorageService,
-    MetaProjectsStorageService
+    MetaProjectsStorageService,
+    AddProjectStorageService,
+    AddProjectPayloadValidator
   ],
   entryComponents: [
     BottomSheetMenu
