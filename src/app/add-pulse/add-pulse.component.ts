@@ -32,6 +32,21 @@ import {
 import {
   MatChipInputEvent
 } from '@angular/material/chips';
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
+import {
+  AddPulseStorageService
+} from './add-pulse.service';
+import {
+  MetaPulsesStorageService
+} from '../meta-pulses/meta-pulses.service';
+import {
+  ProjectStorageService
+} from '../projects/projects.service';
+import {
+  MilestoneStorageService
+} from '../milestones/milestones.service';
 
 @Component({
   selector: 'app-add-pulse',
@@ -39,12 +54,25 @@ import {
   styleUrls: ['./add-pulse.component.css']
 })
 export class AddPulseComponent implements OnInit {
-  pulse: any = {};
 
-  pulseMetas: any = [];
-  selectedMeta: any = {};
-
+  pulse: AddPulseData = {
+    title: '',
+    description: '',
+    timeline: {
+      begin: null,
+      end: null
+    },
+    color: 'blue',
+    assignees: [],
+    pulseMetaId: null,
+    fields: [],
+    linkedProjectId: null,
+    linkedMilestoneId: null
+  };
+  selectedPulseMeta: any = null;
+  timeline = null;
   isAdding = false;
+  projectMembersMap: any = {};
 
   selectableAssignee = true;
   removableAssignee = true;
@@ -52,7 +80,8 @@ export class AddPulseComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   assigneeCtrl = new FormControl();
   filteredAssignees: Observable < string[] > ;
-  allAssignees: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  allAssignees: string[] = [];
+  selectedAssignees: string[] = [];
 
   timeHours: string[] = [
     '00:00', '00:30', '01:00', '01:30',
@@ -68,7 +97,6 @@ export class AddPulseComponent implements OnInit {
     '20:00', '20:30', '21:00', '21:30',
     '22:00', '22:30', '23:00', '23:30'
   ];
-
   startTime = '09:30';
   endTime = '17:30';
 
@@ -81,8 +109,13 @@ export class AddPulseComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
+    public metaPulseInfo: MetaPulsesStorageService,
+    private addPulseInfo: AddPulseStorageService,
+    private projectInfo: ProjectStorageService,
+    private milestoneInfo: MilestoneStorageService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     const activatedRouteSnapshot = activatedRoute.snapshot;
     if (activatedRouteSnapshot.params &&
@@ -95,34 +128,37 @@ export class AddPulseComponent implements OnInit {
     appInfo.otherHeader = 'Add Pulse';
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
+  }
+
+  ngOnInit() {
+    this.fillAssignees();
+  }
+
+  fillAssignees(): void {
+    this.allAssignees = [];
+    this.projectInfo.projects.some(project => {
+      if (project.projectId === this.appInfo.selectedProjectId) {
+        project.members.forEach(member => {
+          this.projectMembersMap[this.projectInfo.idMapProjects[member.userId]] = member.userId;
+          this.allAssignees.push(this.projectInfo.idMapProjects[member.userId]);
+        });
+        return true;
+      }
+    });
     this.filteredAssignees = this.assigneeCtrl.valueChanges.pipe(
       startWith(null),
       map((thisAssignee: string | null) => thisAssignee ? this._filter(thisAssignee) : this.allAssignees.slice()));
   }
 
-  ngOnInit() {
-    this.pulse = {
-      title: '',
-      description: '',
-      timeline: {},
-      pulseMetaId: '',
-      fields: {},
-      assignees: [],
-      meta: {
-        addedBy: '1234567890',
-        addedOn: new Date(),
-        lastUpdatedBy: '1234567890',
-        lastUpdatedOn: new Date()
-      }
-    };
-    this.getPulseMetas().then(
-      (response) => {},
-      (error) => {}
-    );
-  }
-
-  changedPulseMetaId(event: any): void {
-    this.pulse.fields = {};
+  changedPulseMeta(event: any): void {
+    this.pulse.fields = [];
+    event.value.fields.forEach(field => {
+      this.pulse.fields.push({
+        key: field.key,
+        value: null
+      });
+    });
+    this.pulse.pulseMetaId = event.value.metaPulseId;
   }
 
   addAssignee(event: MatChipInputEvent): void {
@@ -132,8 +168,8 @@ export class AddPulseComponent implements OnInit {
       const input = event.input;
       const value = event.value.trim();
       // Add our assignee
-      if (this.allAssignees.indexOf(value) !== -1 && this.pulse.assignees.indexOf(value) === -1) {
-        this.pulse.assignees.push(value);
+      if (this.allAssignees.indexOf(value) !== -1 && this.selectedAssignees.indexOf(value) === -1) {
+        this.selectedAssignees.push(value);
       }
       // Reset the input value
       if (input) {
@@ -144,16 +180,16 @@ export class AddPulseComponent implements OnInit {
   }
 
   removeAssignee(assignee: string): void {
-    const index = this.pulse.assignees.indexOf(assignee);
+    const index = this.selectedAssignees.indexOf(assignee);
     if (index >= 0) {
-      this.pulse.assignees.splice(index, 1);
+      this.selectedAssignees.splice(index, 1);
     }
   }
 
   selectedAssignee(event: MatAutocompleteSelectedEvent): void {
     const value = event.option.viewValue;
-    if (this.allAssignees.indexOf(value) !== -1 && this.pulse.assignees.indexOf(value) === -1) {
-      this.pulse.assignees.push(value);
+    if (this.allAssignees.indexOf(value) !== -1 && this.selectedAssignees.indexOf(value) === -1) {
+      this.selectedAssignees.push(value);
       this.assigneeInput.nativeElement.value = '';
       this.assigneeCtrl.setValue(null);
     }
@@ -164,59 +200,56 @@ export class AddPulseComponent implements OnInit {
     return this.allAssignees.filter(assignee => assignee.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  getPulseMetas(): any {
-    return new Promise((resolve, reject) => {
-      const pulseMetas = [{
-        _id: '1234567890',
-        title: 'None',
-        description: 'nothing in here',
-        fields: []
-      }, {
-        _id: '1234567890',
-        title: 'meta 1',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }, {
-        _id: '0987654321',
-        title: 'meta 2',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }];
-      this.pulseMetas = pulseMetas;
-      this.selectedMeta = this.pulseMetas[0];
-      resolve(true);
-    });
+  createReqObject(): AddPulseData {
+    if (this.timeline && this.timeline.begin && this.timeline.end) {
+      this.pulse.timeline.begin = this.timeline.begin.toString();
+      this.pulse.timeline.begin = this.pulse.timeline.begin.substr(0, 16) + this.startTime + this.pulse.timeline.begin.substring(21);
+      this.pulse.timeline.begin = new Date(this.pulse.timeline.begin).toISOString();
+      this.pulse.timeline.end = this.timeline.end.toString();
+      this.pulse.timeline.end = this.pulse.timeline.end.substr(0, 16) + this.endTime + this.pulse.timeline.begin.substring(21);
+      this.pulse.timeline.end = new Date(this.pulse.timeline.end).toISOString();
+      this.pulse.linkedProjectId = this.appInfo.selectedProjectId;
+      this.pulse.linkedMilestoneId = this.appInfo.selectedMilestoneId;
+      this.pulse.assignees = [];
+      this.selectedAssignees.forEach(assignee => {
+        this.pulse.assignees.push(this.projectMembersMap[assignee]);
+      });
+    }
+    return this.pulse;
   }
 
   addPulse(): void {
-    this.isAdding = true;
-    setTimeout(() => {
-      this.isAdding = false;
-    }, 3000);
+    const reqPayload = this.createReqObject();
+    const afterValidateReqPayload = this.addPulseInfo.validateRequest(reqPayload);
+    if (!afterValidateReqPayload[0]) {
+      this.openSnackBar(afterValidateReqPayload[1], null);
+    } else {
+      this.isAdding = true;
+      this.addPulseInfo.addPulse(reqPayload)
+        .then((resp: [boolean, string, any]) => {
+          this.isAdding = false;
+          this.openSnackBar(resp[1], null);
+          if (resp[0]) {
+            this.router.navigate([
+              '/projects/' + this.appInfo.selectedProjectId +
+              '/milestones/' + this.appInfo.selectedMilestoneId +
+              '/pulses'
+            ]);
+          }
+        })
+        .catch((error: [boolean, string, any]) => {
+          this.isAdding = false;
+          this.openSnackBar(error[1], null);
+        });
+    }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'center', // left, right, start, end, center
+      verticalPosition: 'bottom', // top, bottom
+      duration: 3500
+    });
   }
 
 }
