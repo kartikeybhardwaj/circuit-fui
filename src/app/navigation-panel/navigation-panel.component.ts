@@ -38,11 +38,20 @@ export class NavigationPanelComponent implements OnInit {
   addBlocks(): void {
     if (this.appInfo.isNavigationAddTextVisible) {
       if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addProject) {
-        this.router.navigate(['/project/add']);
+        this.router.navigate([
+          '/projects/add'
+        ]);
       } else if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addMilestone) {
-        this.router.navigate(['/project/project_id/milestone/add']);
+        this.router.navigate([
+          '/projects/' + this.appInfo.selectedProjectId +
+          '/milestone/add'
+        ]);
       } else if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addPulse) {
-        this.router.navigate(['/project/project_id/milestone/milestone_id/pulse/add']);
+        this.router.navigate([
+          '/projects/' + this.appInfo.selectedProjectId +
+          '/milestones/' + this.appInfo.selectedMilestoneId +
+          '/pulse/add'
+        ]);
       }
     }
   }
@@ -69,9 +78,9 @@ export class BottomSheetMenu {
     private router: Router
   ) {}
 
-  gotoMilestone(projectIndex: any): void {
+  gotoMilestone(projectId: string): void {
     this.dissmissBottomSheet();
-    this.router.navigate(['/projects/project_id/milestones']);
+    this.router.navigate(['/projects/' + projectId + '/milestones']);
   }
 
   dissmissBottomSheet(): void {
