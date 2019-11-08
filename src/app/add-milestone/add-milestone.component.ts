@@ -9,6 +9,15 @@ import {
   Router,
   ActivatedRoute
 } from '@angular/router';
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
+import {
+  AddMilestoneStorageService
+} from './add-milestone.service';
+import {
+  MetaMilestonesStorageService
+} from '../meta-milestones/meta-milestones.service';
 
 @Component({
   selector: 'app-add-milestone',
@@ -16,19 +25,29 @@ import {
   styleUrls: ['./add-milestone.component.css']
 })
 export class AddMilestoneComponent implements OnInit {
-  milestone: any = {};
 
-  milestoneMetas: any = [];
-  selectedMeta: any = {};
-
+  milestone: AddMilestoneData = {
+    title: '',
+    description: '',
+    timeline: {
+      begin: null,
+      end: null
+    },
+    milestoneMetaId: null,
+    fields: [],
+    linkedProjectId: null
+  };
+  selectedMilestoneMeta: any = null;
+  timeline = null;
   isAdding = false;
-
-  timeline: any = '';
 
   constructor(
     public appInfo: AppStorageService,
+    public metaMilestonesInfo: MetaMilestonesStorageService,
+    private addMilestoneInfo: AddMilestoneStorageService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     const activatedRouteSnapshot = activatedRoute.snapshot;
     if (activatedRouteSnapshot.params && activatedRouteSnapshot.params.projectId) {
@@ -41,83 +60,56 @@ export class AddMilestoneComponent implements OnInit {
     appInfo.isNavigationAddTextVisible = false;
   }
 
-  ngOnInit() {
-    this.milestone = {
-      title: '',
-      description: '',
-      timeline: {},
-      milestoneMetaId: '',
-      fields: {},
-      meta: {
-        addedBy: '1234567890',
-        addedOn: new Date(),
-        lastUpdatedBy: '1234567890',
-        lastUpdatedOn: new Date()
-      }
-    };
-    this.getMilestoneMetas().then(
-      (response) => {},
-      (error) => {}
-    );
-  }
+  ngOnInit() {}
 
-  changedMilestoneMetaId(event: any): void {
-    this.milestone.fields = {};
-  }
-
-  getMilestoneMetas(): any {
-    return new Promise((resolve, reject) => {
-      const milestoneMetas = [{
-        _id: '1234567890',
-        title: 'None',
-        description: 'nothing in here',
-        fields: []
-      }, {
-        _id: '1234567890',
-        title: 'meta 1',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }, {
-        _id: '0987654321',
-        title: 'meta 2',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }];
-      this.milestoneMetas = milestoneMetas;
-      this.selectedMeta = this.milestoneMetas[0];
-      resolve(true);
+  changedMilestoneMeta(event: any): void {
+    this.milestone.fields = [];
+    event.value.fields.forEach(field => {
+      this.milestone.fields.push({
+        key: field.key,
+        value: null
+      });
     });
+    this.milestone.milestoneMetaId = event.value.metaMilestoneId;
+  }
+
+  createReqObject(): AddMilestoneData {
+    if (this.timeline && this.timeline.begin && this.timeline.end) {
+      this.milestone.timeline.begin = this.timeline.begin.toISOString();
+      this.milestone.timeline.end = this.timeline.end.toISOString();
+      this.milestone.linkedProjectId = this.appInfo.selectedProjectId;
+    }
+    return this.milestone;
   }
 
   addMilestone(): void {
-    this.isAdding = true;
-    setTimeout(() => {
-      this.isAdding = false;
-    }, 3000);
+    const reqPayload = this.createReqObject();
+    const afterValidateReqPayload = this.addMilestoneInfo.validateRequest(reqPayload);
+    if (!afterValidateReqPayload[0]) {
+      this.openSnackBar(afterValidateReqPayload[1], null);
+    } else {
+      this.isAdding = true;
+      this.addMilestoneInfo.addMilestone(reqPayload)
+        .then((resp: [boolean, string, any]) => {
+          this.isAdding = false;
+          this.openSnackBar(resp[1], null);
+          if (resp[0]) {
+            this.router.navigate(['/projects/' + this.appInfo.selectedProjectId + '/milestones/' + resp[2]._id + '/pulses']);
+          }
+        })
+        .catch((error: [boolean, string, any]) => {
+          this.isAdding = false;
+          this.openSnackBar(error[1], null);
+        });
+    }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'center', // left, right, start, end, center
+      verticalPosition: 'bottom', // top, bottom
+      duration: 3500
+    });
   }
 
 }
