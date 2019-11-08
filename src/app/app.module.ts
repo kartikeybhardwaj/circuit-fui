@@ -180,6 +180,30 @@ import {
 import {
   AddProjectStorageService
 } from './add-project/add-project.service';
+import {
+  MetaMilestonesComponent
+} from './meta-milestones/meta-milestones.component';
+import {
+  MetaPulsesComponent
+} from './meta-pulses/meta-pulses.component';
+import {
+  MetaMilestonesStorageService
+} from './meta-milestones/meta-milestones.service';
+import {
+  MetaPulsesStorageService
+} from './meta-pulses/meta-pulses.service';
+import {
+  AddMilestonePayloadValidator
+} from './json-schema-validatior/add-milestone';
+import {
+  AddPulsePayloadValidator
+} from './json-schema-validatior/add-pulse';
+import {
+  AddMilestoneStorageService
+} from './add-milestone/add-milestone.service';
+import {
+  AddPulseStorageService
+} from './add-pulse/add-pulse.service';
 
 @NgModule({
   declarations: [
@@ -203,7 +227,9 @@ import {
     HomeComponent,
     UserCalendarComponent,
     RolesComponent,
-    MetaProjectsComponent
+    MetaProjectsComponent,
+    MetaMilestonesComponent,
+    MetaPulsesComponent
   ],
   imports: [
     BrowserModule,
@@ -246,8 +272,14 @@ import {
     BlockagesStorageService,
     RoleStorageService,
     MetaProjectsStorageService,
+    MetaMilestonesStorageService,
+    MetaPulsesStorageService,
     AddProjectStorageService,
-    AddProjectPayloadValidator
+    AddMilestoneStorageService,
+    AddPulseStorageService,
+    AddProjectPayloadValidator,
+    AddMilestonePayloadValidator,
+    AddPulsePayloadValidator
   ],
   entryComponents: [
     BottomSheetMenu
