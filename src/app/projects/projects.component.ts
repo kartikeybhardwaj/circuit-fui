@@ -96,12 +96,10 @@ export class ProjectsComponent implements OnInit {
   }
 
   editProjectClick(project: ProjectData): void {
-    console.log(project);
-    this.router.navigate(['/project/project_id/edit']);
+    this.router.navigate(['/project/' + project.projectId + '/edit']);
   }
 
   gotoMilestoneClick(project: ProjectData): void {
-    console.log(project);
     this.router.navigate(['/projects/' + project.projectId + '/milestones']);
   }
 

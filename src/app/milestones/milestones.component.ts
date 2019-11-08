@@ -124,7 +124,7 @@ export class MilestonesComponent implements OnInit {
     this.snackBar.open(message, action, {
       horizontalPosition: 'center', // left, right, start, end, center
       verticalPosition: 'bottom', // top, bottom
-      duration: 5000
+      duration: 3500
     });
   }
 

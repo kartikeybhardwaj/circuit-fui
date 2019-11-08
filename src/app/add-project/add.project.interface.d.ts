@@ -9,6 +9,7 @@ declare interface AddProjectData {
 
 declare interface AddProjectMemberData {
   username: string;
+  displayname: string;
   roleId: string;
 }
 

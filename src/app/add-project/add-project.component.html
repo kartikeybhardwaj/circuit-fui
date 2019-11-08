@@ -21,17 +21,17 @@
     <!-- meta -->
     <mat-form-field class="width-100 mediumMarginTop">
       <mat-label>Meta</mat-label>
-      <mat-select [(ngModel)]="projectMetaId" (selectionChange)="changedProjectMetaId($event)">
+      <mat-select [(ngModel)]="selectedProjectMetaId" (selectionChange)="changedProjectMetaId($event)">
         <mat-option *ngFor="let meta of metaProjectsInfo.metaProjects; index as index;" [value]="meta">
           {{meta.title}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <!-- metas -->
-    <ng-container *ngIf="projectMetaId">
-      <div class="makeRows width-100" *ngIf="projectMetaId.fields.length">
+    <ng-container *ngIf="selectedProjectMetaId">
+      <div class="makeRows width-100" *ngIf="selectedProjectMetaId.fields.length">
         <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
-          *ngFor="let field of projectMetaId.fields; index as indexField;">
+          *ngFor="let field of selectedProjectMetaId.fields; index as indexField;">
           <ng-container *ngIf="field.valueType === 'select'">
             <mat-form-field class="smallMarginTop">
               <mat-label>{{field.key}}</mat-label>
