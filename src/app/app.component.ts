@@ -20,6 +20,12 @@ import {
 import {
   MetaProjectsStorageService
 } from './meta-projects/meta-projects.service';
+import {
+  MetaMilestonesStorageService
+} from './meta-milestones/meta-milestones.service';
+import {
+  MetaPulsesStorageService
+} from './meta-pulses/meta-pulses.service';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +41,8 @@ export class AppComponent implements OnInit {
     private projectInfo: ProjectStorageService,
     private roleInfo: RoleStorageService,
     private metaProjectInfo: MetaProjectsStorageService,
+    private metaMilestoneInfo: MetaMilestonesStorageService,
+    private metaPulseInfo: MetaPulsesStorageService,
     private router: Router,
     private http: HttpClient
   ) {}
@@ -46,6 +54,8 @@ export class AppComponent implements OnInit {
           this.projectInfo.getProjects().then((projects) => {
             this.isSiteLoading = false;
             this.metaProjectInfo.getMetaProjects();
+            this.metaMilestoneInfo.getMetaMilestones();
+            this.metaPulseInfo.getMetaPulses();
           }).catch((error) => {
             this.isSiteLoading = false;
             this.appInfo.user = null;
