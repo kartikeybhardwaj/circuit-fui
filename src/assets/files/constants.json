@@ -7,7 +7,11 @@
         "getMilestones": "http://localhost:3200/get-milestones",
         "getPulses": "http://localhost:3200/get-pulses",
         "getMetaProjects": "http://localhost:3200/get-meta-projects",
-        "addProject": "http://localhost:3200/add-project"
+        "getMetaMilestones": "http://localhost:3200/get-meta-milestones",
+        "getMetaPulses": "http://localhost:3200/get-meta-pulses",
+        "addProject": "http://localhost:3200/add-project",
+        "addMilestone": "http://localhost:3200/add-milestone",
+        "addPulse": "http://localhost:3200/add-pulse"
     },
     "buildingBlocks": {
         "icons": {
