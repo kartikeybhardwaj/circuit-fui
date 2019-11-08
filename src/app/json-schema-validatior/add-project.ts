@@ -12,7 +12,7 @@ export class AddProjectPayloadValidator {
     properties: {
       title: {
         type: 'string',
-        pattern: '^[0-9a-zA-Z\-\ ]*$',
+        pattern: '^[0-9a-zA-Z\\-\\ ]*$',
         minLength: 4,
         maxLength: 20
       },
@@ -38,7 +38,7 @@ export class AddProjectPayloadValidator {
           properties: {
             username: {
               type: 'string',
-              pattern: '^[0-9a-zA-Z\.\_]*$',
+              pattern: '^[0-9a-zA-Z\\.\\_]*$',
               minLength: 4
             },
             displayname: {
