@@ -36,8 +36,7 @@ export class AddProjectComponent implements OnInit {
     projectMetaId: null,
     fields: [],
   };
-
-  selectedProjectMetaId: any = null;
+  selectedProjectMeta: any = null;
   isAdding = false;
 
   constructor(
@@ -56,18 +55,9 @@ export class AddProjectComponent implements OnInit {
     appInfo.isNavigationAddTextVisible = false;
   }
 
-  ngOnInit() {
-    this.project = {
-      title: '',
-      description: '',
-      visibility: 'internal',
-      members: [],
-      projectMetaId: null,
-      fields: [],
-    };
-  }
+  ngOnInit() {}
 
-  changedProjectMetaId(event: any): void {
+  changedProjectMeta(event: any): void {
     this.project.fields = [];
     event.value.fields.forEach(field => {
       this.project.fields.push({
@@ -105,17 +95,17 @@ export class AddProjectComponent implements OnInit {
     } else {
       this.isAdding = true;
       this.addProjectInfo.addProject(reqPayload)
-      .then((resp: [boolean, string, any]) => {
-        this.isAdding = false;
-        this.openSnackBar(resp[1], null);
-        if (resp[0]) {
-          this.router.navigate(['/projects/' + resp[2]._id + '/milestones']);
-        }
-      })
-      .catch((error: [boolean, string, any]) => {
-        this.isAdding = false;
-        this.openSnackBar(error[1], null);
-      });
+        .then((resp: [boolean, string, any]) => {
+          this.isAdding = false;
+          this.openSnackBar(resp[1], null);
+          if (resp[0]) {
+            this.router.navigate(['/projects/' + resp[2]._id + '/milestones']);
+          }
+        })
+        .catch((error: [boolean, string, any]) => {
+          this.isAdding = false;
+          this.openSnackBar(error[1], null);
+        });
     }
   }
 
