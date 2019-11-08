@@ -8,6 +8,18 @@ import {
 import {
   Router
 } from '@angular/router';
+import {
+  MetaProjectsStorageService
+} from '../meta-projects/meta-projects.service';
+import {
+  RoleStorageService
+} from '../roles/roles.service';
+import {
+  AddProjectStorageService
+} from './add-project.service';
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-project',
@@ -16,19 +28,25 @@ import {
 })
 export class AddProjectComponent implements OnInit {
 
-  project: any = {};
+  project: AddProjectData = {
+    title: '',
+    description: '',
+    visibility: 'internal',
+    members: [],
+    projectMetaId: null,
+    fields: [],
+  };
 
-  projectMetas: any = [];
-  selectedMeta: any = {};
-
-  allRoles: any = [];
-  selectedRole: any = {};
-
+  selectedProjectMetaId: any = null;
   isAdding = false;
 
   constructor(
     public appInfo: AppStorageService,
-    private router: Router
+    public roleInfo: RoleStorageService,
+    public metaProjectsInfo: MetaProjectsStorageService,
+    private addProjectInfo: AddProjectStorageService,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     appInfo.selectedProjectId = null;
     appInfo.selectedMilestoneId = null;
@@ -43,129 +61,27 @@ export class AddProjectComponent implements OnInit {
       title: '',
       description: '',
       visibility: 'internal',
-      projectMetaId: '',
-      fields: {},
       members: [],
-      meta: {
-        addedBy: '1234567890',
-        addedOn: new Date(),
-        lastUpdatedBy: '1234567890',
-        lastUpdatedOn: new Date()
-      }
+      projectMetaId: null,
+      fields: [],
     };
-    this.getProjectMetas().then(
-      (response) => {},
-      (error) => {}
-    );
-    this.getRoles().then(
-      (response) => {},
-      (error) => {}
-    );
   }
 
   changedProjectMetaId(event: any): void {
-    this.project.fields = {};
-  }
-
-  getProjectMetas(): any {
-    return new Promise((resolve, reject) => {
-      const projectMetas = [{
-        _id: '1234567890',
-        title: 'None',
-        description: 'nothing in here',
-        fields: []
-      }, {
-        _id: '1234567890',
-        title: 'meta 1',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }, {
-        _id: '0987654321',
-        title: 'meta 2',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }];
-      this.projectMetas = projectMetas;
-      this.selectedMeta = this.projectMetas[0];
-      resolve(true);
+    this.project.fields = [];
+    event.value.fields.forEach(field => {
+      this.project.fields.push({
+        key: field.key,
+        value: null
+      });
     });
-  }
-
-  getRoles(): any {
-    return new Promise((resolve, reject) => {
-      const roles = [{
-        _id: '1234567890',
-        title: 'Super User',
-        description: 'Super User who can do anything.',
-        isSuperUser: true,
-        canModifyUsersRole: true,
-        canModifyLocations: true,
-        canModifyProjects: true,
-        canModifyMilestones: true,
-        canModifyPulses: true
-      }, {
-        _id: '1234567890',
-        title: 'Project Manager',
-        description: 'Just some designation',
-        isSuperUser: false,
-        canModifyUsersRole: true,
-        canModifyLocations: true,
-        canModifyProjects: true,
-        canModifyMilestones: true,
-        canModifyPulses: true
-      }, {
-        _id: '1234567890',
-        title: 'Project Member',
-        description: 'Just some designation',
-        isSuperUser: false,
-        canModifyUsersRole: false,
-        canModifyLocations: true,
-        canModifyProjects: false,
-        canModifyMilestones: false,
-        canModifyPulses: true
-      }, {
-        _id: '1234567890',
-        title: 'That one guy',
-        description: 'Just some designation',
-        isSuperUser: false,
-        canModifyUsersRole: false,
-        canModifyLocations: true,
-        canModifyProjects: false,
-        canModifyMilestones: false,
-        canModifyPulses: false
-      }];
-      this.allRoles = roles;
-      resolve(true);
-    });
+    this.project.projectMetaId = event.value.metaProjectId;
   }
 
   addMember(): void {
     this.project.members.push({
       username: '',
+      displayname: '',
       roleId: ''
     });
   }
@@ -174,11 +90,41 @@ export class AddProjectComponent implements OnInit {
     this.project.members.splice(indexMember, 1);
   }
 
+  createReqObject(): AddProjectData {
+    this.project.members.forEach(member => {
+      member.displayname = member.username;
+    });
+    return this.project;
+  }
+
   addProject(): void {
-    this.isAdding = true;
-    setTimeout(() => {
-      this.isAdding = false;
-    }, 2500);
+    const reqPayload = this.createReqObject();
+    const afterValidateReqPayload = this.addProjectInfo.validateRequest(reqPayload);
+    if (!afterValidateReqPayload[0]) {
+      this.openSnackBar(afterValidateReqPayload[1], null);
+    } else {
+      this.isAdding = true;
+      this.addProjectInfo.addProject(reqPayload)
+      .then((resp: [boolean, string, any]) => {
+        this.isAdding = false;
+        this.openSnackBar(resp[1], null);
+        if (resp[0]) {
+          this.router.navigate(['/projects/' + resp[2]._id + '/milestones']);
+        }
+      })
+      .catch((error: [boolean, string, any]) => {
+        this.isAdding = false;
+        this.openSnackBar(error[1], null);
+      });
+    }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'center', // left, right, start, end, center
+      verticalPosition: 'bottom', // top, bottom
+      duration: 3500
+    });
   }
 
 }
