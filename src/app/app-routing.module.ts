@@ -70,10 +70,10 @@ const routes: Routes = [{
   path: 'project/add',
   component: AddProjectComponent
 }, {
-  path: 'project/:projectId/milestone/add',
+  path: 'projects/:projectId/milestone/add',
   component: AddMilestoneComponent
 }, {
-  path: 'project/:projectId/milestone/:milestoneId/pulse/add',
+  path: 'projects/:projectId/milestones/:milestoneId/pulse/add',
   component: AddPulseComponent
 }, {
   path: 'project/:projectId/edit',
