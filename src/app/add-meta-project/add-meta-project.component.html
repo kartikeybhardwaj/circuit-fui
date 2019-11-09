@@ -1,0 +1,66 @@
+<div class="contentCenter">
+  <div class="headerText colorBright smallMarginTop">Add meta project</div>
+  <mat-card class="width-100 mat-elevation-z8 smallMarginTop">
+    <!-- title -->
+    <mat-form-field class="width-100">
+      <input matInput [(ngModel)]="metaProject.title" placeholder="Title" autocomplete="off" type="text" value="">
+    </mat-form-field>
+    <!-- description -->
+    <mat-form-field class="width-100">
+      <textarea matInput cdkTextareaAutosize [(ngModel)]="metaProject.description" placeholder="Description"
+        autocomplete="off" type="text" value=""></textarea>
+    </mat-form-field>
+    <!-- fields -->
+    <div class="width-100 colorBright smallMarginTop">
+      <label><strong>Fields</strong>:</label>
+      <div class="makeRows" *ngIf="metaProject.fields.length">
+        <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
+          *ngFor="let field of metaProject.fields; index as indexMeta;">
+          <mat-form-field>
+            <input matInput [(ngModel)]="field.key" placeholder="Key" autocomplete="off" type="text" value="">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Value type</mat-label>
+            <mat-select [(ngModel)]="field.valueType" (selectionChange)="changedFieldValueType($event, field)">
+              <mat-option *ngFor="let valueType of valueTypes; index as indexValueType;" [value]="valueType">
+                {{valueType}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="width-100" *ngIf="field.valueType === 'input'">
+            <input matInput [(ngModel)]="field.value" placeholder="Value hint" autocomplete="off" type="text" value="">
+          </mat-form-field>
+          <mat-form-field class="width-100" *ngIf="field.valueType === 'select'">
+            <mat-chip-list #chipValue>
+              <mat-chip *ngFor="let value of field.value" [selectable]="selectable" [removable]="removable"
+                (removed)="removeValue(field, value)">
+                {{value}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input placeholder="Values" [matChipInputFor]="chipValue"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addValue($event, field)">
+            </mat-chip-list>
+          </mat-form-field>
+          <button mat-stroked-button color="warn" (click)="deleteField(indexMeta)"
+            [disabled]="metaProject.fields.length === 1">
+            Remove
+          </button>
+        </mat-card>
+      </div>
+      <button mat-button (click)="addField()" [ngClass]="metaProject.fields.length === 0 ? '' : 'smallMarginTop'">
+        Add another field
+      </button>
+    </div>
+    <!-- add -->
+    <div class="smallMarginTop">
+      <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isAdding"
+        (click)="addMetaProject()">
+        Add meta project
+      </button>
+      <mat-progress-spinner *ngIf="isAdding" class="inlineBlock smallMarginLeft floatLeft" color="primary"
+        mode="indeterminate" [diameter]="36">
+      </mat-progress-spinner>
+    </div>
+  </mat-card>
+</div>
