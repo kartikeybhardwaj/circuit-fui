@@ -35,6 +35,15 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <!-- color -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <mat-label>Color:</mat-label>
+      <mat-select [(ngModel)]="pulse.color">
+        <mat-option *ngFor="let color of colors; index as index;" [value]="color">
+          {{color}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <!-- meta -->
     <mat-form-field class="width-100 smallMarginTop">
       <mat-label>Meta</mat-label>

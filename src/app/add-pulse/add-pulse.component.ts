@@ -83,6 +83,10 @@ export class AddPulseComponent implements OnInit {
   allAssignees: string[] = [];
   selectedAssignees: string[] = [];
 
+  colors = [
+    'blue', 'purple',
+    'red', 'black'
+  ];
   timeHours: string[] = [
     '00:00', '00:30', '01:00', '01:30',
     '02:00', '02:30', '03:00', '03:30',
