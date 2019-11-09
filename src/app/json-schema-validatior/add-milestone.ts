@@ -124,7 +124,6 @@ export class AddMilestonePayloadValidator {
     const validate = ajv.compile(this.schema);
     const valid = validate(milestone);
     if (!valid) {
-      console.log(validate.errors[0]);
       message = this.getUserlikeErrorMessage(validate.errors[0]);
     } else {
       success = true;

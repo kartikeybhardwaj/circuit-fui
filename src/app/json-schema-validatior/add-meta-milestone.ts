@@ -136,7 +136,6 @@ export class AddMetaMilestonePayloadValidator {
     const validate = ajv.compile(this.schema);
     const valid = validate(metaMilestone);
     if (!valid) {
-      console.log(validate.errors[0]);
       message = this.getUserlikeErrorMessage(validate.errors[0]);
     } else {
       success = true;

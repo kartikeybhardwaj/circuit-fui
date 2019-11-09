@@ -136,7 +136,6 @@ export class AddMetaProjectPayloadValidator {
     const validate = ajv.compile(this.schema);
     const valid = validate(metaProject);
     if (!valid) {
-      console.log(validate.errors[0]);
       message = this.getUserlikeErrorMessage(validate.errors[0]);
     } else {
       success = true;
