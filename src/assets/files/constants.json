@@ -9,6 +9,9 @@
         "getMetaProjects": "http://localhost:3200/get-meta-projects",
         "getMetaMilestones": "http://localhost:3200/get-meta-milestones",
         "getMetaPulses": "http://localhost:3200/get-meta-pulses",
+        "addMetaProject": "http://localhost:3200/add-meta-project",
+        "addMetaMilestone": "http://localhost:3200/add-meta-milestone",
+        "addMetaPulse": "http://localhost:3200/add-meta-pulse",
         "addProject": "http://localhost:3200/add-project",
         "addMilestone": "http://localhost:3200/add-milestone",
         "addPulse": "http://localhost:3200/add-pulse"
