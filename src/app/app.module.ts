@@ -204,6 +204,33 @@ import {
 import {
   AddPulseStorageService
 } from './add-pulse/add-pulse.service';
+import {
+  AddMetaProjectComponent
+} from './add-meta-project/add-meta-project.component';
+import {
+  AddMetaMilestoneComponent
+} from './add-meta-milestone/add-meta-milestone.component';
+import {
+  AddMetaPulseComponent
+} from './add-meta-pulse/add-meta-pulse.component';
+import {
+  AddMetaProjectPayloadValidator
+} from './json-schema-validatior/add-meta-project';
+import {
+  AddMetaMilestonePayloadValidator
+} from './json-schema-validatior/add-meta-milestone';
+import {
+  AddMetaPulsePayloadValidator
+} from './json-schema-validatior/add-meta-pulse';
+import {
+  AddMetaProjectStorageService
+} from './add-meta-project/add-meta-project.service';
+import {
+  AddMetaMilestoneStorageService
+} from './add-meta-milestone/add-meta-milestone.service';
+import {
+  AddMetaPulseStorageService
+} from './add-meta-pulse/add-meta-pulse.service';
 
 @NgModule({
   declarations: [
@@ -229,7 +256,10 @@ import {
     RolesComponent,
     MetaProjectsComponent,
     MetaMilestonesComponent,
-    MetaPulsesComponent
+    MetaPulsesComponent,
+    AddMetaProjectComponent,
+    AddMetaMilestoneComponent,
+    AddMetaPulseComponent
   ],
   imports: [
     BrowserModule,
@@ -277,9 +307,15 @@ import {
     AddProjectStorageService,
     AddMilestoneStorageService,
     AddPulseStorageService,
+    AddMetaProjectStorageService,
+    AddMetaMilestoneStorageService,
+    AddMetaPulseStorageService,
     AddProjectPayloadValidator,
     AddMilestonePayloadValidator,
-    AddPulsePayloadValidator
+    AddPulsePayloadValidator,
+    AddMetaProjectPayloadValidator,
+    AddMetaMilestonePayloadValidator,
+    AddMetaPulsePayloadValidator
   ],
   entryComponents: [
     BottomSheetMenu
