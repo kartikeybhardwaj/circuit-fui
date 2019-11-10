@@ -43,9 +43,9 @@ export class AddPulsePayloadValidator {
         type: 'string',
         enum: [
           'blue',
-          'purple',
-          'red',
-          'black'
+          'black',
+          'green',
+          'red'
         ]
       },
       assignees: {
