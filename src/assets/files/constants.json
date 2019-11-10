@@ -14,7 +14,8 @@
         "addMetaPulse": "http://localhost:3200/add-meta-pulse",
         "addProject": "http://localhost:3200/add-project",
         "addMilestone": "http://localhost:3200/add-milestone",
-        "addPulse": "http://localhost:3200/add-pulse"
+        "addPulse": "http://localhost:3200/add-pulse",
+        "getMyPulses": "http://localhost:3200/get-my-pulses"
     },
     "buildingBlocks": {
         "icons": {
