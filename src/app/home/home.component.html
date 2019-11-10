@@ -3,11 +3,11 @@
     [diameter]="24">
   </mat-progress-spinner>
   <full-calendar *ngIf="!homeInfo.isFetching && homeInfo.isFetchingSuccess" class="width-100 smallMarginTop"
-    defaultView="dayGridMonth" [header]="homeInfo.calendarHeader" [weekends]="homeInfo.calendarWeekends"
-    [weekNumbers]="homeInfo.calendarWeekNumbers" [selectable]="homeInfo.calendarSelectable"
-    [businessHours]="homeInfo.calendarBusinessHours" [nowIndicator]="homeInfo.calendarNowIndicator"
-    [eventLimit]="homeInfo.calendarEventLimit" [editable]="homeInfo.calendarEditable"
-    [plugins]="homeInfo.calendarPlugins" [events]="homeInfo.calendarEvents" (eventClick)="pulseClick($event)"
+    defaultView="dayGridMonth" [header]="calendarHeader" [weekends]="calendarWeekends"
+    [weekNumbers]="calendarWeekNumbers" [selectable]="calendarSelectable"
+    [businessHours]="calendarBusinessHours" [nowIndicator]="calendarNowIndicator"
+    [eventLimit]="calendarEventLimit" [editable]="calendarEditable"
+    [plugins]="calendarPlugins" [events]="homeInfo.calendarEvents" (eventClick)="pulseClick($event)"
     (eventResize)="pulseResize($event)" (eventDrop)="pulseDrop($event)">
   </full-calendar>
 </div>

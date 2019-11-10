@@ -10,10 +10,6 @@ import {
 import {
   EventInput
 } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
-import interactionPlugin from '@fullcalendar/interaction';
 
 @Injectable()
 export class HomeStorageService {
@@ -21,24 +17,6 @@ export class HomeStorageService {
   myPulses: PulseData[] = [];
   idMapMyPulses: any = {};
 
-  calendarPlugins = [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin];
-  calendarHeader = {
-    left: 'prev,next today',
-    center: 'title',
-    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-  };
-  calendarBusinessHours = {
-    // days of week. an array of zero-based day of week integers (0=Sunday)
-    daysOfWeek: [1, 2, 3, 4, 5], // Monday - Friday
-    startTime: '09:15',
-    endTime: '17:30',
-  };
-  calendarWeekends = true;
-  calendarWeekNumbers = true;
-  calendarSelectable = true;
-  calendarNowIndicator = true;
-  calendarEventLimit = true;
-  calendarEditable = true;
   calendarEvents: EventInput[] = [];
 
   isFetching = false;
@@ -82,6 +60,8 @@ export class HomeStorageService {
               });
               this.calendarEvents.push({
                 pulseId: pulse._id,
+                linkedMilestoneId: pulse.linkedMilestoneId,
+                linkedProjectId: pulse.linkedProjectId,
                 title: pulse.title,
                 url: 'http://localhost:4200',
                 start: new Date(pulse.timeline.begin),
@@ -105,6 +85,26 @@ export class HomeStorageService {
           this.isFetching = false;
           this.isFetchingSuccess = false;
           reject(error);
+        });
+    });
+  }
+
+  updatePulseTimeline(reqPayload: any): any {
+    return new Promise((resolve, reject) => {
+      this.http.post(this.appInfo.constants.urls.updatePulseTimeline, JSON.stringify(reqPayload), this.appInfo.httpOptions).subscribe(
+        (response: any) => {
+          if (response.responseId && response.responseId === 211) {
+            resolve([true, 'Pulse timeline updated', response.data]);
+          } else {
+            if (response.message) {
+              reject([false, response.message, {}]);
+            } else {
+              reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
+            }
+          }
+        },
+        (error: any) => {
+          reject([false, 'Some error occurred', {}]);
         });
     });
   }
