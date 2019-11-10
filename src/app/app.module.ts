@@ -231,6 +231,9 @@ import {
 import {
   AddMetaPulseStorageService
 } from './add-meta-pulse/add-meta-pulse.service';
+import {
+  HomeStorageService
+} from './home/home.service';
 
 @NgModule({
   declarations: [
@@ -294,6 +297,7 @@ import {
   ],
   providers: [
     AppStorageService,
+    HomeStorageService,
     HeaderStorageService,
     ProjectStorageService,
     MilestoneStorageService,
