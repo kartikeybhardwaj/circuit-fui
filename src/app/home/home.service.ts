@@ -57,6 +57,7 @@ export class HomeStorageService {
           if (response.responseId && response.responseId === 211) {
             this.myPulses = [];
             this.idMapMyPulses = response.data.idMap;
+            this.calendarEvents = [];
             response.data.pulses.forEach(pulse => {
               this.myPulses.push({
                 pulseId: pulse._id,
