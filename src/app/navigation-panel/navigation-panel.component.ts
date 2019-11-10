@@ -81,6 +81,9 @@ export class BottomSheetMenu {
   gotoMilestone(projectId: string): void {
     this.dissmissBottomSheet();
     this.router.navigate(['/projects/' + projectId + '/milestones']);
+    this.router.navigateByUrl('/', {
+      skipLocationChange: true
+    }).then(() => this.router.navigate(['/projects/' + projectId + '/milestones']));
   }
 
   dissmissBottomSheet(): void {
