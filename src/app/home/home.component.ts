@@ -74,22 +74,22 @@ export class HomeComponent implements OnInit {
 
   pulseDrop(info: any): void {
     info.jsEvent.preventDefault(); // don't let the browser navigate
-    this.updateTimeline(info.event);
+    this.updateTimeline(info);
   }
 
   pulseResize(info: any): void {
     info.jsEvent.preventDefault(); // don't let the browser navigate
-    this.updateTimeline(info.event);
+    this.updateTimeline(info);
   }
 
   createReqObject(eventInfo: any): any {
     return {
-      pulseId: eventInfo.extendedProps.pulseId,
-      milestoneId: eventInfo.extendedProps.linkedMilestoneId,
-      projectId: eventInfo.extendedProps.linkedProjectId,
+      pulseId: eventInfo.event.extendedProps.pulseId,
+      milestoneId: eventInfo.event.extendedProps.linkedMilestoneId,
+      projectId: eventInfo.event.extendedProps.linkedProjectId,
       timeline: {
-        begin: eventInfo.start.toISOString(),
-        end: eventInfo.end.toISOString()
+        begin: eventInfo.event.start.toISOString(),
+        end: eventInfo.event.end.toISOString()
       }
     };
   }
@@ -104,6 +104,7 @@ export class HomeComponent implements OnInit {
       })
       .catch((error) => {
         this.headerInfo.isWorking = false;
+        eventInfo.revert();
         this.openSnackBar(error[1], null);
       });
   }

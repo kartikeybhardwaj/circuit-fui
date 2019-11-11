@@ -4,9 +4,8 @@
   </mat-progress-spinner>
   <full-calendar *ngIf="!homeInfo.isFetching && homeInfo.isFetchingSuccess" class="width-100 smallMarginTop"
     defaultView="dayGridMonth" [header]="calendarHeader" [weekends]="calendarWeekends"
-    [weekNumbers]="calendarWeekNumbers" [selectable]="calendarSelectable"
-    [businessHours]="calendarBusinessHours" [nowIndicator]="calendarNowIndicator"
-    [eventLimit]="calendarEventLimit" [editable]="calendarEditable"
+    [weekNumbers]="calendarWeekNumbers" [selectable]="calendarSelectable" [businessHours]="calendarBusinessHours"
+    [nowIndicator]="calendarNowIndicator" [eventLimit]="calendarEventLimit" [editable]="calendarEditable"
     [plugins]="calendarPlugins" [events]="homeInfo.calendarEvents" (eventClick)="pulseClick($event)"
     (eventResize)="pulseResize($event)" (eventDrop)="pulseDrop($event)">
   </full-calendar>
