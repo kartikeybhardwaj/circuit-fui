@@ -32,6 +32,12 @@ import {
 import {
   MatSnackBar
 } from '@angular/material/snack-bar';
+import {
+  ProjectStorageService
+} from '../projects/projects.service';
+import {
+  RoleStorageService
+} from '../roles/roles.service';
 
 @Component({
   selector: 'app-milestones',
@@ -69,6 +75,8 @@ export class MilestonesComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
+    public projectInfo: ProjectStorageService,
+    public roleInfo: RoleStorageService,
     public milestoneInfo: MilestoneStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -82,7 +90,29 @@ export class MilestonesComponent implements OnInit {
     appInfo.selectedPulseId = null;
     appInfo.otherHeader = '';
     appInfo.navigationAddText = appInfo.constants.buildingBlocks.labels.addMilestone;
-    appInfo.isNavigationAddTextVisible = true;
+    appInfo.isNavigationAddTextVisible = this.shallDisplayNavigationAddText();
+  }
+
+  shallDisplayNavigationAddText(): boolean {
+    let canModifyMilestones = false;
+    this.projectInfo.projects.some(project => {
+      if (project.projectId === this.appInfo.selectedProjectId) {
+        let myRoleId = null;
+        project.members.some(member => {
+          myRoleId = member.roleId;
+          return true;
+        });
+        this.roleInfo.roles.forEach(role => {
+          if (role.roleId === myRoleId) {
+            if (role.canModifyMilestones) {
+              canModifyMilestones = true;
+            }
+          }
+        });
+        return true;
+      }
+    });
+    return canModifyMilestones;
   }
 
   ngOnInit() {
