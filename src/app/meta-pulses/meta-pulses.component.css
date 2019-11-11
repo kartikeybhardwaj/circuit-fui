@@ -1,0 +1,36 @@
+.tableContent {
+  margin-bottom: 17px;
+}
+
+tr.table-detail-row {
+  height: 0;
+  background-color: #303030;
+}
+
+tr.table-element-row:not(.table-expanded-row) {
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+tr.table-element-row:not(.table-expanded-row):hover {
+  background-color: #303030;
+}
+
+.table-expanded-row {
+  cursor: pointer;
+  background-color: #303030 !important;
+}
+
+.table-element-row td {
+  border-bottom-width: 0;
+}
+
+.table-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.headerText {
+  font-size: 19px;
+  align-self: flex-start;
+}
