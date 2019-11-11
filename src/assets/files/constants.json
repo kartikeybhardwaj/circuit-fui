@@ -27,7 +27,10 @@
         "labels": {
             "addProject": "Add Project",
             "addMilestone": "Add Milestone",
-            "addPulse": "Add Pulse"
+            "addPulse": "Add Pulse",
+            "addMetaProject": "Add Meta Project",
+            "addMetaMilestone": "Add Meta Milestone",
+            "addMetaPulse": "Add Meta Pulse"
         }
     },
     "messages": {
