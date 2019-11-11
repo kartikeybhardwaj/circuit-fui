@@ -53,7 +53,14 @@ export class AddMetaPulseComponent implements OnInit {
     private addMetaPulseInfo: AddMetaPulseStorageService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    appInfo.selectedProjectId = null;
+    appInfo.selectedMilestoneId = null;
+    appInfo.selectedPulseId = null;
+    appInfo.otherHeader = 'Add meta pulse';
+    appInfo.navigationAddText = '';
+    appInfo.isNavigationAddTextVisible = false;
+  }
 
   ngOnInit() {
     this.addField();

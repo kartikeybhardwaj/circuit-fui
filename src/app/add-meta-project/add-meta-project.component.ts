@@ -53,7 +53,14 @@ export class AddMetaProjectComponent implements OnInit {
     private addMetaProjectInfo: AddMetaProjectStorageService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    appInfo.selectedProjectId = null;
+    appInfo.selectedMilestoneId = null;
+    appInfo.selectedPulseId = null;
+    appInfo.otherHeader = 'Add meta project';
+    appInfo.navigationAddText = '';
+    appInfo.isNavigationAddTextVisible = false;
+  }
 
   ngOnInit() {
     this.addField();
