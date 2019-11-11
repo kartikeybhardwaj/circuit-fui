@@ -52,6 +52,18 @@ export class NavigationPanelComponent implements OnInit {
           '/milestones/' + this.appInfo.selectedMilestoneId +
           '/pulse/add'
         ]);
+      } else if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addMetaProject) {
+        this.router.navigate([
+          '/meta-projects/add'
+        ]);
+      } else if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addMetaMilestone) {
+        this.router.navigate([
+          '/meta-milestones/add'
+        ]);
+      } else if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addMetaPulse) {
+        this.router.navigate([
+          '/meta-pulses/add'
+        ]);
       }
     }
   }
