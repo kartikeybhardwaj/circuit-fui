@@ -59,6 +59,15 @@ import {
 import {
   AddMetaPulseComponent
 } from './add-meta-pulse/add-meta-pulse.component';
+import {
+  MetaProjectsComponent
+} from './meta-projects/meta-projects.component';
+import {
+  MetaMilestonesComponent
+} from './meta-milestones/meta-milestones.component';
+import {
+  MetaPulsesComponent
+} from './meta-pulses/meta-pulses.component';
 
 const routes: Routes = [{
   path: 'home',
@@ -97,13 +106,22 @@ const routes: Routes = [{
   path: 'travels',
   component: TravelsComponent
 }, {
-  path: 'add-meta-project',
+  path: 'meta-projects',
+  component: MetaProjectsComponent
+}, {
+  path: 'meta-milestones',
+  component: MetaMilestonesComponent
+}, {
+  path: 'meta-pulses',
+  component: MetaPulsesComponent
+}, {
+  path: 'meta-projects/add',
   component: AddMetaProjectComponent
 }, {
-  path: 'add-meta-milestone',
+  path: 'meta-milestones/add',
   component: AddMetaMilestoneComponent
 }, {
-  path: 'add-meta-pulse',
+  path: 'meta-pulses/add',
   component: AddMetaPulseComponent
 }, {
   path: 'block-calendar',
