@@ -93,23 +93,27 @@ export class PulsesComponent implements OnInit {
 
   shallDisplayNavigationAddText(): boolean {
     let canModifyPulses = false;
-    this.projectInfo.projects.some(project => {
-      if (project.projectId === this.appInfo.selectedProjectId) {
-        let myRoleId = null;
-        project.members.some(member => {
-          myRoleId = member.roleId;
-          return true;
-        });
-        this.roleInfo.roles.forEach(role => {
-          if (role.roleId === myRoleId) {
-            if (role.canModifyPulses) {
-              canModifyPulses = true;
+    if (this.appInfo.user.isSuperuser) {
+      canModifyPulses = true;
+    } else {
+      this.projectInfo.projects.some(project => {
+        if (project.projectId === this.appInfo.selectedProjectId) {
+          let myRoleId = null;
+          project.members.some(member => {
+            myRoleId = member.roleId;
+            return true;
+          });
+          this.roleInfo.roles.forEach(role => {
+            if (role.roleId === myRoleId) {
+              if (role.canModifyPulses) {
+                canModifyPulses = true;
+              }
             }
-          }
-        });
-        return true;
-      }
-    });
+          });
+          return true;
+        }
+      });
+    }
     return canModifyPulses;
   }
 

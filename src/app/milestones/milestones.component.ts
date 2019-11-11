@@ -95,23 +95,27 @@ export class MilestonesComponent implements OnInit {
 
   shallDisplayNavigationAddText(): boolean {
     let canModifyMilestones = false;
-    this.projectInfo.projects.some(project => {
-      if (project.projectId === this.appInfo.selectedProjectId) {
-        let myRoleId = null;
-        project.members.some(member => {
-          myRoleId = member.roleId;
-          return true;
-        });
-        this.roleInfo.roles.forEach(role => {
-          if (role.roleId === myRoleId) {
-            if (role.canModifyMilestones) {
-              canModifyMilestones = true;
+    if (this.appInfo.user.isSuperuser) {
+      canModifyMilestones = true;
+    } else {
+      this.projectInfo.projects.some(project => {
+        if (project.projectId === this.appInfo.selectedProjectId) {
+          let myRoleId = null;
+          project.members.some(member => {
+            myRoleId = member.roleId;
+            return true;
+          });
+          this.roleInfo.roles.forEach(role => {
+            if (role.roleId === myRoleId) {
+              if (role.canModifyMilestones) {
+                canModifyMilestones = true;
+              }
             }
-          }
-        });
-        return true;
-      }
-    });
+          });
+          return true;
+        }
+      });
+    }
     return canModifyMilestones;
   }
 
