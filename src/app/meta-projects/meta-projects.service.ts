@@ -63,7 +63,7 @@ export class MetaProjectsStorageService {
           }
         },
         (error: any) => {
-          reject(error);
+          reject(this.appInfo.constants.messages.someErrorOccurred);
         });
     });
   }
