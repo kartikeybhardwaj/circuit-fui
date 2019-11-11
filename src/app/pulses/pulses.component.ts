@@ -29,6 +29,12 @@ import {
 import {
   PulseStorageService
 } from './pulses.service';
+import {
+  ProjectStorageService
+} from '../projects/projects.service';
+import {
+  RoleStorageService
+} from '../roles/roles.service';
 
 @Component({
   selector: 'app-pulses',
@@ -66,6 +72,8 @@ export class PulsesComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
+    public projectInfo: ProjectStorageService,
+    public roleInfo: RoleStorageService,
     private pulseInfo: PulseStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -80,7 +88,29 @@ export class PulsesComponent implements OnInit {
     appInfo.selectedPulseId = null;
     appInfo.otherHeader = '';
     appInfo.navigationAddText = appInfo.constants.buildingBlocks.labels.addPulse;
-    appInfo.isNavigationAddTextVisible = true;
+    appInfo.isNavigationAddTextVisible = this.shallDisplayNavigationAddText();
+  }
+
+  shallDisplayNavigationAddText(): boolean {
+    let canModifyPulses = false;
+    this.projectInfo.projects.some(project => {
+      if (project.projectId === this.appInfo.selectedProjectId) {
+        let myRoleId = null;
+        project.members.some(member => {
+          myRoleId = member.roleId;
+          return true;
+        });
+        this.roleInfo.roles.forEach(role => {
+          if (role.roleId === myRoleId) {
+            if (role.canModifyPulses) {
+              canModifyPulses = true;
+            }
+          }
+        });
+        return true;
+      }
+    });
+    return canModifyPulses;
   }
 
   ngOnInit() {
