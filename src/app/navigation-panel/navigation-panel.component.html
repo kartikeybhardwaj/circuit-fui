@@ -15,11 +15,11 @@
   </div>
 
   <!-- more in menu -->
-  <div matRipple [matRippleColor]="'#8E8E8E'" [matRippleUnbounded]="true" [matMenuTriggerFor]="menu"
+  <div matRipple [matRippleColor]="'#8E8E8E'" [matRippleUnbounded]="true" [matMenuTriggerFor]="more"
     class="bottomRightNavigation cursorPointer">
     <mat-icon class="icon-display-large colorBright">more_vert</mat-icon>
   </div>
-  <mat-menu #menu="matMenu">
+  <mat-menu #more="matMenu">
     <button mat-menu-item>
       <mat-icon>account_circle</mat-icon>
       <span>{{appInfo.user.displayname}}</span>
@@ -31,6 +31,49 @@
     <button mat-menu-item (click)="navigateTo('/block-calendar')">
       <mat-icon>block</mat-icon>
       <span>Block calendar</span>
+    </button>
+    <button mat-menu-item [matMenuTriggerFor]="metas" *ngIf="appInfo.user.isSuperuser">
+      <mat-icon>chrome_reader_mode</mat-icon>
+      <span>Metas</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #metas="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="projectMetas">
+      <span>Project metas</span>
+    </button>
+    <button mat-menu-item [matMenuTriggerFor]="milestoneMetas">
+      <span>Milestone metas</span>
+    </button>
+    <button mat-menu-item [matMenuTriggerFor]="pulseMetas">
+      <span>Pulse metas</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #projectMetas="matMenu">
+    <button mat-menu-item (click)="navigateTo('/meta-projects')">
+      <span>Show all</span>
+    </button>
+    <button mat-menu-item (click)="navigateTo('/meta-projects/add')">
+      <span>Add</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #milestoneMetas="matMenu">
+    <button mat-menu-item (click)="navigateTo('/meta-milestones')">
+      <span>Show all</span>
+    </button>
+    <button mat-menu-item (click)="navigateTo('/meta-milestones/add')">
+      <span>Add</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #pulseMetas="matMenu">
+    <button mat-menu-item (click)="navigateTo('/meta-pulses')">
+      <span>Show all</span>
+    </button>
+    <button mat-menu-item (click)="navigateTo('/meta-pulses/add')">
+      <span>Add</span>
     </button>
   </mat-menu>
 
