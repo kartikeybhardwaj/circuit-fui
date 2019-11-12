@@ -234,6 +234,15 @@ import {
 import {
   HomeStorageService
 } from './home/home.service';
+import {
+  LocationsComponent
+} from './locations/locations.component';
+import {
+  LocationStorageService
+} from './locations/locations.service';
+import {
+  AddTravelPayloadValidator
+} from './json-schema-validatior/add-travel';
 
 @NgModule({
   declarations: [
@@ -262,7 +271,8 @@ import {
     MetaPulsesComponent,
     AddMetaProjectComponent,
     AddMetaMilestoneComponent,
-    AddMetaPulseComponent
+    AddMetaPulseComponent,
+    LocationsComponent
   ],
   imports: [
     BrowserModule,
@@ -314,12 +324,14 @@ import {
     AddMetaProjectStorageService,
     AddMetaMilestoneStorageService,
     AddMetaPulseStorageService,
+    LocationStorageService,
     AddProjectPayloadValidator,
     AddMilestonePayloadValidator,
     AddPulsePayloadValidator,
     AddMetaProjectPayloadValidator,
     AddMetaMilestonePayloadValidator,
-    AddMetaPulsePayloadValidator
+    AddMetaPulsePayloadValidator,
+    AddTravelPayloadValidator
   ],
   entryComponents: [
     BottomSheetMenu
