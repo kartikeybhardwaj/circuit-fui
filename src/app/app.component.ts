@@ -26,6 +26,9 @@ import {
 import {
   MetaPulsesStorageService
 } from './meta-pulses/meta-pulses.service';
+import {
+  LocationStorageService
+} from './locations/locations.service';
 
 @Component({
   selector: 'app-root',
@@ -43,6 +46,7 @@ export class AppComponent implements OnInit {
     private metaProjectInfo: MetaProjectsStorageService,
     private metaMilestoneInfo: MetaMilestonesStorageService,
     private metaPulseInfo: MetaPulsesStorageService,
+    private locationInfo: LocationStorageService,
     private router: Router,
     private http: HttpClient
   ) {}
@@ -52,10 +56,15 @@ export class AppComponent implements OnInit {
       this.getUser().then((user) => {
         this.roleInfo.getRoles().then((roles) => {
           this.projectInfo.getProjects().then((projects) => {
-            this.isSiteLoading = false;
-            this.metaProjectInfo.getMetaProjects();
-            this.metaMilestoneInfo.getMetaMilestones();
-            this.metaPulseInfo.getMetaPulses();
+            this.locationInfo.getLocations().then((locations) => {
+              this.isSiteLoading = false;
+              this.metaProjectInfo.getMetaProjects();
+              this.metaMilestoneInfo.getMetaMilestones();
+              this.metaPulseInfo.getMetaPulses();
+            }).catch((error) => {
+              this.isSiteLoading = false;
+              this.appInfo.user = null;
+            });
           }).catch((error) => {
             this.isSiteLoading = false;
             this.appInfo.user = null;
