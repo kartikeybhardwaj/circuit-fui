@@ -16,9 +16,8 @@
       <mat-form-field class="width-100 smallMarginTop">
         <mat-label>Base location</mat-label>
         <mat-select [(ngModel)]="appInfo.user.baseLocation">
-          <mat-option *ngFor="let location of appInfo.allLocations; index as index;"
-            [value]="appInfo.user.baseLocation">
-            {{location.name}}
+          <mat-option *ngFor="let location of locationInfo.locations; index as index;" [value]="location.locationId">
+            {{locationInfo.idMapLocations[location.locationId]}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -37,9 +36,9 @@
       <label><strong>You're travelling to</strong></label>
       <mat-form-field class="width-100 smallMarginTop">
         <mat-label>Location</mat-label>
-        <mat-select [(ngModel)]="travellingLocationId">
-          <mat-option *ngFor="let location of appInfo.allLocations; index as index;" [value]="location._id">
-            {{location.name}}
+        <mat-select [(ngModel)]="travellingLocation.locationId">
+          <mat-option *ngFor="let location of locationInfo.locations; index as index;" [value]="location.locationId">
+            {{locationInfo.idMapLocations[location.locationId]}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -47,7 +46,7 @@
       <label><strong>for timeline</strong></label>
       <mat-form-field class="width-100 smallMarginTop">
         <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="travelTimeline"
-          [(ngModel)]="travellingLocationTimeline">
+          [(ngModel)]="travellingLocation.timeline">
         <sat-datepicker #travelTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="travelTimeline"></sat-datepicker-toggle>
       </mat-form-field>
@@ -66,7 +65,7 @@
 
 <div class="contentCenter">
 
-  <div class="headerText colorBright smallMarginTop">My locations</div>
+  <div class="headerText colorBright smallMarginTop">My travels</div>
 
   <mat-form-field class="width-100">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -80,7 +79,7 @@
         </ng-container>
         <ng-container *ngIf="column === 'timeline'">
           <td mat-cell *matCellDef="let element">
-            {{appInfo.getLongDate(element[column].begin.getTime()) + ' - ' + appInfo.getLongDate(element[column].end.getTime())}}
+            {{appInfo.getLongDate(element[column].begin) + ' - ' + appInfo.getLongDate(element[column].end)}}
           </td>
         </ng-container>
         <ng-container *ngIf="column === 'todo'">
@@ -103,9 +102,9 @@
                     <label><strong>You're travelling to</strong></label>
                     <mat-form-field class="width-100 smallMarginTop">
                       <mat-label>Location</mat-label>
-                      <mat-select [(ngModel)]="element._id">
-                        <mat-option *ngFor="let location of appInfo.allLocations; index as index;"
-                          [value]="location._id">
+                      <mat-select [(ngModel)]="element.locationId">
+                        <mat-option *ngFor="let location of locationInfo.locations; index as index;"
+                          [value]="location.locationId">
                           {{location.name}}
                         </mat-option>
                       </mat-select>

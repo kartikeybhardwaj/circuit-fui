@@ -25,19 +25,12 @@ import {
 import {
   TravelsStorageService
 } from './travels.service';
-
-export interface MyTravelsList {
-  index: number;
-  _id: string;
-  name: string;
-  timeline: Timeline;
-  isUpdating: boolean;
-}
-
-export interface Timeline {
-  begin: string;
-  end: string;
-}
+import {
+  LocationStorageService
+} from '../locations/locations.service';
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-travels',
@@ -58,19 +51,24 @@ export interface Timeline {
 })
 export class TravelsComponent implements OnInit {
 
-  isFetching = true;
+  isFetching = false;
   isFetchingSuccess = false;
   isAddingTravel = false;
   isUpdatingBaseLocation = false;
 
-  travellingLocationId = '';
-  travellingLocationTimeline: any = {};
+  travellingLocation: AddTravelData = {
+    locationId: '',
+    timeline: {
+      begin: null,
+      end: null
+    }
+  };
 
-  MYTRAVELS_DATA: MyTravelsList[];
-  dataSourceMyTravels: MatTableDataSource < MyTravelsList > ;
+  MYTRAVELS_DATA: TravelData[];
+  dataSourceMyTravels: MatTableDataSource < TravelData > ;
   columnsForMyTravels = ['index', 'name', 'timeline', 'todo'];
   columnsToDisplayMyTravels = ['#', 'Location', 'Timeline', ''];
-  expandedElementMyTravels: MyTravelsList | null;
+  expandedElementMyTravels: TravelData | null;
 
   @ViewChild(MatPaginator, {
     static: true
@@ -81,7 +79,9 @@ export class TravelsComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
-    public travelsInfo: TravelsStorageService
+    public travelsInfo: TravelsStorageService,
+    public locationInfo: LocationStorageService,
+    private snackBar: MatSnackBar
   ) {
     appInfo.selectedProjectId = null;
     appInfo.selectedMilestoneId = null;
@@ -92,64 +92,63 @@ export class TravelsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.appInfo.allLocations) {
-      if (this.appInfo.myTravels) {
+    this.isFetching = true;
+    this.isFetchingSuccess = false;
+    this.travelsInfo.getMyTravels()
+      .then((travels) => {
+        this.fillData();
         this.isFetching = false;
         this.isFetchingSuccess = true;
-        this.fillData();
-      } else {
-        this.travelsInfo.getMyTravels()
-          .then((myTravels) => {
-            this.isFetching = false;
-            this.isFetchingSuccess = true;
-            this.fillData();
-          })
-          .catch((error) => {
-            this.isFetching = false;
-            this.isFetchingSuccess = false;
-          });
-      }
-    } else {
-      this.travelsInfo.getAllLocations()
-        .then((allLocations) => {
-          this.travelsInfo.getMyTravels()
-            .then((myTravels) => {
-              this.isFetching = false;
-              this.isFetchingSuccess = true;
-              this.fillData();
-            })
-            .catch((error) => {
-              this.isFetching = false;
-              this.isFetchingSuccess = false;
-            });
-        })
-        .catch((error) => {
-          this.isFetching = false;
-          this.isFetchingSuccess = false;
-        });
-    }
+      })
+      .catch((error) => {
+        this.isFetching = false;
+        this.isFetchingSuccess = true;
+      });
+  }
+
+  createReqObjectToUpdateBaseLocation(): any {
+    return {
+      locationId: this.appInfo.user.baseLocation
+    };
   }
 
   updateBaseLocation(): void {
+    const reqPayload = this.createReqObjectToUpdateBaseLocation();
     this.isUpdatingBaseLocation = true;
-    setTimeout(() => {
-      this.isUpdatingBaseLocation = false;
-    }, 3000);
+    this.travelsInfo.updateBaseLocation(reqPayload)
+      .then((resp) => {
+        this.isUpdatingBaseLocation = false;
+        this.openSnackBar(resp[1], null);
+      })
+      .catch((error) => {
+        this.isUpdatingBaseLocation = false;
+        this.openSnackBar(error[1], null);
+      });
+  }
+
+  createReqObjectToAddTravel(): AddTravelData {
+    return this.travellingLocation;
   }
 
   addTravel(): void {
+    const reqPayload = this.createReqObjectToAddTravel();
     this.isAddingTravel = true;
-    setTimeout(() => {
-      this.isAddingTravel = false;
-    }, 3000);
+    this.travelsInfo.addTravel(reqPayload)
+      .then((resp) => {
+        this.isAddingTravel = false;
+        this.openSnackBar(resp[1], null);
+      })
+      .catch((error) => {
+        this.isAddingTravel = false;
+        this.openSnackBar(error[1], null);
+      });
   }
 
   fillData(): void {
-    this.MYTRAVELS_DATA = this.appInfo.myTravels;
+    this.MYTRAVELS_DATA = this.travelsInfo.travels;
     this.dataSourceMyTravels = new MatTableDataSource(this.MYTRAVELS_DATA);
     this.dataSourceMyTravels.paginator = this.paginatorMyTravels;
     this.dataSourceMyTravels.sort = this.sortMyTravels;
-    this.isFetching = false;
   }
 
   applyFilter(filterValue: string) {
@@ -164,6 +163,14 @@ export class TravelsComponent implements OnInit {
     setTimeout(() => {
       element.isUpdating = false;
     }, 3000);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'center', // left, right, start, end, center
+      verticalPosition: 'bottom', // top, bottom
+      duration: 3500
+    });
   }
 
 }
