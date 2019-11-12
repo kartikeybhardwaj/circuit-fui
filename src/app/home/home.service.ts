@@ -104,7 +104,7 @@ export class HomeStorageService {
           }
         },
         (error: any) => {
-          reject([false, 'Some error occurred', {}]);
+          reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
         });
     });
   }
