@@ -16,7 +16,10 @@
         "addMilestone": "http://localhost:3200/add-milestone",
         "addPulse": "http://localhost:3200/add-pulse",
         "getMyPulses": "http://localhost:3200/get-my-pulses",
-        "updatePulseTimeline": "http://localhost:3200/update-pulse-timeline"
+        "updatePulseTimeline": "http://localhost:3200/update-pulse-timeline",
+        "getLocations": "http://localhost:3200/get-locations",
+        "updateBaseLocation": "http://localhost:3200/update-base-location",
+        "addTravel": "http://localhost:3200/add-travel"
     },
     "buildingBlocks": {
         "icons": {
