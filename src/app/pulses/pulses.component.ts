@@ -148,4 +148,10 @@ export class PulsesComponent implements OnInit {
     ]);
   }
 
+  showUserCalendar(username: string): void {
+    if (this.appInfo.user.isSuperuser) {
+      this.router.navigate(['/users/' + username]);
+    }
+  }
+
 }

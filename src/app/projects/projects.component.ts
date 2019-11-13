@@ -103,4 +103,14 @@ export class ProjectsComponent implements OnInit {
     this.router.navigate(['/projects/' + project.projectId + '/milestones']);
   }
 
+  gotoThisMilestone(projectId: string, milestoneId: string): void {
+    this.router.navigate(['/projects/' + projectId + '/milestones/' + milestoneId + '/pulses']);
+  }
+
+  showUserCalendar(username: string): void {
+    if (this.appInfo.user.isSuperuser) {
+      this.router.navigate(['/users/' + username]);
+    }
+  }
+
 }

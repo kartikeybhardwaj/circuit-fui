@@ -32,19 +32,22 @@
             <div class="tableContent">
               <div class="smallMarginTop"><strong>Title</strong>:&nbsp;{{element.title}}</div>
               <div class="mediumMarginTop"><strong>Description</strong>:&nbsp;{{element.description}}</div>
-              <div class="mediumMarginTop"><strong>Timeline</strong>:&nbsp;{{appInfo.getLongDate(element.timeline.begin)}} -
+              <div class="mediumMarginTop">
+                <strong>Timeline</strong>:&nbsp;{{appInfo.getLongDate(element.timeline.begin)}} -
                 {{appInfo.getLongDate(element.timeline.end)}}</div>
               <div class="mediumMarginTop" *ngFor="let field of element.fields; index as indexField;">
                 <strong>{{field.key}}</strong>: {{field.value}}
               </div>
               <div class="smallMarginTop">
                 <strong>Assignees</strong>:
-                <button mat-button *ngFor="let assigneeId of element.assignees; index as indexAssignee;">
+                <button mat-button *ngFor="let assigneeId of element.assignees; index as indexAssignee;"
+                  (click)="showUserCalendar(pulseInfo.idMapPulses[assigneeId])">
                   {{pulseInfo.idMapPulses[assigneeId]}}
                 </button>
               </div>
               <div class="smallMarginTop">
-                Pulse created by {{pulseInfo.idMapPulses[element.meta.addedBy]}} on {{appInfo.getLongDate(element.meta.addedOn)}}
+                Pulse created by {{pulseInfo.idMapPulses[element.meta.addedBy]}} on
+                {{appInfo.getLongDate(element.meta.addedOn)}}
               </div>
             </div>
           </div>

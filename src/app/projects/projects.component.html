@@ -47,18 +47,24 @@
               <div class="mediumMarginTop smallMarginBottom"><strong>Members</strong>:</div>
               <ng-container *ngFor="let member of element.members; index as indexMembers;">
                 <div>
-                  <button mat-button>{{projectInfo.idMapProjects[member.userId]}}</button>:&nbsp;
-                  <span class="smallMarginLeft">{{roleInfo.idMapRoles[member.roleId]}}</span>
+                  <button mat-button (click)="showUserCalendar(projectInfo.idMapProjects[member.userId])">
+                    {{projectInfo.idMapProjects[member.userId]}}
+                  </button>:&nbsp;
+                  <span class="smallMarginLeft">
+                    {{roleInfo.idMapRoles[member.roleId]}}
+                  </span>
                 </div>
               </ng-container>
               <div class="smallMarginTop">
                 <strong>Milestones</strong>:
-                <button mat-button *ngFor="let milestoneId of element.milestonesList; index as indexMilestone;">
+                <button mat-button *ngFor="let milestoneId of element.milestonesList; index as indexMilestone;"
+                  (click)="gotoThisMilestone(element.projectId, milestoneId)">
                   {{projectInfo.idMapProjects[milestoneId]}}
                 </button>
               </div>
               <div class="smallMarginTop">
-                Project created by {{projectInfo.idMapProjects[element.meta.addedBy]}} on {{appInfo.getLongDate(element.meta.addedOn)}}
+                Project created by {{projectInfo.idMapProjects[element.meta.addedBy]}} on
+                {{appInfo.getLongDate(element.meta.addedOn)}}
               </div>
             </div>
           </div>
