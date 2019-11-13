@@ -68,6 +68,9 @@ import {
 import {
   MetaPulsesComponent
 } from './meta-pulses/meta-pulses.component';
+import {
+  MilestoneCalendarComponent
+} from './milestone-calendar/milestone-calendar.component';
 
 const routes: Routes = [{
   path: 'home',
@@ -123,6 +126,9 @@ const routes: Routes = [{
 }, {
   path: 'meta-pulses/add',
   component: AddMetaPulseComponent
+}, {
+  path: 'milestones-calendar',
+  component: MilestoneCalendarComponent
 }, {
   path: 'block-calendar',
   component: BlockCalendarComponent
