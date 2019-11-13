@@ -243,6 +243,18 @@ import {
 import {
   AddTravelPayloadValidator
 } from './json-schema-validatior/add-travel';
+import {
+  MilestoneCalendarComponent
+} from './milestone-calendar/milestone-calendar.component';
+import {
+  MilestoneCalendarStorageService
+} from './milestone-calendar/milestone-calendar.service';
+import {
+  AddBlockagePayloadValidator
+} from './json-schema-validatior/add-blockage';
+import {
+  UserCalendarStorageService
+} from './user-calendar/user-calendar.service';
 
 @NgModule({
   declarations: [
@@ -272,7 +284,8 @@ import {
     AddMetaProjectComponent,
     AddMetaMilestoneComponent,
     AddMetaPulseComponent,
-    LocationsComponent
+    LocationsComponent,
+    MilestoneCalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -325,13 +338,16 @@ import {
     AddMetaMilestoneStorageService,
     AddMetaPulseStorageService,
     LocationStorageService,
+    MilestoneCalendarStorageService,
+    UserCalendarStorageService,
     AddProjectPayloadValidator,
     AddMilestonePayloadValidator,
     AddPulsePayloadValidator,
     AddMetaProjectPayloadValidator,
     AddMetaMilestonePayloadValidator,
     AddMetaPulsePayloadValidator,
-    AddTravelPayloadValidator
+    AddTravelPayloadValidator,
+    AddBlockagePayloadValidator
   ],
   entryComponents: [
     BottomSheetMenu
