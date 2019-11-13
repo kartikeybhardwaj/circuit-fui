@@ -69,7 +69,8 @@ export class HomeComponent implements OnInit {
 
   pulseClick(info: any): void {
     info.jsEvent.preventDefault(); // don't let the browser navigate
-    console.log(this.createReqObject(info.event));
+    // console.log(this.createReqObject(info));
+    console.log(info.event);
   }
 
   pulseDrop(info: any): void {

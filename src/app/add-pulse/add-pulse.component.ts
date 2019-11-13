@@ -205,7 +205,7 @@ export class AddPulseComponent implements OnInit {
   }
 
   createReqObject(): AddPulseData {
-    if (this.timeline && this.timeline.begin && this.timeline.end) {
+    try {
       this.pulse.timeline.begin = this.timeline.begin.toString();
       this.pulse.timeline.begin = this.pulse.timeline.begin.substr(0, 16) + this.startTime + this.pulse.timeline.begin.substring(21);
       this.pulse.timeline.begin = new Date(this.pulse.timeline.begin).toISOString();
@@ -218,7 +218,7 @@ export class AddPulseComponent implements OnInit {
       this.selectedAssignees.forEach(assignee => {
         this.pulse.assignees.push(this.projectMembersMap[assignee]);
       });
-    }
+    } catch (error) {}
     return this.pulse;
   }
 

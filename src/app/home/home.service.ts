@@ -84,7 +84,7 @@ export class HomeStorageService {
         (error: any) => {
           this.isFetching = false;
           this.isFetchingSuccess = false;
-          reject(error);
+          reject(this.appInfo.constants.messages.someErrorOccurred);
         });
     });
   }
