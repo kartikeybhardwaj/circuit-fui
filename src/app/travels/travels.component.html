@@ -46,7 +46,7 @@
       <label><strong>for timeline</strong></label>
       <mat-form-field class="width-100 smallMarginTop">
         <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="travelTimeline"
-          [(ngModel)]="travellingLocation.timeline">
+          [(ngModel)]="travellingLocationTimeline">
         <sat-datepicker #travelTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="travelTimeline"></sat-datepicker-toggle>
       </mat-form-field>

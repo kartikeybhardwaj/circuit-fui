@@ -6,6 +6,6 @@ declare interface NonAvailabilityData {
 }
 
 declare interface NonAvailabilityTimelineData {
-  begin: string;
-  end: string;
+  begin: Date;
+  end: Date;
 }

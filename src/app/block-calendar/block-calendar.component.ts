@@ -59,6 +59,7 @@ export class BlockCalendarComponent implements OnInit {
       end: null
     }
   };
+  addNonAvailabilityTimeline: any = null;
 
   MYBLOCKAGES_DATA: NonAvailabilityData[];
   dataSourceMyBlockages: MatTableDataSource < NonAvailabilityData > ;
@@ -102,21 +103,35 @@ export class BlockCalendarComponent implements OnInit {
   }
 
   createReqObjectToAddNonAvailability(): AddNonAvailabilityData {
+    try {
+      this.addNonAvailability.timeline = {
+        begin: this.addNonAvailabilityTimeline.begin.toISOString(),
+        end: this.addNonAvailabilityTimeline.end.toISOString()
+      };
+    } catch (error) {}
     return this.addNonAvailability;
   }
 
   addBlockage(): void {
     const reqPayload = this.createReqObjectToAddNonAvailability();
-    this.isAddingBlockage = true;
-    this.blockagesInfo.addBlockage(reqPayload)
-      .then((resp) => {
-        this.isAddingBlockage = false;
-        this.openSnackBar(resp[1], null);
-      })
-      .catch((error) => {
-        this.isAddingBlockage = false;
-        this.openSnackBar(error[1], null);
-      });
+    const afterValidateReqPayload = this.blockagesInfo.validateRequest(reqPayload);
+    if (!afterValidateReqPayload[0]) {
+      this.openSnackBar(afterValidateReqPayload[1], null);
+    } else {
+      this.isAddingBlockage = true;
+      this.blockagesInfo.addBlockage(reqPayload)
+        .then((resp) => {
+          this.isAddingBlockage = false;
+          this.openSnackBar(resp[1], null);
+          if (resp[0]) {
+            this.fillData();
+          }
+        })
+        .catch((error) => {
+          this.isAddingBlockage = false;
+          this.openSnackBar(error[1], null);
+        });
+    }
   }
 
   fillData(): void {

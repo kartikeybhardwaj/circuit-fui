@@ -7,6 +7,9 @@ import {
 import {
   HttpClient
 } from '@angular/common/http';
+import {
+  AddBlockagePayloadValidator
+} from '../json-schema-validatior/add-blockage';
 
 @Injectable()
 export class BlockagesStorageService {
@@ -15,8 +18,13 @@ export class BlockagesStorageService {
 
   constructor(
     private appInfo: AppStorageService,
+    private addBlockagesPayloadValidator: AddBlockagePayloadValidator,
     private http: HttpClient
   ) {}
+
+  validateRequest(blockage: AddNonAvailabilityData): [boolean, string] {
+    return this.addBlockagesPayloadValidator.validateSchema(blockage);
+  }
 
   addBlockage(reqPayload: AddNonAvailabilityData): any {
     return new Promise((resolve, reject) => {
@@ -24,9 +32,12 @@ export class BlockagesStorageService {
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
             this.nonAvailability.push({
-              index: this.nonAvailability.length,
+              index: this.nonAvailability.length + 1,
               reason: reqPayload.reason,
-              timeline: reqPayload.timeline,
+              timeline: {
+                begin: new Date(reqPayload.timeline.begin),
+                end: new Date(reqPayload.timeline.end)
+              },
               isUpdating: false
             });
             resolve([true, 'Calendar blocked', response.data]);
@@ -54,10 +65,14 @@ export class BlockagesStorageService {
     return new Promise((resolve, reject) => {
       this.nonAvailability = [];
       for (let i = 0; i < this.appInfo.user.nonAvailability.length; i++) {
+        const thisBlockage = JSON.parse(JSON.stringify(this.appInfo.user.nonAvailability[i]));
         this.nonAvailability.push({
           index: i + 1,
-          reason: this.appInfo.user.nonAvailability[i].reason,
-          timeline: this.appInfo.user.nonAvailability[i].timeline,
+          reason: thisBlockage.reason,
+          timeline: {
+            begin: new Date(thisBlockage.timeline.begin),
+            end: new Date(thisBlockage.timeline.end)
+          },
           isUpdating: false
         });
       }

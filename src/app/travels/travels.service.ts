@@ -10,6 +10,9 @@ import {
 import {
   LocationStorageService
 } from '../locations/locations.service';
+import {
+  AddTravelPayloadValidator
+} from '../json-schema-validatior/add-travel';
 
 @Injectable()
 export class TravelsStorageService {
@@ -19,6 +22,7 @@ export class TravelsStorageService {
   constructor(
     private appInfo: AppStorageService,
     private locationInfo: LocationStorageService,
+    private addTravelPayloadValidator: AddTravelPayloadValidator,
     private http: HttpClient
   ) {}
 
@@ -42,6 +46,10 @@ export class TravelsStorageService {
     });
   }
 
+  validateRequest(travel: AddTravelData): [boolean, string] {
+    return this.addTravelPayloadValidator.validateSchema(travel);
+  }
+
   addTravel(reqPayload: AddTravelData): any {
     return new Promise((resolve, reject) => {
       this.http.post(this.appInfo.constants.urls.addTravel, JSON.stringify(reqPayload), this.appInfo.httpOptions).subscribe(
@@ -49,12 +57,15 @@ export class TravelsStorageService {
           if (response.responseId && response.responseId === 211) {
             this.travels.push({
               locationId: reqPayload.locationId,
-              index: this.travels.length,
+              index: this.travels.length + 1,
               name: this.locationInfo.idMapLocations[reqPayload.locationId],
-              timeline: reqPayload.timeline,
+              timeline: {
+                begin: new Date(reqPayload.timeline.begin),
+                end: new Date(reqPayload.timeline.end)
+              },
               isUpdating: false
             });
-            resolve([true, 'Base location updated', response.data]);
+            resolve([true, 'Travel added', response.data]);
           } else {
             if (response.message) {
               if (response.data && response.data.locationId) {
@@ -77,12 +88,15 @@ export class TravelsStorageService {
     return new Promise((resolve, reject) => {
       this.travels = [];
       for (let i = 0; i < this.appInfo.user.otherLocations.length; i++) {
-        const thisTravel = this.appInfo.user.otherLocations[i];
+        const thisTravel = JSON.parse(JSON.stringify(this.appInfo.user.otherLocations[i]));
         this.travels.push({
           locationId: thisTravel.locationId,
           index: i + 1,
           name: this.locationInfo.idMapLocations[thisTravel.locationId],
-          timeline: thisTravel.timeline,
+          timeline: {
+            begin: new Date(thisTravel.timeline.begin),
+            end: new Date(thisTravel.timeline.end)
+          },
           isUpdating: false
         });
       }

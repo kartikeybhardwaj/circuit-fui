@@ -63,6 +63,7 @@ export class TravelsComponent implements OnInit {
       end: null
     }
   };
+  travellingLocationTimeline: any = null;
 
   MYTRAVELS_DATA: TravelData[];
   dataSourceMyTravels: MatTableDataSource < TravelData > ;
@@ -127,21 +128,35 @@ export class TravelsComponent implements OnInit {
   }
 
   createReqObjectToAddTravel(): AddTravelData {
+    try {
+      this.travellingLocation.timeline = {
+        begin: this.travellingLocationTimeline.begin.toISOString(),
+        end: this.travellingLocationTimeline.end.toISOString()
+      };
+    } catch (error) {}
     return this.travellingLocation;
   }
 
   addTravel(): void {
     const reqPayload = this.createReqObjectToAddTravel();
-    this.isAddingTravel = true;
-    this.travelsInfo.addTravel(reqPayload)
-      .then((resp) => {
-        this.isAddingTravel = false;
-        this.openSnackBar(resp[1], null);
-      })
-      .catch((error) => {
-        this.isAddingTravel = false;
-        this.openSnackBar(error[1], null);
-      });
+    const afterValidateReqPayload = this.travelsInfo.validateRequest(reqPayload);
+    if (!afterValidateReqPayload[0]) {
+      this.openSnackBar(afterValidateReqPayload[1], null);
+    } else {
+      this.isAddingTravel = true;
+      this.travelsInfo.addTravel(reqPayload)
+        .then((resp) => {
+          this.isAddingTravel = false;
+          this.openSnackBar(resp[1], null);
+          if (resp[0]) {
+            this.fillData();
+          }
+        })
+        .catch((error) => {
+          this.isAddingTravel = false;
+          this.openSnackBar(error[1], null);
+        });
+    }
   }
 
   fillData(): void {

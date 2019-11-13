@@ -98,12 +98,15 @@ export class AppComponent implements OnInit {
   }
 
   getUser(): any {
-    // get user data and set to appInfo.user
     return new Promise((resolve, reject) => {
       this.http.get(this.appInfo.constants.urls.getUser, this.appInfo.httpOptions).subscribe(
         (response: any) => {
-          this.appInfo.user = response.data;
-          resolve(true);
+          if (response.data && response.data.username) {
+            this.appInfo.user = response.data;
+            resolve(true);
+          } else {
+            resolve(false);
+          }
         },
         (error: any) => {
           reject(false);

@@ -7,6 +7,6 @@ declare interface TravelData {
 }
 
 declare interface TravelTimelineData {
-  begin: string;
-  end: string;
+  begin: Date;
+  end: Date;
 }

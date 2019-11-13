@@ -20,7 +20,7 @@
       <label><strong>for timeline</strong></label>
       <mat-form-field class="width-100 smallMarginTop">
         <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="blockTimeline"
-          [(ngModel)]="addNonAvailability.timeline">
+          [(ngModel)]="addNonAvailabilityTimeline">
         <sat-datepicker #blockTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="blockTimeline"></sat-datepicker-toggle>
       </mat-form-field>
