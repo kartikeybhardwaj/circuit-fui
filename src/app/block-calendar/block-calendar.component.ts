@@ -25,18 +25,9 @@ import {
 import {
   BlockagesStorageService
 } from './block-calendar.service';
-
-export interface MyBlockagesList {
-  index: number;
-  reason: string;
-  timeline: Timeline;
-  isUpdating: boolean;
-}
-
-export interface Timeline {
-  begin: string;
-  end: string;
-}
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-block-calendar',
@@ -57,18 +48,23 @@ export interface Timeline {
 })
 export class BlockCalendarComponent implements OnInit {
 
-  isFetching = true;
+  isFetching = false;
   isFetchingSuccess = false;
   isAddingBlockage = false;
 
-  blockageReason = '';
-  blockageTimeline: any = {};
+  addNonAvailability: AddNonAvailabilityData = {
+    reason: '',
+    timeline: {
+      begin: null,
+      end: null
+    }
+  };
 
-  MYBLOCKAGES_DATA: MyBlockagesList[];
-  dataSourceMyBlockages: MatTableDataSource < MyBlockagesList > ;
+  MYBLOCKAGES_DATA: NonAvailabilityData[];
+  dataSourceMyBlockages: MatTableDataSource < NonAvailabilityData > ;
   columnsForMyBlockages = ['index', 'reason', 'timeline', 'todo'];
   columnsToDisplayMyBlockages = ['#', 'Reason', 'Timeline', ''];
-  expandedElementMyBlockages: MyBlockagesList | null;
+  expandedElementMyBlockages: NonAvailabilityData | null;
 
   @ViewChild(MatPaginator, {
     static: true
@@ -79,7 +75,8 @@ export class BlockCalendarComponent implements OnInit {
 
   constructor(
     public appInfo: AppStorageService,
-    public blockagesInfo: BlockagesStorageService
+    public blockagesInfo: BlockagesStorageService,
+    private snackBar: MatSnackBar
   ) {
     appInfo.selectedProjectId = null;
     appInfo.selectedMilestoneId = null;
@@ -90,33 +87,40 @@ export class BlockCalendarComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.appInfo.myBlockages) {
-      this.isFetching = false;
-      this.isFetchingSuccess = true;
-      this.fillData();
-    } else {
-      this.blockagesInfo.getMyBlockages()
-        .then((myBlockages) => {
-          this.isFetching = false;
-          this.isFetchingSuccess = true;
-          this.fillData();
-        })
-        .catch((error) => {
-          this.isFetching = false;
-          this.isFetchingSuccess = false;
-        });
-    }
+    this.isFetching = false;
+    this.isFetchingSuccess = false;
+    this.blockagesInfo.getMyBlockages()
+      .then((myBlockages) => {
+        this.isFetching = false;
+        this.isFetchingSuccess = true;
+        this.fillData();
+      })
+      .catch((error) => {
+        this.isFetching = false;
+        this.isFetchingSuccess = false;
+      });
+  }
+
+  createReqObjectToAddNonAvailability(): AddNonAvailabilityData {
+    return this.addNonAvailability;
   }
 
   addBlockage(): void {
+    const reqPayload = this.createReqObjectToAddNonAvailability();
     this.isAddingBlockage = true;
-    setTimeout(() => {
-      this.isAddingBlockage = false;
-    }, 3000);
+    this.blockagesInfo.addBlockage(reqPayload)
+      .then((resp) => {
+        this.isAddingBlockage = false;
+        this.openSnackBar(resp[1], null);
+      })
+      .catch((error) => {
+        this.isAddingBlockage = false;
+        this.openSnackBar(error[1], null);
+      });
   }
 
   fillData(): void {
-    this.MYBLOCKAGES_DATA = this.appInfo.myBlockages;
+    this.MYBLOCKAGES_DATA = this.blockagesInfo.nonAvailability;
     this.dataSourceMyBlockages = new MatTableDataSource(this.MYBLOCKAGES_DATA);
     this.dataSourceMyBlockages.paginator = this.paginatorMyBlockages;
     this.dataSourceMyBlockages.sort = this.sortMyBlockages;
@@ -135,6 +139,14 @@ export class BlockCalendarComponent implements OnInit {
     setTimeout(() => {
       element.isUpdating = false;
     }, 3000);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'center', // left, right, start, end, center
+      verticalPosition: 'bottom', // top, bottom
+      duration: 3500
+    });
   }
 
 }
