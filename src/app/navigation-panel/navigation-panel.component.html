@@ -32,6 +32,10 @@
       <mat-icon>block</mat-icon>
       <span>Block calendar</span>
     </button>
+    <button mat-menu-item (click)="navigateTo('/milestones-calendar')" *ngIf="appInfo.user.isSuperuser">
+      <mat-icon>today</mat-icon>
+      <span>Milestones calendar</span>
+    </button>
     <button mat-menu-item [matMenuTriggerFor]="metas" *ngIf="appInfo.user.isSuperuser">
       <mat-icon>chrome_reader_mode</mat-icon>
       <span>Metas</span>
