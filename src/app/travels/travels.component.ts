@@ -102,7 +102,7 @@ export class TravelsComponent implements OnInit {
       })
       .catch((error) => {
         this.isFetching = false;
-        this.isFetchingSuccess = true;
+        this.isFetchingSuccess = false;
       });
   }
 

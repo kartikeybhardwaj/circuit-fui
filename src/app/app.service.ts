@@ -21,8 +21,6 @@ export class AppStorageService {
   };
   httpOptionsWithAuth: any = null;
 
-  myBlockages: any = null;
-
   otherHeader: any = '';
   navigationAddText = '';
   isNavigationAddTextVisible = false;

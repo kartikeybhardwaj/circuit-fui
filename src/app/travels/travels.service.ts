@@ -47,6 +47,13 @@ export class TravelsStorageService {
       this.http.post(this.appInfo.constants.urls.addTravel, JSON.stringify(reqPayload), this.appInfo.httpOptions).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
+            this.travels.push({
+              locationId: reqPayload.locationId,
+              index: this.travels.length,
+              name: this.locationInfo.idMapLocations[reqPayload.locationId],
+              timeline: reqPayload.timeline,
+              isUpdating: false
+            });
             resolve([true, 'Base location updated', response.data]);
           } else {
             if (response.message) {
@@ -68,6 +75,7 @@ export class TravelsStorageService {
 
   getMyTravels(): any {
     return new Promise((resolve, reject) => {
+      this.travels = [];
       for (let i = 0; i < this.appInfo.user.otherLocations.length; i++) {
         const thisTravel = this.appInfo.user.otherLocations[i];
         this.travels.push({
