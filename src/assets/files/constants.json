@@ -19,7 +19,8 @@
         "updatePulseTimeline": "http://localhost:3200/update-pulse-timeline",
         "getLocations": "http://localhost:3200/get-locations",
         "updateBaseLocation": "http://localhost:3200/update-base-location",
-        "addTravel": "http://localhost:3200/add-travel"
+        "addTravel": "http://localhost:3200/add-travel",
+        "addBlockage": "http://localhost:3200/add-non-availability"
     },
     "buildingBlocks": {
         "icons": {
