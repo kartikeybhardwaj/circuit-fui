@@ -20,7 +20,9 @@
         "getLocations": "http://localhost:3200/get-locations",
         "updateBaseLocation": "http://localhost:3200/update-base-location",
         "addTravel": "http://localhost:3200/add-travel",
-        "addBlockage": "http://localhost:3200/add-non-availability"
+        "addBlockage": "http://localhost:3200/add-non-availability",
+        "getAllMilestones": "http://localhost:3200/get-all-milestones",
+        "getUserPulses": "http://localhost:3200/get-user-pulses"
     },
     "buildingBlocks": {
         "icons": {
