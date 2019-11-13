@@ -1,0 +1,11 @@
+<div class="contentCenter">
+  <mat-progress-spinner *ngIf="milestoneCalendarInfo.isFetching" class="smallMarginTop" color="primary"
+    mode="indeterminate" [diameter]="24">
+  </mat-progress-spinner>
+  <full-calendar *ngIf="!milestoneCalendarInfo.isFetching && milestoneCalendarInfo.isFetchingSuccess"
+    class="width-100 smallMarginTop" defaultView="dayGridMonth" [header]="calendarHeader" [weekends]="calendarWeekends"
+    [weekNumbers]="calendarWeekNumbers" [selectable]="calendarSelectable" [businessHours]="calendarBusinessHours"
+    [nowIndicator]="calendarNowIndicator" [eventLimit]="calendarEventLimit" [editable]="calendarEditable"
+    [plugins]="calendarPlugins" [events]="milestoneCalendarInfo.calendarEvents" (eventClick)="milestoneClick($event)">
+  </full-calendar>
+</div>
