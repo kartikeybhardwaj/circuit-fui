@@ -2,9 +2,6 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import {
-  EventInput
-} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
@@ -13,8 +10,15 @@ import {
   AppStorageService
 } from '../app.service';
 import {
-  ActivatedRoute
+  ActivatedRoute,
+  Router
 } from '@angular/router';
+import {
+  UserCalendarStorageService
+} from './user-calendar.service';
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-calendar',
@@ -39,101 +43,17 @@ export class UserCalendarComponent implements OnInit {
   };
   calendarWeekends = true;
   calendarWeekNumbers = true;
-  calendarSelectable = true;
+  calendarSelectable = false;
   calendarNowIndicator = true;
   calendarEventLimit = true;
-  calendarEditable = true;
-  calendarEvents: EventInput[] = [{
-    _id: '1234567890',
-    title: 'Some event name',
-    url: 'https://www.google.com/',
-    start: new Date(),
-    end: new Date(),
-    allDay: true,
-    color: 'purple'
-  }, {
-    _id: '1234567890',
-    title: 'Another event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-30'),
-    end: new Date('2019-10-30'),
-    allDay: true
-  }, {
-    _id: '1234567890',
-    title: 'Party event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-09'),
-    end: new Date('2019-10-09'),
-    allDay: true,
-    color: 'purple'
-  }, {
-    _id: '1234567890',
-    title: 'Random event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-20'),
-    end: new Date('2019-10-22'),
-    allDay: true
-  }, {
-    _id: '1234567890',
-    title: 'Random event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-20'),
-    end: new Date('2019-10-22'),
-    allDay: true
-  }, {
-    _id: '1234567890',
-    title: 'Random event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-20'),
-    end: new Date('2019-10-22'),
-    allDay: true
-  }, {
-    _id: '1234567890',
-    title: 'Random event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-20'),
-    end: new Date('2019-10-22'),
-    allDay: true
-  }, {
-    _id: '1234567890',
-    title: 'Random event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-20'),
-    end: new Date('2019-10-22'),
-    allDay: true
-  }, {
-    _id: '1234567890',
-    title: 'Random event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-20'),
-    end: new Date('2019-10-22'),
-    allDay: true
-  }, {
-    _id: '1234567890',
-    title: 'Random event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-20'),
-    end: new Date('2019-10-22'),
-    allDay: true
-  }, {
-    _id: '1234567890',
-    title: 'Random event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-20'),
-    end: new Date('2019-10-22'),
-    allDay: true
-  }, {
-    _id: '1234567890',
-    title: 'Random event',
-    url: 'https://www.google.com/',
-    start: new Date('2019-10-20'),
-    end: new Date('2019-10-22'),
-    allDay: true
-  }];
+  calendarEditable = false;
 
   constructor(
     public appInfo: AppStorageService,
-    private activatedRoute: ActivatedRoute
+    public userCalendarInfo: UserCalendarStorageService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     const activatedRouteSnapshot = activatedRoute.snapshot;
     if (activatedRouteSnapshot.params && activatedRouteSnapshot.params.username) {
@@ -147,21 +67,25 @@ export class UserCalendarComponent implements OnInit {
     appInfo.isNavigationAddTextVisible = false;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userCalendarInfo.getUserPulses(this.username)
+      .then((response) => {})
+      .catch((error) => {
+        this.openSnackBar(error, null);
+      });
+  }
 
   pulseClick(info: any): void {
     info.jsEvent.preventDefault(); // don't let the browser navigate
     console.log(info.event);
   }
 
-  pulseDrop(info: any): void {
-    info.jsEvent.preventDefault(); // don't let the browser navigate
-    console.log(info.event);
-  }
-
-  pulseResize(info: any): void {
-    info.jsEvent.preventDefault(); // don't let the browser navigate
-    console.log(info.event);
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'center', // left, right, start, end, center
+      verticalPosition: 'bottom', // top, bottom
+      duration: 3500
+    });
   }
 
 }
