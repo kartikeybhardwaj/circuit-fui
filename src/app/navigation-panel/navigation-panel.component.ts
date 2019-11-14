@@ -39,7 +39,7 @@ export class NavigationPanelComponent implements OnInit {
     if (this.appInfo.isNavigationAddTextVisible) {
       if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addProject) {
         this.router.navigate([
-          '/projects/add'
+          '/project/add'
         ]);
       } else if (this.appInfo.navigationAddText === this.appInfo.constants.buildingBlocks.labels.addMilestone) {
         this.router.navigate([

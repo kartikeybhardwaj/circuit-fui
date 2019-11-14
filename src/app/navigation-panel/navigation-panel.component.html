@@ -43,41 +43,14 @@
   </mat-menu>
 
   <mat-menu #metas="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="projectMetas">
-      <span>Project metas</span>
-    </button>
-    <button mat-menu-item [matMenuTriggerFor]="milestoneMetas">
-      <span>Milestone metas</span>
-    </button>
-    <button mat-menu-item [matMenuTriggerFor]="pulseMetas">
-      <span>Pulse metas</span>
-    </button>
-  </mat-menu>
-
-  <mat-menu #projectMetas="matMenu">
     <button mat-menu-item (click)="navigateTo('/meta-projects')">
-      <span>Show all</span>
+      <span>Project</span>
     </button>
-    <button mat-menu-item (click)="navigateTo('/meta-projects/add')">
-      <span>Add</span>
-    </button>
-  </mat-menu>
-
-  <mat-menu #milestoneMetas="matMenu">
     <button mat-menu-item (click)="navigateTo('/meta-milestones')">
-      <span>Show all</span>
+      <span>Milestone</span>
     </button>
-    <button mat-menu-item (click)="navigateTo('/meta-milestones/add')">
-      <span>Add</span>
-    </button>
-  </mat-menu>
-
-  <mat-menu #pulseMetas="matMenu">
     <button mat-menu-item (click)="navigateTo('/meta-pulses')">
-      <span>Show all</span>
-    </button>
-    <button mat-menu-item (click)="navigateTo('/meta-pulses/add')">
-      <span>Add</span>
+      <span>Pulse</span>
     </button>
   </mat-menu>
 
