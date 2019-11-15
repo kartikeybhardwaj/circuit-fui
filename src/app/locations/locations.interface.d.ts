@@ -1,7 +1,8 @@
 declare interface LocationData {
   locationId: string;
   index: number;
-  name: string;
+  city: string;
+  country: string;
   meta: LocationMetaData;
 }
 

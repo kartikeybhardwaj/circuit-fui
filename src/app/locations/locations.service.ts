@@ -30,7 +30,8 @@ export class LocationStorageService {
               this.locations.push({
                 locationId: location._id,
                 index: location.index,
-                name: location.name,
+                city: location.city,
+                country: location.country,
                 meta: {
                   addedBy: location.meta.addedBy ? location.meta.addedBy : null,
                   addedOn: location.meta.addedOn ? location.meta.addedOn : null,
