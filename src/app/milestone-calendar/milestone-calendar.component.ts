@@ -49,7 +49,14 @@ export class MilestoneCalendarComponent implements OnInit {
     public milestoneCalendarInfo: MilestoneCalendarStorageService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    appInfo.selectedProjectId = null;
+    appInfo.selectedMilestoneId = null;
+    appInfo.selectedPulseId = null;
+    appInfo.otherHeader = 'Milestones calendar';
+    appInfo.navigationAddText = '';
+    appInfo.isNavigationAddTextVisible = false;
+  }
 
   ngOnInit() {
     this.milestoneCalendarInfo.getCalendarMilestones();
