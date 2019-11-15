@@ -20,6 +20,9 @@ import {
 import {
   MatSnackBar
 } from '@angular/material/snack-bar';
+import {
+  ProjectStorageService
+} from '../projects/projects.service';
 
 @Component({
   selector: 'app-add-project',
@@ -44,6 +47,7 @@ export class AddProjectComponent implements OnInit {
     public roleInfo: RoleStorageService,
     public metaProjectsInfo: MetaProjectsStorageService,
     private addProjectInfo: AddProjectStorageService,
+    private projectInfo: ProjectStorageService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {
@@ -99,6 +103,7 @@ export class AddProjectComponent implements OnInit {
           this.isAdding = false;
           this.openSnackBar(resp[1], null);
           if (resp[0]) {
+            this.projectInfo.getProjects();
             this.router.navigate(['/projects/' + resp[2]._id + '/milestones']);
           }
         })

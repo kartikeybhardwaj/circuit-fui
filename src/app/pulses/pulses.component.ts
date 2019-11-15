@@ -35,6 +35,9 @@ import {
 import {
   RoleStorageService
 } from '../roles/roles.service';
+import {
+  MilestoneStorageService
+} from '../milestones/milestones.service';
 
 @Component({
   selector: 'app-pulses',
@@ -75,6 +78,7 @@ export class PulsesComponent implements OnInit {
     public projectInfo: ProjectStorageService,
     public roleInfo: RoleStorageService,
     private pulseInfo: PulseStorageService,
+    private milestoneInfo: MilestoneStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
@@ -118,6 +122,7 @@ export class PulsesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.milestoneInfo.getMilestones(this.appInfo.selectedProjectId);
     this.pulseInfo.getPulses(this.appInfo.selectedProjectId, this.appInfo.selectedMilestoneId)
       .then((pulses) => {
         this.fillData();
