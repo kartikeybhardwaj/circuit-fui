@@ -13,13 +13,13 @@ export class AddMetaPulsePayloadValidator {
       title: {
         type: 'string',
         pattern: '^[0-9a-zA-Z\\-\\ ]*$',
-        minLength: 4,
-        maxLength: 20
+        minLength: 2,
+        maxLength: 200
       },
       description: {
         type: 'string',
         minLength: 4,
-        maxLength: 40
+        maxLength: 400
       },
       fields: {
         type: 'array',
@@ -29,8 +29,8 @@ export class AddMetaPulsePayloadValidator {
             key: {
               type: 'string',
               pattern: '^[0-9a-zA-Z\\-\\ ]*$',
-              minLength: 4,
-              maxLength: 20
+              minLength: 2,
+              maxLength: 200
             },
             valueType: {
               type: 'string',
@@ -44,17 +44,17 @@ export class AddMetaPulsePayloadValidator {
                 type: 'string',
                 pattern: '^[0-9a-zA-Z\\-\\ ]*$',
                 minLength: 0,
-                maxLength: 20
+                maxLength: 200
               }, {
                 type: 'array',
                 items: {
                   type: 'string',
                   pattern: '^[0-9a-zA-Z\\-\\ ]*$',
                   minLength: 1,
-                  maxLength: 20
+                  maxLength: 200
                 },
                 minItems: 1,
-                maxItems: 5,
+                maxItems: 20,
                 uniqueItems: true
               }]
             }
@@ -67,7 +67,7 @@ export class AddMetaPulsePayloadValidator {
           additionalProperties: false
         },
         minItems: 1,
-        maxItems: 5,
+        maxItems: 10,
         uniqueItems: true
       }
     },
@@ -86,9 +86,9 @@ export class AddMetaPulsePayloadValidator {
     if (error.dataPath === '.title') {
       message = 'Title ';
       if (error.keyword === 'minLength') {
-        message += 'should not be shorter than 4 characters';
+        message += 'should not be shorter than 2 characters';
       } else if (error.keyword === 'maxLength') {
-        message += 'should not be greater than 20 characters';
+        message += 'should not be greater than 200 characters';
       } else if (error.keyword === 'pattern') {
         message += 'should not have special characters';
       }
@@ -97,14 +97,14 @@ export class AddMetaPulsePayloadValidator {
       if (error.keyword === 'minLength') {
         message += 'should not be shorter than 4 characters';
       } else if (error.keyword === 'maxLength') {
-        message += 'should not be greater than 40 characters';
+        message += 'should not be greater than 400 characters';
       }
     } else if (error.dataPath.startsWith('.fields') && error.dataPath.endsWith('.key')) {
       message = 'Keys ';
       if (error.keyword === 'minLength') {
-        message += 'should not be shorter than 4 characters';
+        message += 'should not be shorter than 2 characters';
       } else if (error.keyword === 'maxLength') {
-        message += 'should not be greater than 20 characters';
+        message += 'should not be greater than 200 characters';
       } else if (error.keyword === 'pattern') {
         message += 'should not have special characters';
       }
@@ -113,17 +113,26 @@ export class AddMetaPulsePayloadValidator {
       if (error.keyword === 'minLength') {
         message += 'should not be shorter than 1 character';
       } else if (error.keyword === 'maxLength') {
-        message += 'should not be greater than 20 characters';
+        message += 'should not be greater than 200 characters';
       } else if (error.keyword === 'pattern') {
         message += 'should not have special characters';
       } else if (error.keyword === 'minItems') {
         message += 'should not be less than 1 item';
       } else if (error.keyword === 'maxItems') {
-        message += 'should not be more than 5 items';
+        message += 'should not be more than 20 items';
       } else if (error.keyword === 'uniqueItems') {
         message += 'should not have repeated items';
       } else {
         message = 'Invalid key values';
+      }
+    } else if (error.dataPath.startsWith('.fields')) {
+      message = 'Fields ';
+      if (error.keyword === 'minItems') {
+        message += 'should not be less than 1 item';
+      } else if (error.keyword === 'maxItems') {
+        message += 'should not be more than 10 items';
+      } else if (error.keyword === 'uniqueItems') {
+        message += 'should not have repeated items';
       }
     }
     return message;

@@ -14,7 +14,7 @@ export class AddBlockagePayloadValidator {
         type: 'string',
         pattern: '^[0-9a-zA-Z\\-\\ ]*$',
         minLength: 2,
-        maxLength: 80
+        maxLength: 400
       },
       timeline: {
         type: 'object',
@@ -47,7 +47,12 @@ export class AddBlockagePayloadValidator {
   getUserlikeErrorMessage(error): string {
     let message = '';
     if (error.dataPath === '.reason') {
-      message = 'Invalid reason';
+      message = 'Reason ';
+      if (error.keyword === 'minLength') {
+        message += 'should not be shorter than 2 characters';
+      } else if (error.keyword === 'maxLength') {
+        message += 'should not be greater than 400 characters';
+      }
     } else if (error.dataPath.startsWith('.timeline')) {
       message = 'Invalid timeline';
     }

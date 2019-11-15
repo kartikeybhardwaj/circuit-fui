@@ -13,13 +13,13 @@ export class AddPulsePayloadValidator {
       title: {
         type: 'string',
         pattern: '^[0-9a-zA-Z\\-\\ ]*$',
-        minLength: 4,
-        maxLength: 20
+        minLength: 2,
+        maxLength: 200
       },
       description: {
         type: 'string',
         minLength: 4,
-        maxLength: 40
+        maxLength: 400
       },
       timeline: {
         type: 'object',
@@ -126,9 +126,9 @@ export class AddPulsePayloadValidator {
     if (error.dataPath === '.title') {
       message = 'Title ';
       if (error.keyword === 'minLength') {
-        message += 'should not be shorter than 4 characters';
+        message += 'should not be shorter than 2 characters';
       } else if (error.keyword === 'maxLength') {
-        message += 'should not be greater than 20 characters';
+        message += 'should not be greater than 200 characters';
       } else if (error.keyword === 'pattern') {
         message += 'should not have special characters';
       }
@@ -137,7 +137,7 @@ export class AddPulsePayloadValidator {
       if (error.keyword === 'minLength') {
         message += 'should not be shorter than 4 characters';
       } else if (error.keyword === 'maxLength') {
-        message += 'should not be greater than 40 characters';
+        message += 'should not be greater than 400 characters';
       }
     } else if (error.dataPath.startsWith('.timeline')) {
       message = 'Invalid timeline';
