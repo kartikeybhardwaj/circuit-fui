@@ -435,11 +435,14 @@ svg#clouds {
 
 /* full calendar css override */
 
-.fc, .fc-day-header {
+.fc,
+.fc-day-header {
   color: white !important;
 }
 
-.fc-today, .fc-list-heading, tr.fc-list-item.fc-allow-mouse-resize {
+.fc-today,
+.fc-list-heading,
+tr.fc-list-item.fc-allow-mouse-resize {
   color: #303030;
   background: #deb196 !important;
 }
@@ -456,4 +459,9 @@ svg#clouds {
 
 .fc-list-empty {
   background: transparent !important;
+}
+
+.fc-bgevent {
+  background: white !important;
+  opacity: .3 !important;
 }
