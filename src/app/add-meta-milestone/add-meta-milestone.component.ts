@@ -122,8 +122,7 @@ export class AddMetaMilestoneComponent implements OnInit {
           this.isAdding = false;
           this.openSnackBar(resp[1], null);
           if (resp[0]) {
-            // this.router.navigate(['/Milestones/' + resp[2]._id + '/milestones']);
-            // TODO: navigate to allMetaMilestones page
+            this.router.navigate(['/meta-milestones']);
           }
         })
         .catch((error: [boolean, string, any]) => {
@@ -135,8 +134,8 @@ export class AddMetaMilestoneComponent implements OnInit {
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
-      horizontalPosition: 'center', // left, right, start, end, center
-      verticalPosition: 'bottom', // top, bottom
+      horizontalPosition: 'end', // left, right, start, end, center
+      verticalPosition: 'top', // top, bottom
       duration: 3500
     });
   }

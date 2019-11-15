@@ -182,8 +182,8 @@ export class TravelsComponent implements OnInit {
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
-      horizontalPosition: 'center', // left, right, start, end, center
-      verticalPosition: 'bottom', // top, bottom
+      horizontalPosition: 'end', // left, right, start, end, center
+      verticalPosition: 'top', // top, bottom
       duration: 3500
     });
   }
