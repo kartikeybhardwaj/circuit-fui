@@ -41,6 +41,7 @@ export class MilestoneStorageService {
                 title: milestone.title,
                 description: milestone.description,
                 timeline: milestone.timeline,
+                locationId: milestone.locationId,
                 pulsesList,
                 pulsesListCount: milestone.pulsesList.length,
                 milestoneMetaId: milestone.milestoneMetaId,
@@ -64,7 +65,7 @@ export class MilestoneStorageService {
           }
         },
         (error: any) => {
-          reject(error);
+          reject(this.appInfo.constants.messages.someErrorOccurred);
         });
     });
   }

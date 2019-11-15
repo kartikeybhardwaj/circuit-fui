@@ -38,6 +38,9 @@ import {
 import {
   RoleStorageService
 } from '../roles/roles.service';
+import {
+  LocationStorageService
+} from '../locations/locations.service';
 
 @Component({
   selector: 'app-milestones',
@@ -78,6 +81,7 @@ export class MilestonesComponent implements OnInit {
     public projectInfo: ProjectStorageService,
     public roleInfo: RoleStorageService,
     public milestoneInfo: MilestoneStorageService,
+    public locationInfo: LocationStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar

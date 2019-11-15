@@ -21,6 +21,12 @@ export class AddMilestonePayloadValidator {
         minLength: 4,
         maxLength: 400
       },
+      locationId: {
+        type: 'string',
+        pattern: '^[0-9a-z]*$',
+        minLength: 24,
+        maxLength: 24
+      },
       timeline: {
         type: 'object',
         properties: {
@@ -109,6 +115,8 @@ export class AddMilestonePayloadValidator {
       } else if (error.keyword === 'maxLength') {
         message += 'should not be greater than 400 characters';
       }
+    } else if (error.dataPath.startsWith('.locationId')) {
+      message = 'Invalid location';
     } else if (error.dataPath.startsWith('.timeline')) {
       message = 'Invalid timeline';
     } else if (error.dataPath.startsWith('.fields') && error.dataPath.endsWith('.value')) {

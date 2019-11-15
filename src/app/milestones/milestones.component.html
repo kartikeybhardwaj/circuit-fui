@@ -35,6 +35,7 @@
             <div class="tableContent">
               <div class="smallMarginTop"><strong>Title</strong>:&nbsp;{{element.title}}</div>
               <div class="mediumMarginTop"><strong>Description</strong>:&nbsp;{{element.description}}</div>
+              <div class="mediumMarginTop"><strong>Location</strong>:&nbsp;{{locationInfo.idMapLocations[element.locationId].join(", ")}}</div>
               <div class="mediumMarginTop">
                 <strong>Timeline</strong>:&nbsp;
                 {{appInfo.getLongDate(element.timeline.begin)}} - {{appInfo.getLongDate(element.timeline.end)}}

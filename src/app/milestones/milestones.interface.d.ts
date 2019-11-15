@@ -4,6 +4,7 @@ declare interface MilestoneData {
   title: string;
   description: string;
   timeline: MilestoneTimelineData;
+  locationId: string;
   pulsesList: string[];
   pulsesListCount: number;
   milestoneMetaId: string;
