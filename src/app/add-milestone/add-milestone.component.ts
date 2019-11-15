@@ -18,6 +18,9 @@ import {
 import {
   MetaMilestonesStorageService
 } from '../meta-milestones/meta-milestones.service';
+import {
+  LocationStorageService
+} from '../locations/locations.service';
 
 @Component({
   selector: 'app-add-milestone',
@@ -33,6 +36,7 @@ export class AddMilestoneComponent implements OnInit {
       begin: null,
       end: null
     },
+    locationId: null,
     milestoneMetaId: null,
     fields: [],
     linkedProjectId: null
@@ -45,6 +49,7 @@ export class AddMilestoneComponent implements OnInit {
     public appInfo: AppStorageService,
     public metaMilestonesInfo: MetaMilestonesStorageService,
     private addMilestoneInfo: AddMilestoneStorageService,
+    public locationInfo: LocationStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar

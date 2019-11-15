@@ -9,6 +9,15 @@
       <textarea matInput cdkTextareaAutosize [(ngModel)]="milestone.description" placeholder="Description"
         autocomplete="off" type="text" value=""></textarea>
     </mat-form-field>
+    <!-- location -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <mat-label>Location</mat-label>
+      <mat-select [(ngModel)]="milestone.locationId">
+        <mat-option *ngFor="let location of locationInfo.locations; index as indexLocation;" [value]="location.locationId">
+          {{locationInfo.idMapLocations[location.locationId].join(', ')}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <!-- timeline -->
     <mat-form-field class="width-100 smallMarginTop">
       <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="milestoneTimeline"

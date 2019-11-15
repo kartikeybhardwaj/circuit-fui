@@ -1,6 +1,7 @@
 declare interface AddMilestoneData {
   title: string;
   description: string;
+  locationId: string;
   timeline: AddMilestoneTimelineData;
   milestoneMetaId: string;
   fields: AddMilestoneFieldData[];
