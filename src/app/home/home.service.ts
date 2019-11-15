@@ -70,6 +70,14 @@ export class HomeStorageService {
                 color: pulse.color === 'blue' ? '#1b85b8' : pulse.color === 'black' ? '#5a5255' : pulse.color === 'green' ? '#559e83' : pulse.color === 'red' ? '#ae5a41' : null
               });
             });
+            this.appInfo.user.nonAvailability.forEach(thisBlockage => {
+              this.calendarEvents.push({
+                start: new Date(thisBlockage.timeline.begin),
+                end: new Date(thisBlockage.timeline.end),
+                rendering: 'background',
+                allDay: true
+              });
+            });
             resolve(this.myPulses);
           } else {
             if (response.message) {
