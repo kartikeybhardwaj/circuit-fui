@@ -21,7 +21,7 @@ export class PulseStorageService {
 
   getPulses(projectId: string, milestoneId: string): any {
     return new Promise((resolve, reject) => {
-      const httpOptions = this.appInfo.httpOptions;
+      const httpOptions = this.appInfo.httpOptionsWithAuth;
       httpOptions.params = {
         projectId,
         milestoneId

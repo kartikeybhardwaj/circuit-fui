@@ -21,7 +21,7 @@ export class MetaMilestonesStorageService {
 
   getMetaMilestones(): any {
     return new Promise((resolve, reject) => {
-      this.http.get(this.appInfo.constants.urls.getMetaMilestones, this.appInfo.httpOptions).subscribe(
+      this.http.get(this.appInfo.constants.urls.getMetaMilestones, this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
             this.metaMilestones = [{

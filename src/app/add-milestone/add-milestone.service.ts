@@ -26,7 +26,7 @@ export class AddMilestoneStorageService {
 
   addMilestone(reqPayload: AddMilestoneData): any {
     return new Promise((resolve, reject) => {
-      this.http.post(this.appInfo.constants.urls.addMilestone, JSON.stringify(reqPayload), this.appInfo.httpOptions).subscribe(
+      this.http.post(this.appInfo.constants.urls.addMilestone, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
             resolve([true, 'Milestone added', response.data]);

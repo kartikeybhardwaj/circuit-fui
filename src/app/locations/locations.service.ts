@@ -21,7 +21,7 @@ export class LocationStorageService {
 
   getLocations(): any {
     return new Promise((resolve, reject) => {
-      this.http.get(this.appInfo.constants.urls.getLocations, this.appInfo.httpOptions).subscribe(
+      this.http.get(this.appInfo.constants.urls.getLocations, this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
             this.locations = [];

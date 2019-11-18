@@ -9,7 +9,8 @@ import {
   AppStorageService
 } from './app.service';
 import {
-  HttpClient
+  HttpClient,
+  HttpHeaders
 } from '@angular/common/http';
 import {
   ProjectStorageService
@@ -98,11 +99,20 @@ export class AppComponent implements OnInit {
   }
 
   getUser(): any {
+    // const localStorageCircuitToken = this.appInfo.localStorage.getItem('circuitToken');
     return new Promise((resolve, reject) => {
       this.http.get(this.appInfo.constants.urls.getUser, this.appInfo.httpOptions).subscribe(
         (response: any) => {
           if (response.data && response.data.username) {
+            this.appInfo.localStorage.removeItem('circuitToken');
+            this.appInfo.localStorage.setItem('circuitToken', 'Bearer ' + response.data.token);
             this.appInfo.user = response.data;
+            this.appInfo.httpOptionsWithAuth = {
+              headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + response.data.token
+              })
+            };
             resolve(true);
           } else {
             resolve(false);

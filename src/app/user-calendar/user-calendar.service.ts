@@ -30,7 +30,7 @@ export class UserCalendarStorageService {
   getUserPulses(username: string): any {
     return new Promise((resolve, reject) => {
       this.isFetching = true;
-      const httpOptions = this.appInfo.httpOptions;
+      const httpOptions = this.appInfo.httpOptionsWithAuth;
       httpOptions.params = {
         username
       };

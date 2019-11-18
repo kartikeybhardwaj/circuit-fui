@@ -28,7 +28,7 @@ export class MilestoneCalendarStorageService {
   getCalendarMilestones(): any {
     return new Promise((resolve, reject) => {
       this.isFetching = true;
-      this.http.get(this.appInfo.constants.urls.getAllMilestones, this.appInfo.httpOptions).subscribe(
+      this.http.get(this.appInfo.constants.urls.getAllMilestones, this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
             this.calendarMilestones = [];

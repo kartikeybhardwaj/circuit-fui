@@ -21,7 +21,7 @@ export class MetaProjectsStorageService {
 
   getMetaProjects(): any {
     return new Promise((resolve, reject) => {
-      this.http.get(this.appInfo.constants.urls.getMetaProjects, this.appInfo.httpOptions).subscribe(
+      this.http.get(this.appInfo.constants.urls.getMetaProjects, this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
             this.metaProjects = [{

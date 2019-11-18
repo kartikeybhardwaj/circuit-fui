@@ -26,7 +26,7 @@ export class AddMetaProjectStorageService {
 
   addMetaProject(reqPayload: AddMetaProjectData): any {
     return new Promise((resolve, reject) => {
-      this.http.post(this.appInfo.constants.urls.addMetaProject, JSON.stringify(reqPayload), this.appInfo.httpOptions).subscribe(
+      this.http.post(this.appInfo.constants.urls.addMetaProject, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
             resolve([true, 'Meta project added', response.data]);

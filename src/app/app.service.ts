@@ -28,7 +28,11 @@ export class AppStorageService {
   selectedMilestoneId: any = null;
   selectedPulseId: any = null;
 
-  constructor() {}
+  localStorage: any = null;
+
+  constructor() {
+    this.localStorage = window.localStorage;
+  }
 
   getShortDate(date: number): string {
     const thisDate = new Date(date).toString();
