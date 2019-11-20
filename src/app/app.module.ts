@@ -255,6 +255,9 @@ import {
 import {
   UserCalendarStorageService
 } from './user-calendar/user-calendar.service';
+import {
+  GetUsersAvailabilityCreatingPulsePayloadValidator
+} from './json-schema-validatior/get-users-availability-creating-pulse';
 
 @NgModule({
   declarations: [
@@ -347,7 +350,8 @@ import {
     AddMetaMilestonePayloadValidator,
     AddMetaPulsePayloadValidator,
     AddTravelPayloadValidator,
-    AddBlockagePayloadValidator
+    AddBlockagePayloadValidator,
+    GetUsersAvailabilityCreatingPulsePayloadValidator
   ],
   entryComponents: [
     BottomSheetMenu
