@@ -47,6 +47,7 @@ import {
 import {
   MilestoneStorageService
 } from '../milestones/milestones.service';
+import { LocationStorageService } from '../locations/locations.service';
 
 @Component({
   selector: 'app-add-pulse',
@@ -72,7 +73,10 @@ export class AddPulseComponent implements OnInit {
   selectedPulseMeta: any = null;
   timeline = null;
   isAdding = false;
+  isValidatingUsers = false;
   projectMembersMap: any = {};
+
+  displayUserAvailability: string[] = [];
 
   selectableAssignee = true;
   removableAssignee = true;
@@ -117,6 +121,7 @@ export class AddPulseComponent implements OnInit {
     private addPulseInfo: AddPulseStorageService,
     private projectInfo: ProjectStorageService,
     private milestoneInfo: MilestoneStorageService,
+    private locationInfo: LocationStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar
@@ -204,13 +209,102 @@ export class AddPulseComponent implements OnInit {
     return this.allAssignees.filter(assignee => assignee.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  createValidateUsersAvailabilityReqObject(): CheckUsersAvailabilityData {
+    const payload: CheckUsersAvailabilityData = {
+      milestoneId: null,
+      timeline: {
+        begin: null,
+        end: null
+      },
+      members: []
+    };
+    try {
+      payload.milestoneId = this.appInfo.selectedMilestoneId;
+      let begin = this.timeline.begin.toString();
+      begin = begin.substr(0, 16) + this.startTime + begin.substring(21);
+      begin = new Date(begin).toISOString();
+      let end = this.timeline.end.toString();
+      end = end.substr(0, 16) + this.endTime + end.substring(21);
+      end = new Date(end).toISOString();
+      payload.timeline = {
+        begin,
+        end
+      };
+      const assignees = [];
+      this.selectedAssignees.forEach(assignee => {
+        assignees.push(this.projectMembersMap[assignee]);
+      });
+      payload.members = assignees;
+    } catch (error) {}
+    return payload;
+  }
+
+  validateUsersAvailability(): void {
+    const reqPayload = this.createValidateUsersAvailabilityReqObject();
+    const afterValidateReqPayload = this.addPulseInfo.validateRequestCheckAvailability(reqPayload);
+    if (!afterValidateReqPayload[0]) {
+      this.openSnackBar(afterValidateReqPayload[1], null);
+    } else {
+      this.isValidatingUsers = true;
+      this.addPulseInfo.getUsersAvailability(reqPayload)
+        .then((resp: [boolean, string, any]) => {
+          this.isValidatingUsers = false;
+          if (!resp[0]) {
+            this.openSnackBar(resp[1], null);
+          } else {
+            this.displayUserAvailability = [];
+            Object.keys(resp[2]).forEach(memberId => {
+              if (resp[2][memberId].status === false) {
+                let thisMemberUsername = '';
+                Object.keys(this.projectMembersMap).some(element => {
+                  if (this.projectMembersMap[element] === memberId) {
+                    thisMemberUsername = element;
+                    return true;
+                  }
+                });
+                if (resp[2][memberId].nonAvailability) {
+                  this.displayUserAvailability.push(
+                    thisMemberUsername +
+                    ' has blocked calendar from ' +
+                    this.appInfo.getLongDate(resp[2][memberId].nonAvailability.timeline.begin) +
+                    ' to ' +
+                    this.appInfo.getLongDate(resp[2][memberId].nonAvailability.timeline.end)
+                  );
+                } else if (resp[2][memberId].otherLocations) {
+                  this.displayUserAvailability.push(
+                    thisMemberUsername +
+                    ' is located at ' +
+                    this.locationInfo.idMapLocations[resp[2][memberId].otherLocations.locationId].join(', ') +
+                    ' from ' +
+                    this.appInfo.getLongDate(resp[2][memberId].otherLocations.timeline.begin) +
+                    ' to ' +
+                    this.appInfo.getLongDate(resp[2][memberId].otherLocations.timeline.end)
+                  );
+                } else if (resp[2][memberId].baseLocationMatch) {
+                  this.displayUserAvailability.push(
+                    thisMemberUsername +
+                    ' is located at ' +
+                    this.locationInfo.idMapLocations[resp[2][memberId].baseLocationMatch].join(', ')
+                  );
+                }
+              }
+            });
+          }
+        })
+        .catch((error: [boolean, string, any]) => {
+          this.isValidatingUsers = false;
+          this.openSnackBar(error[1], null);
+        });
+    }
+  }
+
   createReqObject(): AddPulseData {
     try {
       this.pulse.timeline.begin = this.timeline.begin.toString();
       this.pulse.timeline.begin = this.pulse.timeline.begin.substr(0, 16) + this.startTime + this.pulse.timeline.begin.substring(21);
       this.pulse.timeline.begin = new Date(this.pulse.timeline.begin).toISOString();
       this.pulse.timeline.end = this.timeline.end.toString();
-      this.pulse.timeline.end = this.pulse.timeline.end.substr(0, 16) + this.endTime + this.pulse.timeline.begin.substring(21);
+      this.pulse.timeline.end = this.pulse.timeline.end.substr(0, 16) + this.endTime + this.pulse.timeline.end.substring(21);
       this.pulse.timeline.end = new Date(this.pulse.timeline.end).toISOString();
       this.pulse.linkedProjectId = this.appInfo.selectedProjectId;
       this.pulse.linkedMilestoneId = this.appInfo.selectedMilestoneId;
@@ -224,7 +318,7 @@ export class AddPulseComponent implements OnInit {
 
   addPulse(): void {
     const reqPayload = this.createReqObject();
-    const afterValidateReqPayload = this.addPulseInfo.validateRequest(reqPayload);
+    const afterValidateReqPayload = this.addPulseInfo.validateRequestAddPulse(reqPayload);
     if (!afterValidateReqPayload[0]) {
       this.openSnackBar(afterValidateReqPayload[1], null);
     } else {

@@ -10,6 +10,9 @@ import {
 import {
   AddPulsePayloadValidator
 } from '../json-schema-validatior/add-pulse';
+import {
+  GetUsersAvailabilityCreatingPulsePayloadValidator
+} from '../json-schema-validatior/get-users-availability-creating-pulse';
 
 @Injectable()
 export class AddPulseStorageService {
@@ -17,11 +20,36 @@ export class AddPulseStorageService {
   constructor(
     private appInfo: AppStorageService,
     private addPulsePayloadValidator: AddPulsePayloadValidator,
+    private checkUsersAvailabilityPayloadValidator: GetUsersAvailabilityCreatingPulsePayloadValidator,
     private http: HttpClient
   ) {}
 
-  validateRequest(pulse: AddPulseData): [boolean, string] {
+  validateRequestCheckAvailability(usersAvailability: CheckUsersAvailabilityData): [boolean, string] {
+    return this.checkUsersAvailabilityPayloadValidator.validateSchema(usersAvailability);
+  }
+
+  validateRequestAddPulse(pulse: AddPulseData): [boolean, string] {
     return this.addPulsePayloadValidator.validateSchema(pulse);
+  }
+
+  getUsersAvailability(reqPayload: CheckUsersAvailabilityData): any {
+    return new Promise((resolve, reject) => {
+      this.http.post(this.appInfo.constants.urls.getOverlapsCreatingPulse,
+        JSON.stringify(reqPayload),
+        this.appInfo.httpOptionsWithAuth).subscribe(
+        (response: any) => {
+          if (response.responseId && response.responseId === 211) {
+            resolve([true, '', response.data]);
+          } else if (response.message) {
+            reject([false, response.message, {}]);
+          } else {
+            reject([false, 'Some error occurred', {}]);
+          }
+        },
+        (error: any) => {
+          reject([false, 'Some error occurred', {}]);
+        });
+    });
   }
 
   addPulse(reqPayload: AddPulseData): any {
