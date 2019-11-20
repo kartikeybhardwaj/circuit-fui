@@ -22,7 +22,8 @@
         "addTravel": "http://localhost:3100/add-travel",
         "addBlockage": "http://localhost:3100/add-non-availability",
         "getAllMilestones": "http://localhost:3100/get-all-milestones",
-        "getUserPulses": "http://localhost:3100/get-user-pulses"
+        "getUserPulses": "http://localhost:3100/get-user-pulses",
+        "getOverlapsCreatingPulse": "http://localhost:3100/get-overlaps-creating-pulse"
     },
     "buildingBlocks": {
         "icons": {
