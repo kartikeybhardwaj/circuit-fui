@@ -258,6 +258,15 @@ import {
 import {
   GetUsersAvailabilityCreatingPulsePayloadValidator
 } from './json-schema-validatior/get-users-availability-creating-pulse';
+import {
+  EditMilestoneStorageService
+} from './edit-milestone/edit-milestone.service';
+import {
+  EditProjectStorageService
+} from './edit-project/edit-project.service';
+import {
+  EditPulseStorageService
+} from './edit-pulse/edit-pulse.service';
 
 @NgModule({
   declarations: [
@@ -343,6 +352,9 @@ import {
     LocationStorageService,
     MilestoneCalendarStorageService,
     UserCalendarStorageService,
+    EditProjectStorageService,
+    EditMilestoneStorageService,
+    EditPulseStorageService,
     AddProjectPayloadValidator,
     AddMilestonePayloadValidator,
     AddPulsePayloadValidator,
