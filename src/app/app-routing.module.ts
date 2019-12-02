@@ -97,13 +97,13 @@ const routes: Routes = [{
   path: 'projects/:projectId/milestones/:milestoneId/pulse/add',
   component: AddPulseComponent
 }, {
-  path: 'project/:projectId/edit',
+  path: 'projects/:projectId/edit',
   component: EditProjectComponent
 }, {
-  path: 'project/:projectId/milestone/:milestoneId/edit',
+  path: 'projects/:projectId/milestones/:milestoneId/edit',
   component: EditMilestoneComponent
 }, {
-  path: 'project/:projectId/milestone/:milestoneId/pulse/:pulseId/edit',
+  path: 'projects/:projectId/milestones/:milestoneId/pulses/:pulseId/edit',
   component: EditPulseComponent
 }, {
   path: 'travels',
