@@ -3,8 +3,11 @@
     "urls": {
         "getUser": "http://localhost:3100/get-user",
         "getRoles": "http://localhost:3100/get-roles",
+        "getProject": "http://localhost:3100/get-project",
         "getProjects": "http://localhost:3100/get-projects",
+        "getMilestone": "http://localhost:3100/get-milestone",
         "getMilestones": "http://localhost:3100/get-milestones",
+        "getPulse": "http://localhost:3100/get-pulse",
         "getPulses": "http://localhost:3100/get-pulses",
         "getMetaProjects": "http://localhost:3100/get-meta-projects",
         "getMetaMilestones": "http://localhost:3100/get-meta-milestones",
@@ -23,7 +26,10 @@
         "addBlockage": "http://localhost:3100/add-non-availability",
         "getAllMilestones": "http://localhost:3100/get-all-milestones",
         "getUserPulses": "http://localhost:3100/get-user-pulses",
-        "getOverlapsCreatingPulse": "http://localhost:3100/get-overlaps-creating-pulse"
+        "getOverlapsCreatingPulse": "http://localhost:3100/get-overlaps-creating-pulse",
+        "updateProject": "http://localhost:3100/update-project",
+        "updateMilestone": "http://localhost:3100/update-milestone",
+        "updatePulse": "http://localhost:3100/update-pulse"
     },
     "buildingBlocks": {
         "icons": {
