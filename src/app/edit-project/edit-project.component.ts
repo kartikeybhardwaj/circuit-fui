@@ -6,8 +6,21 @@ import {
   AppStorageService
 } from '../app.service';
 import {
-  Router
+  Router,
+  ActivatedRoute
 } from '@angular/router';
+import {
+  EditProjectStorageService
+} from './edit-project.service';
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
+import {
+  MetaProjectsStorageService
+} from '../meta-projects/meta-projects.service';
+import {
+  RoleStorageService
+} from '../roles/roles.service';
 
 @Component({
   selector: 'app-edit-project',
@@ -15,21 +28,33 @@ import {
   styleUrls: ['./edit-project.component.css']
 })
 export class EditProjectComponent implements OnInit {
-  project: any = {};
 
-  projectMetas: any = [];
-  selectedMeta: any = {};
-
-  allRoles: any = [];
-  selectedRole: any = {};
+  project: AddProjectData = {
+    title: '',
+    description: '',
+    visibility: 'internal',
+    members: [],
+    projectMetaId: null,
+    fields: [],
+  };
+  selectedProjectMeta: any = null;
 
   isUpdating = false;
 
   constructor(
     public appInfo: AppStorageService,
-    private router: Router
+    private editProjectInfo: EditProjectStorageService,
+    public metaProjectsInfo: MetaProjectsStorageService,
+    public roleInfo: RoleStorageService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
-    appInfo.selectedProjectId = null;
+    const activatedRouteSnapshot = activatedRoute.snapshot;
+    if (activatedRouteSnapshot.params &&
+      activatedRouteSnapshot.params.projectId) {
+      appInfo.selectedProjectId = activatedRouteSnapshot.params.projectId;
+    }
     appInfo.selectedMilestoneId = null;
     appInfo.selectedPulseId = null;
     appInfo.otherHeader = 'Edit Project';
@@ -38,169 +63,36 @@ export class EditProjectComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.project = {
-      index: 4,
-      _id: '1234567890',
-      title: 'this is some random title',
-      description: 'this is some description',
-      visibility: 'internal',
-      visibilityIcon: this.appInfo.constants.buildingBlocks.icons.internal,
-      members: [{
-        _id: '0',
-        username: 'some user',
-        roleId: '1',
-        roleName: 'Project Manager',
-      }, {
-        _id: '1',
-        username: 'some user',
-        roleId: '3',
-        roleName: 'That one guy',
-      }],
-      milestonesList: [{
-        _id: '1234567890',
-        title: 'milestone title 1'
-      }, {
-        _id: '1234567890',
-        title: 'milestone title 2'
-      }],
-      milestonesListCount: 4,
-      projectMetaId: '2',
-      fields: [{
-        key: 'select 1',
-        'select 1': 'Angular'
-      }, {
-        key: 'select 2',
-        'select 2': 'React.js'
-      }, {
-        key: 'enter here',
-        'enter here': 'some value here'
-      }],
-      meta: {
-        addedBy: 'some user',
-        addedOn: this.appInfo.getLongDate(new Date().getTime()),
-        lastUpdatedBy: 'some user',
-        lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-      }
-    };
-    this.getProjectMetas().then(
-      (projectMetas) => {
-        this.projectMetas = projectMetas;
-        this.projectMetas.some(meta => {
-          if (meta._id === this.project.projectMetaId) {
-            this.selectedMeta = meta;
-            return true;
-          }
+    if (this.editProjectInfo.project.title === '') {
+      this.editProjectInfo.getProject(this.appInfo.selectedProjectId)
+        .then((response: any) => {
+          this.project = this.editProjectInfo.project;
+          this.selectedProjectMeta = this.editProjectInfo.selectedProjectMeta;
+        })
+        .catch((error: any) => {
+          this.openSnackBar(error, null);
         });
-      },
-      (error) => {}
-    );
-    this.getRoles().then(
-      (response) => {},
-      (error) => {}
-    );
+    } else {
+      this.project = this.editProjectInfo.project;
+      this.selectedProjectMeta = this.editProjectInfo.selectedProjectMeta;
+    }
   }
 
-  changedProjectMetaId(event: any): void {
-    this.project.fields = {};
-  }
-
-  getProjectMetas(): any {
-    return new Promise((resolve, reject) => {
-      const projectMetas = [{
-        _id: '0',
-        title: 'None',
-        description: 'nothing in here',
-        fields: []
-      }, {
-        _id: '1',
-        title: 'meta 1',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }, {
-        _id: '2',
-        title: 'meta 2',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }];
-      resolve(projectMetas);
+  changedProjectMeta(event: any): void {
+    this.project.fields = [];
+    event.value.fields.forEach(field => {
+      this.project.fields.push({
+        key: field.key,
+        value: null
+      });
     });
-  }
-
-  getRoles(): any {
-    return new Promise((resolve, reject) => {
-      const roles = [{
-        _id: '0',
-        title: 'Super User',
-        description: 'Super User who can do anything.',
-        isSuperUser: true,
-        canModifyUsersRole: true,
-        canModifyLocations: true,
-        canModifyProjects: true,
-        canModifyMilestones: true,
-        canModifyPulses: true
-      }, {
-        _id: '1',
-        title: 'Project Manager',
-        description: 'Just some designation',
-        isSuperUser: false,
-        canModifyUsersRole: true,
-        canModifyLocations: true,
-        canModifyProjects: true,
-        canModifyMilestones: true,
-        canModifyPulses: true
-      }, {
-        _id: '2',
-        title: 'Project Member',
-        description: 'Just some designation',
-        isSuperUser: false,
-        canModifyUsersRole: false,
-        canModifyLocations: true,
-        canModifyProjects: false,
-        canModifyMilestones: false,
-        canModifyPulses: true
-      }, {
-        _id: '3',
-        title: 'That one guy',
-        description: 'Just some designation',
-        isSuperUser: false,
-        canModifyUsersRole: false,
-        canModifyLocations: true,
-        canModifyProjects: false,
-        canModifyMilestones: false,
-        canModifyPulses: false
-      }];
-      this.allRoles = roles;
-      resolve(true);
-    });
+    this.project.projectMetaId = event.value.metaProjectId;
   }
 
   addMember(): void {
     this.project.members.push({
       username: '',
+      displayname: '',
       roleId: ''
     });
   }
@@ -214,6 +106,14 @@ export class EditProjectComponent implements OnInit {
     setTimeout(() => {
       this.isUpdating = false;
     }, 2500);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'end', // left, right, start, end, center
+      verticalPosition: 'top', // top, bottom
+      duration: 3500
+    });
   }
 
 }
