@@ -32,6 +32,21 @@ import {
 import {
   MatChipInputEvent
 } from '@angular/material/chips';
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
+import {
+  EditPulseStorageService
+} from './edit-pulse.service';
+import {
+  MetaPulsesStorageService
+} from '../meta-pulses/meta-pulses.service';
+import {
+  ProjectStorageService
+} from '../projects/projects.service';
+import {
+  LocationStorageService
+} from '../locations/locations.service';
 
 @Component({
   selector: 'app-edit-pulse',
@@ -39,12 +54,28 @@ import {
   styleUrls: ['./edit-pulse.component.css']
 })
 export class EditPulseComponent implements OnInit {
-  pulse: any = {};
 
-  pulseMetas: any = [];
-  selectedMeta: any = {};
-
+  pulse: AddPulseData = {
+    title: '',
+    description: '',
+    timeline: {
+      begin: null,
+      end: null
+    },
+    color: 'blue',
+    assignees: [],
+    pulseMetaId: null,
+    fields: [],
+    linkedProjectId: null,
+    linkedMilestoneId: null
+  };
+  selectedPulseMeta: any = null;
+  timeline = null;
   isUpdating = false;
+  isValidatingUsers = false;
+  projectMembersMap: any = {};
+
+  displayUserAvailability: string[] = [];
 
   selectableAssignee = true;
   removableAssignee = true;
@@ -52,8 +83,13 @@ export class EditPulseComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   assigneeCtrl = new FormControl();
   filteredAssignees: Observable < string[] > ;
-  allAssignees: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  allAssignees: string[] = [];
+  selectedAssignees: string[] = [];
 
+  colors = [
+    'blue', 'black',
+    'green', 'red'
+  ];
   timeHours: string[] = [
     '00:00', '00:30', '01:00', '01:30',
     '02:00', '02:30', '03:00', '03:30',
@@ -68,7 +104,6 @@ export class EditPulseComponent implements OnInit {
     '20:00', '20:30', '21:00', '21:30',
     '22:00', '22:30', '23:00', '23:30'
   ];
-
   startTime = '09:30';
   endTime = '17:30';
 
@@ -82,16 +117,22 @@ export class EditPulseComponent implements OnInit {
   constructor(
     public appInfo: AppStorageService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private projectInfo: ProjectStorageService,
+    private editPulseInfo: EditPulseStorageService,
+    public metaPulseInfo: MetaPulsesStorageService,
+    private locationInfo: LocationStorageService,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     const activatedRouteSnapshot = activatedRoute.snapshot;
     if (activatedRouteSnapshot.params &&
       activatedRouteSnapshot.params.projectId &&
-      activatedRouteSnapshot.params.milestoneId) {
+      activatedRouteSnapshot.params.milestoneId &&
+      activatedRouteSnapshot.params.pulseId) {
       appInfo.selectedProjectId = activatedRouteSnapshot.params.projectId;
       appInfo.selectedMilestoneId = activatedRouteSnapshot.params.milestoneId;
+      appInfo.selectedPulseId = activatedRouteSnapshot.params.pulseId;
     }
-    appInfo.selectedPulseId = null;
     appInfo.otherHeader = 'Edit Pulse';
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
@@ -101,28 +142,55 @@ export class EditPulseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pulse = {
-      title: '',
-      description: '',
-      timeline: {},
-      pulseMetaId: '',
-      fields: {},
-      assignees: [],
-      meta: {
-        addedBy: '1234567890',
-        addedOn: new Date(),
-        lastUpdatedBy: '1234567890',
-        lastUpdatedOn: new Date()
-      }
-    };
-    this.getPulseMetas().then(
-      (response) => {},
-      (error) => {}
-    );
+    this.fillAssignees();
+    if (this.editPulseInfo.pulse.title === '') {
+      this.editPulseInfo.getPulse(this.appInfo.selectedProjectId, this.appInfo.selectedMilestoneId, this.appInfo.selectedPulseId)
+        .then((response: any) => {
+          this.pulse = this.editPulseInfo.pulse;
+          this.selectedPulseMeta = this.editPulseInfo.selectedPulseMeta;
+          this.timeline = this.editPulseInfo.timeline;
+          this.pulse.assignees.forEach((assignee) => {
+            this.selectedAssignees.push(this.projectInfo.idMapProjects[assignee]);
+          });
+        })
+        .catch((error: any) => {
+          this.openSnackBar(error, null);
+        });
+    } else {
+      this.pulse = this.editPulseInfo.pulse;
+      this.selectedPulseMeta = this.editPulseInfo.selectedPulseMeta;
+      this.timeline = this.editPulseInfo.timeline;
+      this.pulse.assignees.forEach((assignee) => {
+        this.selectedAssignees.push(this.projectInfo.idMapProjects[assignee]);
+      });
+    }
   }
 
-  changedPulseMetaId(event: any): void {
-    this.pulse.fields = {};
+  fillAssignees(): void {
+    this.allAssignees = [];
+    this.projectInfo.projects.some(project => {
+      if (project.projectId === this.appInfo.selectedProjectId) {
+        project.members.forEach(member => {
+          this.projectMembersMap[this.projectInfo.idMapProjects[member.userId]] = member.userId;
+          this.allAssignees.push(this.projectInfo.idMapProjects[member.userId]);
+        });
+        return true;
+      }
+    });
+    this.filteredAssignees = this.assigneeCtrl.valueChanges.pipe(
+      startWith(null),
+      map((thisAssignee: string | null) => thisAssignee ? this._filter(thisAssignee) : this.allAssignees.slice()));
+  }
+
+  changedPulseMeta(event: any): void {
+    this.pulse.fields = [];
+    event.value.fields.forEach(field => {
+      this.pulse.fields.push({
+        key: field.key,
+        value: null
+      });
+    });
+    this.pulse.pulseMetaId = event.value.metaPulseId;
   }
 
   addAssignee(event: MatChipInputEvent): void {
@@ -132,8 +200,8 @@ export class EditPulseComponent implements OnInit {
       const input = event.input;
       const value = event.value.trim();
       // Add our assignee
-      if (this.allAssignees.indexOf(value) !== -1 && this.pulse.assignees.indexOf(value) === -1) {
-        this.pulse.assignees.push(value);
+      if (this.allAssignees.indexOf(value) !== -1 && this.selectedAssignees.indexOf(value) === -1) {
+        this.selectedAssignees.push(value);
       }
       // Reset the input value
       if (input) {
@@ -144,16 +212,16 @@ export class EditPulseComponent implements OnInit {
   }
 
   removeAssignee(assignee: string): void {
-    const index = this.pulse.assignees.indexOf(assignee);
+    const index = this.selectedAssignees.indexOf(assignee);
     if (index >= 0) {
-      this.pulse.assignees.splice(index, 1);
+      this.selectedAssignees.splice(index, 1);
     }
   }
 
   selectedAssignee(event: MatAutocompleteSelectedEvent): void {
     const value = event.option.viewValue;
-    if (this.allAssignees.indexOf(value) !== -1 && this.pulse.assignees.indexOf(value) === -1) {
-      this.pulse.assignees.push(value);
+    if (this.allAssignees.indexOf(value) !== -1 && this.selectedAssignees.indexOf(value) === -1) {
+      this.selectedAssignees.push(value);
       this.assigneeInput.nativeElement.value = '';
       this.assigneeCtrl.setValue(null);
     }
@@ -164,52 +232,93 @@ export class EditPulseComponent implements OnInit {
     return this.allAssignees.filter(assignee => assignee.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  getPulseMetas(): any {
-    return new Promise((resolve, reject) => {
-      const pulseMetas = [{
-        _id: '1234567890',
-        title: 'None',
-        description: 'nothing in here',
-        fields: []
-      }, {
-        _id: '1234567890',
-        title: 'meta 1',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }, {
-        _id: '0987654321',
-        title: 'meta 2',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }];
-      this.pulseMetas = pulseMetas;
-      this.selectedMeta = this.pulseMetas[0];
-      resolve(true);
-    });
+  createValidateUsersAvailabilityReqObject(): CheckUsersAvailabilityData {
+    const payload: CheckUsersAvailabilityData = {
+      milestoneId: null,
+      timeline: {
+        begin: null,
+        end: null
+      },
+      members: []
+    };
+    try {
+      payload.milestoneId = this.appInfo.selectedMilestoneId;
+      let begin = this.timeline.begin.toString();
+      begin = begin.substr(0, 16) + this.startTime + begin.substring(21);
+      begin = new Date(begin).toISOString();
+      let end = this.timeline.end.toString();
+      end = end.substr(0, 16) + this.endTime + end.substring(21);
+      end = new Date(end).toISOString();
+      payload.timeline = {
+        begin,
+        end
+      };
+      const assignees = [];
+      this.selectedAssignees.forEach(assignee => {
+        assignees.push(this.projectMembersMap[assignee]);
+      });
+      payload.members = assignees;
+    } catch (error) {}
+    return payload;
+  }
+
+  validateUsersAvailability(): void {
+    const reqPayload = this.createValidateUsersAvailabilityReqObject();
+    const afterValidateReqPayload = this.editPulseInfo.validateRequestCheckAvailability(reqPayload);
+    if (!afterValidateReqPayload[0]) {
+      this.openSnackBar(afterValidateReqPayload[1], null);
+    } else {
+      this.isValidatingUsers = true;
+      this.editPulseInfo.getUsersAvailability(reqPayload)
+        .then((resp: [boolean, string, any]) => {
+          this.isValidatingUsers = false;
+          if (!resp[0]) {
+            this.openSnackBar(resp[1], null);
+          } else {
+            this.displayUserAvailability = [];
+            Object.keys(resp[2]).forEach(memberId => {
+              if (resp[2][memberId].status === false) {
+                let thisMemberUsername = '';
+                Object.keys(this.projectMembersMap).some(element => {
+                  if (this.projectMembersMap[element] === memberId) {
+                    thisMemberUsername = element;
+                    return true;
+                  }
+                });
+                if (resp[2][memberId].nonAvailability) {
+                  this.displayUserAvailability.push(
+                    thisMemberUsername +
+                    ' has blocked calendar from ' +
+                    this.appInfo.getLongDate(resp[2][memberId].nonAvailability.timeline.begin) +
+                    ' to ' +
+                    this.appInfo.getLongDate(resp[2][memberId].nonAvailability.timeline.end)
+                  );
+                } else if (resp[2][memberId].otherLocations) {
+                  this.displayUserAvailability.push(
+                    thisMemberUsername +
+                    ' is located at ' +
+                    this.locationInfo.idMapLocations[resp[2][memberId].otherLocations.locationId].join(', ') +
+                    ' from ' +
+                    this.appInfo.getLongDate(resp[2][memberId].otherLocations.timeline.begin) +
+                    ' to ' +
+                    this.appInfo.getLongDate(resp[2][memberId].otherLocations.timeline.end)
+                  );
+                } else if (resp[2][memberId].baseLocationMatch) {
+                  this.displayUserAvailability.push(
+                    thisMemberUsername +
+                    ' is located at ' +
+                    this.locationInfo.idMapLocations[resp[2][memberId].baseLocationMatch].join(', ')
+                  );
+                }
+              }
+            });
+          }
+        })
+        .catch((error: [boolean, string, any]) => {
+          this.isValidatingUsers = false;
+          this.openSnackBar(error[1], null);
+        });
+    }
   }
 
   updatePulse(): void {
@@ -217,6 +326,14 @@ export class EditPulseComponent implements OnInit {
     setTimeout(() => {
       this.isUpdating = false;
     }, 3000);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'end', // left, right, start, end, center
+      verticalPosition: 'top', // top, bottom
+      duration: 3500
+    });
   }
 
 }

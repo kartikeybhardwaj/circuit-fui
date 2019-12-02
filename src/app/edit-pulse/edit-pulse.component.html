@@ -11,8 +11,7 @@
     </mat-form-field>
     <!-- timeline -->
     <mat-form-field class="width-100 smallMarginTop">
-      <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="pulseTimeline"
-        [(ngModel)]="pulse.timeline">
+      <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="pulseTimeline" [(ngModel)]="timeline">
       <sat-datepicker #pulseTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
       <sat-datepicker-toggle matSuffix [for]="pulseTimeline"></sat-datepicker-toggle>
     </mat-form-field>
@@ -36,25 +35,33 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <!-- color -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <mat-label>Color:</mat-label>
+      <mat-select [(ngModel)]="pulse.color">
+        <mat-option *ngFor="let color of colors; index as index;" [value]="color">
+          {{color}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <!-- meta -->
     <mat-form-field class="width-100 smallMarginTop">
       <mat-label>Meta</mat-label>
-      <mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedPulseMetaId($event)">
-        <mat-option *ngFor="let meta of pulseMetas; index as index;" [value]="meta">
+      <mat-select [(ngModel)]="selectedPulseMeta" (selectionChange)="changedPulseMeta($event)">
+        <mat-option *ngFor="let meta of metaPulseInfo.metaPulses; index as index;" [value]="meta">
           {{meta.title}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <!-- metas -->
-    <ng-container *ngIf="selectedMeta">
-      <div class="makeRows width-100"
-        *ngIf="pulse.fields && pulse.fields.length && selectedMeta.fields && selectedMeta.fields.length">
+    <ng-container *ngIf="selectedPulseMeta">
+      <div class="makeRows width-100" *ngIf="selectedPulseMeta.fields.length">
         <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
-          *ngFor="let field of selectedMeta.fields; index as indexField;">
+          *ngFor="let field of selectedPulseMeta.fields; index as indexField;">
           <ng-container *ngIf="field.valueType === 'select'">
             <mat-form-field class="smallMarginTop">
               <mat-label>{{field.key}}</mat-label>
-              <mat-select [(ngModel)]="pulse.fields[indexField][field.key]">
+              <mat-select [(ngModel)]="pulse.fields[indexField].value">
                 <mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">
                   {{value}}
                 </mat-option>
@@ -63,8 +70,8 @@
           </ng-container>
           <ng-container *ngIf="field.valueType === 'input'">
             <mat-form-field class="smallMarginTop">
-              <input matInput [(ngModel)]="pulse.fields[indexField][field.key]" [placeholder]="field.key"
-                autocomplete="off" type="text" value="">
+              <input matInput [(ngModel)]="pulse.fields[indexField].value" [placeholder]="field.key" autocomplete="off"
+                type="text" value="">
             </mat-form-field>
           </ng-container>
         </mat-card>
@@ -73,7 +80,7 @@
     <!-- assignees -->
     <mat-form-field class="width-100 smallMarginTop">
       <mat-chip-list #assigneeList>
-        <mat-chip *ngFor="let assignee of pulse.assignees" [selectable]="selectableAssignee"
+        <mat-chip *ngFor="let assignee of selectedAssignees" [selectable]="selectableAssignee"
           [removable]="removableAssignee" (removed)="removeAssignee(assignee)">
           {{assignee}}
           <mat-icon matChipRemove *ngIf="removableAssignee">cancel</mat-icon>
@@ -88,9 +95,25 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-    <!-- update -->
+    <!-- user availability -->
+    <div class="smallMarginTop" *ngIf="displayUserAvailability.length > 0">
+      <div *ngFor="let message of displayUserAvailability; index as indexMessage;">
+        {{message}}
+      </div>
+    </div>
+    <!-- validate before add -->
     <div class="smallMarginTop">
-      <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isUpdating"
+      <button mat-stroked-button class="colorBright floatRight" [disabled]="isUpdating || isValidatingUsers"
+        (click)="validateUsersAvailability()">
+        Validate users availability
+      </button>
+      <mat-progress-spinner *ngIf="isValidatingUsers" class="inlineBlock smallMarginRight floatRight" color="primary"
+        mode="indeterminate" [diameter]="36">
+      </mat-progress-spinner>
+    </div>
+    <!-- add -->
+    <div class="smallMarginTop">
+      <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isUpdating || isValidatingUsers"
         (click)="updatePulse()">
         Update pulse
       </button>
