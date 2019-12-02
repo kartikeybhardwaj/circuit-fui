@@ -31,6 +31,12 @@ import {
 import {
   RoleStorageService
 } from '../roles/roles.service';
+import {
+  EditProjectStorageService
+} from '../edit-project/edit-project.service';
+import {
+  MetaProjectsStorageService
+} from '../meta-projects/meta-projects.service';
 
 @Component({
   selector: 'app-projects',
@@ -69,6 +75,8 @@ export class ProjectsComponent implements OnInit {
   constructor(
     public appInfo: AppStorageService,
     public projectInfo: ProjectStorageService,
+    private editProjectInfo: EditProjectStorageService,
+    private metaProjectInfo: MetaProjectsStorageService,
     public roleInfo: RoleStorageService,
     private router: Router
   ) {
@@ -96,15 +104,50 @@ export class ProjectsComponent implements OnInit {
   }
 
   editProjectClick(project: ProjectData): void {
-    this.router.navigate(['/project/' + project.projectId + '/edit']);
+    this.editProjectInfo.project = {
+      title: project.title,
+      description: project.description,
+      visibility: project.visibility,
+      members: [],
+      projectMetaId: project.projectMetaId,
+      fields: project.fields
+    };
+    project.members.forEach((member) => {
+      this.editProjectInfo.project.members.push({
+        username: this.projectInfo.idMapProjects[member.userId],
+        displayname: this.projectInfo.idMapProjects[member.userId],
+        roleId: member.roleId
+      });
+    });
+    this.metaProjectInfo.metaProjects.some((metaProject) => {
+      if (metaProject.metaProjectId === project.projectMetaId) {
+        this.editProjectInfo.selectedProjectMeta = metaProject;
+        return true;
+      }
+    });
+    this.router.navigate([
+      '/projects/' +
+      project.projectId +
+      '/edit'
+    ]);
   }
 
   gotoMilestoneClick(project: ProjectData): void {
-    this.router.navigate(['/projects/' + project.projectId + '/milestones']);
+    this.router.navigate([
+      '/projects/' +
+      project.projectId +
+      '/milestones'
+    ]);
   }
 
   gotoThisMilestone(projectId: string, milestoneId: string): void {
-    this.router.navigate(['/projects/' + projectId + '/milestones/' + milestoneId + '/pulses']);
+    this.router.navigate([
+      '/projects/' +
+      projectId +
+      '/milestones/' +
+      milestoneId +
+      '/pulses'
+    ]);
   }
 
   showUserCalendar(username: string): void {

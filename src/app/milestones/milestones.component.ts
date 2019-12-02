@@ -41,6 +41,12 @@ import {
 import {
   LocationStorageService
 } from '../locations/locations.service';
+import {
+  EditMilestoneStorageService
+} from '../edit-milestone/edit-milestone.service';
+import {
+  MetaMilestonesStorageService
+} from '../meta-milestones/meta-milestones.service';
 
 @Component({
   selector: 'app-milestones',
@@ -82,6 +88,8 @@ export class MilestonesComponent implements OnInit {
     public roleInfo: RoleStorageService,
     public milestoneInfo: MilestoneStorageService,
     public locationInfo: LocationStorageService,
+    private editMilestoneInfo: EditMilestoneStorageService,
+    private metaMilestoneInfo: MetaMilestonesStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar
@@ -150,12 +158,45 @@ export class MilestonesComponent implements OnInit {
   }
 
   editMilestoneClick(milestone: MilestoneData): void {
-    console.log(milestone);
-    this.router.navigate(['/project/project_id/milestone/milestone_id/edit']);
+    this.editMilestoneInfo.milestone = {
+      title: milestone.title,
+      description: milestone.description,
+      timeline: {
+        begin: new Date(milestone.timeline.begin).toISOString(),
+        end: new Date(milestone.timeline.end).toISOString()
+      },
+      locationId: milestone.locationId,
+      milestoneMetaId: milestone.milestoneMetaId,
+      fields: milestone.fields,
+      linkedProjectId: milestone.linkedProjectId
+    };
+    this.metaMilestoneInfo.metaMilestones.some((metaMilestone) => {
+      if (metaMilestone.metaMilestoneId === milestone.milestoneMetaId) {
+        this.editMilestoneInfo.selectedMilestoneMeta = metaMilestone;
+        return true;
+      }
+    });
+    this.editMilestoneInfo.timeline = {
+      begin: new Date(milestone.timeline.begin),
+      end: new Date(milestone.timeline.end)
+    };
+    this.router.navigate([
+      '/projects/' +
+      this.appInfo.selectedProjectId +
+      '/milestones/' +
+      milestone.milestoneId +
+      '/edit'
+    ]);
   }
 
   gotoPulseClick(milestone: MilestoneData) {
-    this.router.navigate(['/projects/' + this.appInfo.selectedProjectId + '/milestones/' + milestone.milestoneId + '/pulses']);
+    this.router.navigate([
+      '/projects/' +
+      this.appInfo.selectedProjectId +
+      '/milestones/' +
+      milestone.milestoneId +
+      '/pulses'
+    ]);
   }
 
   openSnackBar(message: string, action: string) {

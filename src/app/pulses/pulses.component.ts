@@ -38,6 +38,12 @@ import {
 import {
   MilestoneStorageService
 } from '../milestones/milestones.service';
+import {
+  EditPulseStorageService
+} from '../edit-pulse/edit-pulse.service';
+import {
+  MetaPulsesStorageService
+} from '../meta-pulses/meta-pulses.service';
 
 @Component({
   selector: 'app-pulses',
@@ -77,6 +83,8 @@ export class PulsesComponent implements OnInit {
     public appInfo: AppStorageService,
     public projectInfo: ProjectStorageService,
     public roleInfo: RoleStorageService,
+    private editPulseInfo: EditPulseStorageService,
+    private metaPulseInfo: MetaPulsesStorageService,
     private pulseInfo: PulseStorageService,
     private milestoneInfo: MilestoneStorageService,
     private activatedRoute: ActivatedRoute,
@@ -146,10 +154,38 @@ export class PulsesComponent implements OnInit {
   }
 
   editPulseClick(pulse: PulseData): void {
-    console.log(pulse);
-    this.router.navigate(['/project/' + this.appInfo.selectedProjectId +
-      '/milestone/' + this.appInfo.selectedMilestoneId +
-      '/pulse/' + pulse.pulseId + '/edit'
+    this.editPulseInfo.pulse = {
+      title: pulse.title,
+      description: pulse.description,
+      timeline: {
+        begin: new Date(pulse.timeline.begin).toISOString(),
+        end: new Date(pulse.timeline.end).toISOString()
+      },
+      color: pulse.color,
+      assignees: pulse.assignees,
+      pulseMetaId: pulse.pulseMetaId,
+      fields: pulse.fields,
+      linkedProjectId: pulse.linkedProjectId,
+      linkedMilestoneId: pulse.linkedMilestoneId
+    };
+    this.metaPulseInfo.metaPulses.some((metaPulse) => {
+      if (metaPulse.metaPulseId === pulse.pulseMetaId) {
+        this.editPulseInfo.selectedPulseMeta = metaPulse;
+        return true;
+      }
+    });
+    this.editPulseInfo.timeline = {
+      begin: new Date(pulse.timeline.begin),
+      end: new Date(pulse.timeline.end)
+    };
+    this.router.navigate([
+      '/projects/' +
+      this.appInfo.selectedProjectId +
+      '/milestones/' +
+      this.appInfo.selectedMilestoneId +
+      '/pulses/' +
+      pulse.pulseId +
+      '/edit'
     ]);
   }
 
