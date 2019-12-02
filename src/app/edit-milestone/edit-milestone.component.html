@@ -9,32 +9,41 @@
       <textarea matInput cdkTextareaAutosize [(ngModel)]="milestone.description" placeholder="Description"
         autocomplete="off" type="text" value=""></textarea>
     </mat-form-field>
+    <!-- location -->
+    <mat-form-field class="width-100 smallMarginTop">
+      <mat-label>Location</mat-label>
+      <mat-select [(ngModel)]="milestone.locationId">
+        <mat-option *ngFor="let location of locationInfo.locations; index as indexLocation;"
+          [value]="location.locationId">
+          {{locationInfo.idMapLocations[location.locationId].join(', ')}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <!-- timeline -->
     <mat-form-field class="width-100 smallMarginTop">
       <input matInput placeholder="Timeline" autocomplete="off" [satDatepicker]="milestoneTimeline"
-        [(ngModel)]="milestone.timeline">
+        [(ngModel)]="timeline">
       <sat-datepicker #milestoneTimeline [rangeMode]="true" [closeAfterSelection]="false"></sat-datepicker>
       <sat-datepicker-toggle matSuffix [for]="milestoneTimeline"></sat-datepicker-toggle>
     </mat-form-field>
     <!-- meta -->
     <mat-form-field class="width-100 smallMarginTop">
       <mat-label>Meta</mat-label>
-      <mat-select [(ngModel)]="selectedMeta" (selectionChange)="changedMilestoneMetaId($event)">
-        <mat-option *ngFor="let meta of milestoneMetas; index as index;" [value]="meta">
+      <mat-select [(ngModel)]="selectedMilestoneMeta" (selectionChange)="changedMilestoneMeta($event)">
+        <mat-option *ngFor="let meta of metaMilestonesInfo.metaMilestones; index as index;" [value]="meta">
           {{meta.title}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <!-- metas -->
-    <ng-container *ngIf="selectedMeta">
-      <div class="makeRows width-100"
-        *ngIf="milestone.fields && milestone.fields.length && selectedMeta.fields && selectedMeta.fields.length">
+    <ng-container *ngIf="selectedMilestoneMeta">
+      <div class="makeRows width-100" *ngIf="selectedMilestoneMeta.fields.length">
         <mat-card class="makeRowChild innerMatCard smallMarginTop mat-elevation-z8"
-          *ngFor="let field of selectedMeta.fields; index as indexField;">
+          *ngFor="let field of selectedMilestoneMeta.fields; index as indexField;">
           <ng-container *ngIf="field.valueType === 'select'">
             <mat-form-field class="smallMarginTop">
               <mat-label>{{field.key}}</mat-label>
-              <mat-select [(ngModel)]="milestone.fields[indexField][field.key]">
+              <mat-select [(ngModel)]="milestone.fields[indexField].value">
                 <mat-option *ngFor="let value of field.value; index as indexValue;" [value]="value">
                   {{value}}
                 </mat-option>
@@ -43,14 +52,14 @@
           </ng-container>
           <ng-container *ngIf="field.valueType === 'input'">
             <mat-form-field class="smallMarginTop">
-              <input matInput [(ngModel)]="milestone.fields[indexField][field.key]" [placeholder]="field.key"
+              <input matInput [(ngModel)]="milestone.fields[indexField].value" [placeholder]="field.key"
                 autocomplete="off" type="text" value="">
             </mat-form-field>
           </ng-container>
         </mat-card>
       </div>
     </ng-container>
-    <!-- update -->
+    <!-- add -->
     <div class="smallMarginTop">
       <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isUpdating"
         (click)="updateMilestone()">

@@ -9,6 +9,18 @@ import {
   ActivatedRoute,
   Router
 } from '@angular/router';
+import {
+  EditMilestoneStorageService
+} from './edit-milestone.service';
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
+import {
+  LocationStorageService
+} from '../locations/locations.service';
+import {
+  MetaMilestonesStorageService
+} from '../meta-milestones/meta-milestones.service';
 
 @Component({
   selector: 'app-edit-milestone',
@@ -16,129 +28,72 @@ import {
   styleUrls: ['./edit-milestone.component.css']
 })
 export class EditMilestoneComponent implements OnInit {
-  milestone: any = {};
 
-  milestoneMetas: any = [];
-  selectedMeta: any = {};
-
+  milestone: AddMilestoneData = {
+    title: '',
+    description: '',
+    timeline: {
+      begin: null,
+      end: null
+    },
+    locationId: null,
+    milestoneMetaId: null,
+    fields: [],
+    linkedProjectId: null
+  };
+  selectedMilestoneMeta: any = null;
+  timeline = null;
   isUpdating = false;
-
-  timeline: any = '';
 
   constructor(
     public appInfo: AppStorageService,
+    public locationInfo: LocationStorageService,
+    public metaMilestonesInfo: MetaMilestonesStorageService,
+    private editMilestoneInfo: EditMilestoneStorageService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     const activatedRouteSnapshot = activatedRoute.snapshot;
-    if (activatedRouteSnapshot.params && activatedRouteSnapshot.params.projectId) {
+    if (activatedRouteSnapshot.params &&
+      activatedRouteSnapshot.params.projectId &&
+      activatedRouteSnapshot.params.milestoneId) {
       appInfo.selectedProjectId = activatedRouteSnapshot.params.projectId;
+      appInfo.selectedMilestoneId = activatedRouteSnapshot.params.milestoneId;
     }
-    appInfo.selectedMilestoneId = null;
     appInfo.selectedPulseId = null;
-    appInfo.otherHeader = 'Add Milestone';
+    appInfo.otherHeader = 'Edit Milestone';
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
   }
 
   ngOnInit() {
-    this.milestone = {
-      index: 1,
-      _id: '0',
-      title: 'this is some title',
-      description: 'this is some description',
-      timeline: {
-        begin: new Date(),
-        end: new Date()
-      },
-      pulsesList: [{
-        _id: '1234567890',
-        title: 'pulse title 1'
-      }, {
-        _id: '1234567890',
-        title: 'pulse title 2'
-      }],
-      pulsesListCount: 2,
-      milestoneMetaId: '2',
-      fields: [{
-        key: 'select 1',
-        'select 1': 'Angular'
-      }, {
-        key: 'select 2',
-        'select 2': 'React.js'
-      }, {
-        key: 'enter here',
-        'enter here': 'some value here'
-      }],
-      meta: {
-        addedBy: 'some user',
-        addedOn: this.appInfo.getLongDate(new Date().getTime()),
-        lastUpdatedBy: 'some user',
-        lastUpdatedOn: this.appInfo.getLongDate(new Date().getTime())
-      }
-    };
-    this.getMilestoneMetas().then(
-      (milestoneMetas) => {
-        this.milestoneMetas = milestoneMetas;
-        this.milestoneMetas.some(meta => {
-          if (meta._id === this.milestone.milestoneMetaId) {
-            this.selectedMeta = meta;
-            return true;
-          }
+    if (this.editMilestoneInfo.milestone.title === '') {
+      this.editMilestoneInfo.getMilestone(this.appInfo.selectedProjectId, this.appInfo.selectedMilestoneId)
+        .then((response: any) => {
+          this.milestone = this.editMilestoneInfo.milestone;
+          this.selectedMilestoneMeta = this.editMilestoneInfo.selectedMilestoneMeta;
+          this.timeline = this.editMilestoneInfo.timeline;
+        })
+        .catch((error: any) => {
+          this.openSnackBar(error, null);
         });
-      },
-      (error) => {}
-    );
+    } else {
+      this.milestone = this.editMilestoneInfo.milestone;
+      this.selectedMilestoneMeta = this.editMilestoneInfo.selectedMilestoneMeta;
+      this.timeline = this.editMilestoneInfo.timeline;
+    }
   }
 
-  changedMilestoneMetaId(event: any): void {
-    this.milestone.fields = {};
-  }
-
-  getMilestoneMetas(): any {
-    return new Promise((resolve, reject) => {
-      const milestoneMetas = [{
-        _id: '0',
-        title: 'None',
-        description: 'nothing in here',
-        fields: []
-      }, {
-        _id: '1',
-        title: 'meta 1',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }, {
-        _id: '2',
-        title: 'meta 2',
-        description: 'nothing in here',
-        fields: [{
-          key: 'select 1',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'Angular', 'Node.js']
-        }, {
-          key: 'select 2',
-          valueType: 'select',
-          value: ['MongoDB', 'Express.js', 'React.js', 'Node.js']
-        }, {
-          key: 'enter here',
-          valueType: 'input',
-          value: 'default value'
-        }]
-      }];
-      resolve(milestoneMetas);
+  changedMilestoneMeta(event: any): void {
+    this.milestone.fields = [];
+    event.value.fields.forEach(field => {
+      this.milestone.fields.push({
+        key: field.key,
+        value: null
+      });
     });
+    this.milestone.milestoneMetaId = event.value.metaMilestoneId;
   }
 
   updateMilestone(): void {
@@ -146,6 +101,14 @@ export class EditMilestoneComponent implements OnInit {
     setTimeout(() => {
       this.isUpdating = false;
     }, 3000);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'end', // left, right, start, end, center
+      verticalPosition: 'top', // top, bottom
+      duration: 3500
+    });
   }
 
 }
