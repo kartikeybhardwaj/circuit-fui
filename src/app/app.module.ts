@@ -267,6 +267,9 @@ import {
 import {
   EditPulseStorageService
 } from './edit-pulse/edit-pulse.service';
+import {
+  UpdateMilestonePayloadValidator
+} from './json-schema-validatior/update-milestone';
 
 @NgModule({
   declarations: [
@@ -363,7 +366,8 @@ import {
     AddMetaPulsePayloadValidator,
     AddTravelPayloadValidator,
     AddBlockagePayloadValidator,
-    GetUsersAvailabilityCreatingPulsePayloadValidator
+    GetUsersAvailabilityCreatingPulsePayloadValidator,
+    UpdateMilestonePayloadValidator
   ],
   entryComponents: [
     BottomSheetMenu
