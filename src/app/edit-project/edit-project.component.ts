@@ -29,15 +29,21 @@ import {
 })
 export class EditProjectComponent implements OnInit {
 
-  project: AddProjectData = {
+  project: EditProjectData = {
+    projectId: '',
     title: '',
     description: '',
     visibility: 'internal',
     members: [],
+    membersTodo: {
+      toAdd: [],
+      toRemove: []
+    },
     projectMetaId: null,
     fields: [],
   };
   selectedProjectMeta: any = null;
+  initialMembers: string[] = [];
 
   isUpdating = false;
 
@@ -68,6 +74,7 @@ export class EditProjectComponent implements OnInit {
         .then((response: any) => {
           this.project = this.editProjectInfo.project;
           this.selectedProjectMeta = this.editProjectInfo.selectedProjectMeta;
+          this.initialMembers = this.editProjectInfo.initialMembers;
         })
         .catch((error: any) => {
           this.openSnackBar(error, null);
@@ -75,6 +82,7 @@ export class EditProjectComponent implements OnInit {
     } else {
       this.project = this.editProjectInfo.project;
       this.selectedProjectMeta = this.editProjectInfo.selectedProjectMeta;
+      this.initialMembers = this.editProjectInfo.initialMembers;
     }
   }
 
@@ -101,11 +109,37 @@ export class EditProjectComponent implements OnInit {
     this.project.members.splice(indexMember, 1);
   }
 
+  createReqObject(): EditProjectData {
+    const finalMembers: string[] = [];
+    this.project.members.forEach(member => {
+      finalMembers.push(member.username);
+      member.displayname = member.username;
+    });
+    this.project.membersTodo.toRemove = this.initialMembers.filter(x => !finalMembers.includes(x));
+    this.project.membersTodo.toAdd = finalMembers.filter(x => !this.initialMembers.includes(x));
+    return this.project;
+  }
+
   updateProject(): void {
-    this.isUpdating = true;
-    setTimeout(() => {
-      this.isUpdating = false;
-    }, 2500);
+    const reqPayload = this.createReqObject();
+    const afterValidateReqPayload = this.editProjectInfo.validateRequestUpdateProject(reqPayload);
+    if (!afterValidateReqPayload[0]) {
+      this.openSnackBar(afterValidateReqPayload[1], null);
+    } else {
+      this.isUpdating = true;
+      this.editProjectInfo.updateProject(reqPayload)
+        .then((resp: [boolean, string, any]) => {
+          this.isUpdating = false;
+          this.openSnackBar(resp[1], null);
+          if (resp[0]) {
+            this.router.navigate(['/projects/']);
+          }
+        })
+        .catch((error: [boolean, string, any]) => {
+          this.isUpdating = false;
+          this.openSnackBar(error[1], null);
+        });
+    }
   }
 
   openSnackBar(message: string, action: string) {
