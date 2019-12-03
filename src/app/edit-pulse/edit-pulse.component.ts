@@ -55,7 +55,10 @@ import {
 })
 export class EditPulseComponent implements OnInit {
 
-  pulse: AddPulseData = {
+  pulse: EditPulseData = {
+    pulseId: '',
+    milestoneId: '',
+    projectId: '',
     title: '',
     description: '',
     timeline: {
@@ -64,13 +67,16 @@ export class EditPulseComponent implements OnInit {
     },
     color: 'blue',
     assignees: [],
+    assigneesTodo: {
+      toAdd: [],
+      toRemove: []
+    },
     pulseMetaId: null,
-    fields: [],
-    linkedProjectId: null,
-    linkedMilestoneId: null
+    fields: []
   };
   selectedPulseMeta: any = null;
   timeline = null;
+  initialAssignees: string[] = [];
   isUpdating = false;
   isValidatingUsers = false;
   projectMembersMap: any = {};
@@ -149,6 +155,7 @@ export class EditPulseComponent implements OnInit {
           this.pulse = this.editPulseInfo.pulse;
           this.selectedPulseMeta = this.editPulseInfo.selectedPulseMeta;
           this.timeline = this.editPulseInfo.timeline;
+          this.initialAssignees = this.editPulseInfo.initialAssignees;
           this.pulse.assignees.forEach((assignee) => {
             this.selectedAssignees.push(this.projectInfo.idMapProjects[assignee]);
           });
@@ -160,6 +167,7 @@ export class EditPulseComponent implements OnInit {
       this.pulse = this.editPulseInfo.pulse;
       this.selectedPulseMeta = this.editPulseInfo.selectedPulseMeta;
       this.timeline = this.editPulseInfo.timeline;
+      this.initialAssignees = this.editPulseInfo.initialAssignees;
       this.pulse.assignees.forEach((assignee) => {
         this.selectedAssignees.push(this.projectInfo.idMapProjects[assignee]);
       });
@@ -321,11 +329,52 @@ export class EditPulseComponent implements OnInit {
     }
   }
 
+  createReqObject(): EditPulseData {
+    try {
+      this.pulse.timeline.begin = this.timeline.begin.toString();
+      this.pulse.timeline.begin = this.pulse.timeline.begin.substr(0, 16) + this.startTime + this.pulse.timeline.begin.substring(21);
+      this.pulse.timeline.begin = new Date(this.pulse.timeline.begin).toISOString();
+      this.pulse.timeline.end = this.timeline.end.toString();
+      this.pulse.timeline.end = this.pulse.timeline.end.substr(0, 16) + this.endTime + this.pulse.timeline.end.substring(21);
+      this.pulse.timeline.end = new Date(this.pulse.timeline.end).toISOString();
+      this.pulse.assignees = [];
+      this.pulse.assigneesTodo.toAdd = [];
+      this.pulse.assigneesTodo.toRemove = [];
+      this.selectedAssignees.forEach(assignee => {
+        this.pulse.assignees.push(this.projectMembersMap[assignee]);
+      });
+      this.pulse.assigneesTodo.toRemove = this.initialAssignees.filter(x => !this.pulse.assignees.includes(x));
+      this.pulse.assigneesTodo.toAdd = this.pulse.assignees.filter(x => !this.initialAssignees.includes(x));
+    } catch (error) {}
+    return this.pulse;
+  }
+
   updatePulse(): void {
-    this.isUpdating = true;
-    setTimeout(() => {
-      this.isUpdating = false;
-    }, 3000);
+    const reqPayload = this.createReqObject();
+    const afterValidateReqPayload = this.editPulseInfo.validateRequestUpdatePulse(reqPayload);
+    if (!afterValidateReqPayload[0]) {
+      this.openSnackBar(afterValidateReqPayload[1], null);
+    } else {
+      this.isUpdating = true;
+      this.editPulseInfo.updatePulse(reqPayload)
+        .then((resp: [boolean, string, any]) => {
+          this.isUpdating = false;
+          this.openSnackBar(resp[1], null);
+          if (resp[0]) {
+            this.router.navigate([
+              '/projects/' +
+              this.appInfo.selectedProjectId +
+              '/milestones/' +
+              this.appInfo.selectedMilestoneId +
+              '/pulses'
+            ]);
+          }
+        })
+        .catch((error: [boolean, string, any]) => {
+          this.isUpdating = false;
+          this.openSnackBar(error[1], null);
+        });
+    }
   }
 
   openSnackBar(message: string, action: string) {

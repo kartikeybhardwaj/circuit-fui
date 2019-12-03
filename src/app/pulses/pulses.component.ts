@@ -155,6 +155,9 @@ export class PulsesComponent implements OnInit {
 
   editPulseClick(pulse: PulseData): void {
     this.editPulseInfo.pulse = {
+      pulseId: pulse.pulseId,
+      milestoneId: pulse.linkedMilestoneId,
+      projectId: pulse.linkedProjectId,
       title: pulse.title,
       description: pulse.description,
       timeline: {
@@ -163,10 +166,12 @@ export class PulsesComponent implements OnInit {
       },
       color: pulse.color,
       assignees: pulse.assignees,
+      assigneesTodo: {
+        toAdd: [],
+        toRemove: []
+      },
       pulseMetaId: pulse.pulseMetaId,
-      fields: pulse.fields,
-      linkedProjectId: pulse.linkedProjectId,
-      linkedMilestoneId: pulse.linkedMilestoneId
+      fields: pulse.fields
     };
     this.metaPulseInfo.metaPulses.some((metaPulse) => {
       if (metaPulse.metaPulseId === pulse.pulseMetaId) {
@@ -174,6 +179,7 @@ export class PulsesComponent implements OnInit {
         return true;
       }
     });
+    this.editPulseInfo.initialAssignees = pulse.assignees;
     this.editPulseInfo.timeline = {
       begin: new Date(pulse.timeline.begin),
       end: new Date(pulse.timeline.end)
