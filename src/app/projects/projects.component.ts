@@ -37,6 +37,9 @@ import {
 import {
   MetaProjectsStorageService
 } from '../meta-projects/meta-projects.service';
+import {
+  MatSnackBar
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-projects',
@@ -78,7 +81,8 @@ export class ProjectsComponent implements OnInit {
     private editProjectInfo: EditProjectStorageService,
     private metaProjectInfo: MetaProjectsStorageService,
     public roleInfo: RoleStorageService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     appInfo.selectedProjectId = null;
     appInfo.selectedMilestoneId = null;
@@ -89,11 +93,22 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.projectInfo.getProjects()
+      .then((projects) => {
+        this.fillData();
+        this.isFetching = false;
+      })
+      .catch((error) => {
+        this.isFetching = false;
+        this.openSnackBar(error, null);
+      });
+  }
+
+  fillData(): void {
     this.PROJECTS_DATA = JSON.parse(JSON.stringify(this.projectInfo.projects));
     this.dataSourceProjects = new MatTableDataSource(this.PROJECTS_DATA);
     this.dataSourceProjects.paginator = this.paginatorProjects;
     this.dataSourceProjects.sort = this.sortProjects;
-    this.isFetching = false;
   }
 
   applyFilter(filterValue: string): void {
@@ -105,14 +120,21 @@ export class ProjectsComponent implements OnInit {
 
   editProjectClick(project: ProjectData): void {
     this.editProjectInfo.project = {
+      projectId: project.projectId,
       title: project.title,
       description: project.description,
       visibility: project.visibility,
       members: [],
+      membersTodo: {
+        toAdd: [],
+        toRemove: []
+      },
       projectMetaId: project.projectMetaId,
       fields: project.fields
     };
+    this.editProjectInfo.initialMembers = [];
     project.members.forEach((member) => {
+      this.editProjectInfo.initialMembers.push(this.projectInfo.idMapProjects[member.userId]);
       this.editProjectInfo.project.members.push({
         username: this.projectInfo.idMapProjects[member.userId],
         displayname: this.projectInfo.idMapProjects[member.userId],
@@ -154,6 +176,14 @@ export class ProjectsComponent implements OnInit {
     if (this.appInfo.user.isSuperuser) {
       this.router.navigate(['/users/' + username]);
     }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'end', // left, right, start, end, center
+      verticalPosition: 'top', // top, bottom
+      duration: 3500
+    });
   }
 
 }

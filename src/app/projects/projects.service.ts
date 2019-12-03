@@ -68,7 +68,7 @@ export class ProjectStorageService {
           }
         },
         (error: any) => {
-          reject(error);
+          reject(this.appInfo.constants.messages.someErrorOccurred);
         });
     });
   }

@@ -338,8 +338,6 @@ export class EditPulseComponent implements OnInit {
       this.pulse.timeline.end = this.pulse.timeline.end.substr(0, 16) + this.endTime + this.pulse.timeline.end.substring(21);
       this.pulse.timeline.end = new Date(this.pulse.timeline.end).toISOString();
       this.pulse.assignees = [];
-      this.pulse.assigneesTodo.toAdd = [];
-      this.pulse.assigneesTodo.toRemove = [];
       this.selectedAssignees.forEach(assignee => {
         this.pulse.assignees.push(this.projectMembersMap[assignee]);
       });
