@@ -270,6 +270,9 @@ import {
 import {
   UpdateMilestonePayloadValidator
 } from './json-schema-validatior/update-milestone';
+import {
+  UpdatePulsePayloadValidator
+} from './json-schema-validatior/update-pulse';
 
 @NgModule({
   declarations: [
@@ -367,7 +370,8 @@ import {
     AddTravelPayloadValidator,
     AddBlockagePayloadValidator,
     GetUsersAvailabilityCreatingPulsePayloadValidator,
-    UpdateMilestonePayloadValidator
+    UpdateMilestonePayloadValidator,
+    UpdatePulsePayloadValidator
   ],
   entryComponents: [
     BottomSheetMenu
