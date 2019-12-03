@@ -33,11 +33,11 @@ export class AddMilestoneStorageService {
           } else if (response.message) {
             reject([false, response.message, {}]);
           } else {
-            reject([false, 'Some error occurred', {}]);
+            reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
           }
         },
         (error: any) => {
-          reject([false, 'Some error occurred', {}]);
+          reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
         });
     });
   }

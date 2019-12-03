@@ -159,6 +159,8 @@ export class MilestonesComponent implements OnInit {
 
   editMilestoneClick(milestone: MilestoneData): void {
     this.editMilestoneInfo.milestone = {
+      projectId: milestone.linkedProjectId,
+      milestoneId: milestone.milestoneId,
       title: milestone.title,
       description: milestone.description,
       timeline: {
@@ -167,8 +169,7 @@ export class MilestonesComponent implements OnInit {
       },
       locationId: milestone.locationId,
       milestoneMetaId: milestone.milestoneMetaId,
-      fields: milestone.fields,
-      linkedProjectId: milestone.linkedProjectId
+      fields: milestone.fields
     };
     this.metaMilestoneInfo.metaMilestones.some((metaMilestone) => {
       if (metaMilestone.metaMilestoneId === milestone.milestoneMetaId) {
