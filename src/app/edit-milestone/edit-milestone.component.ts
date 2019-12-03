@@ -29,7 +29,9 @@ import {
 })
 export class EditMilestoneComponent implements OnInit {
 
-  milestone: AddMilestoneData = {
+  milestone: EditMilestoneData = {
+    projectId: '',
+    milestoneId: '',
     title: '',
     description: '',
     timeline: {
@@ -38,8 +40,7 @@ export class EditMilestoneComponent implements OnInit {
     },
     locationId: null,
     milestoneMetaId: null,
-    fields: [],
-    linkedProjectId: null
+    fields: []
   };
   selectedMilestoneMeta: any = null;
   timeline = null;
@@ -96,11 +97,34 @@ export class EditMilestoneComponent implements OnInit {
     this.milestone.milestoneMetaId = event.value.metaMilestoneId;
   }
 
+  createReqObject(): EditMilestoneData {
+    if (this.timeline && this.timeline.begin && this.timeline.end) {
+      this.milestone.timeline.begin = this.timeline.begin.toISOString();
+      this.milestone.timeline.end = this.timeline.end.toISOString();
+    }
+    return this.milestone;
+  }
+
   updateMilestone(): void {
-    this.isUpdating = true;
-    setTimeout(() => {
-      this.isUpdating = false;
-    }, 3000);
+    const reqPayload = this.createReqObject();
+    const afterValidateReqPayload = this.editMilestoneInfo.validateRequest(reqPayload);
+    if (!afterValidateReqPayload[0]) {
+      this.openSnackBar(afterValidateReqPayload[1], null);
+    } else {
+      this.isUpdating = true;
+      this.editMilestoneInfo.updateMilestone(reqPayload)
+        .then((resp: [boolean, string, any]) => {
+          this.isUpdating = false;
+          this.openSnackBar(resp[1], null);
+          if (resp[0]) {
+            this.router.navigate(['/projects/' + this.appInfo.selectedProjectId + '/milestones']);
+          }
+        })
+        .catch((error: [boolean, string, any]) => {
+          this.isUpdating = false;
+          this.openSnackBar(error[1], null);
+        });
+    }
   }
 
   openSnackBar(message: string, action: string) {
