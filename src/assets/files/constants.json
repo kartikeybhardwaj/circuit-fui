@@ -21,6 +21,7 @@
     "getMyPulses": "http://localhost:3100/get-my-pulses",
     "updatePulseTimeline": "http://localhost:3100/update-pulse-timeline",
     "getLocations": "http://localhost:3100/get-locations",
+    "addLocations": "http://localhost:3100/add-locations",
     "updateBaseLocation": "http://localhost:3100/update-base-location",
     "addTravel": "http://localhost:3100/add-travel",
     "addBlockage": "http://localhost:3100/add-non-availability",
