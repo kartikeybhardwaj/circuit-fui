@@ -24,7 +24,10 @@
             <button mat-button class="floatRight" (click)="gotoMilestoneClick(element)">
               <mat-icon class="colorBright">arrow_forward</mat-icon>
             </button>
-            <button mat-button class="floatRight" (click)="editProjectClick(element)">
+            <button mat-button class="floatRight" (click)="editProjectClick(element)"
+              *ngIf="appInfo.user.isSuperuser ||
+              (projectInfo.isMemberOfProjectId(appInfo.user._id, element.projectId) &&
+              roleInfo.canModifyProjects(projectInfo.getMemberRoleInProjectId(appInfo.user._id, element.projectId)))">
               <mat-icon class="colorBright">edit</mat-icon>
             </button>
           </td>

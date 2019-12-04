@@ -73,4 +73,35 @@ export class ProjectStorageService {
     });
   }
 
+  isMemberOfProjectId(userId: string, projectId: string): boolean {
+    let out = false;
+    this.projects.some(project => {
+      if (project.projectId === projectId) {
+        project.members.some(member => {
+          if (member.userId === userId) {
+            out = true;
+            return true;
+          }
+        });
+        return true;
+      }
+    });
+    return out;
+  }
+
+  getMemberRoleInProjectId(userId: string, projectId: string): string {
+    let out = '';
+    this.projects.some(project => {
+      if (project.projectId === projectId) {
+        project.members.some(member => {
+          if (member.userId === userId) {
+            out = member.roleId;
+          }
+        });
+        return true;
+      }
+    });
+    return out;
+  }
+
 }

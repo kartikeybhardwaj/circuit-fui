@@ -22,7 +22,10 @@
             <button mat-button class="floatRight" (click)="gotoPulseClick(element)">
               <mat-icon class="colorBright">arrow_forward</mat-icon>
             </button>
-            <button mat-button class="floatRight" (click)="editMilestoneClick(element)">
+            <button mat-button class="floatRight" (click)="editMilestoneClick(element)"
+              *ngIf="appInfo.user.isSuperuser ||
+            (projectInfo.isMemberOfProjectId(appInfo.user._id, appInfo.selectedProjectId) &&
+            roleInfo.canModifyProjects(projectInfo.getMemberRoleInProjectId(appInfo.user._id, appInfo.selectedProjectId)))">
               <mat-icon class="colorBright">edit</mat-icon>
             </button>
           </td>
@@ -35,7 +38,8 @@
             <div class="tableContent">
               <div class="smallMarginTop"><strong>Title</strong>:&nbsp;{{element.title}}</div>
               <div class="mediumMarginTop"><strong>Description</strong>:&nbsp;{{element.description}}</div>
-              <div class="mediumMarginTop"><strong>Location</strong>:&nbsp;{{locationInfo.idMapLocations[element.locationId].join(", ")}}</div>
+              <div class="mediumMarginTop">
+                <strong>Location</strong>:&nbsp;{{locationInfo.idMapLocations[element.locationId].join(", ")}}</div>
               <div class="mediumMarginTop">
                 <strong>Timeline</strong>:&nbsp;
                 {{appInfo.getLongDate(element.timeline.begin)}} - {{appInfo.getLongDate(element.timeline.end)}}
@@ -50,7 +54,8 @@
                 </button>
               </div>
               <div class="smallMarginTop">
-                Milestone created by {{milestoneInfo.idMapMilestones[element.meta.addedBy]}} on {{appInfo.getLongDate(element.meta.addedOn)}}
+                Milestone created by {{milestoneInfo.idMapMilestones[element.meta.addedBy]}} on
+                {{appInfo.getLongDate(element.meta.addedOn)}}
               </div>
             </div>
           </div>

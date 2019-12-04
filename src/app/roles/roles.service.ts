@@ -60,4 +60,43 @@ export class RoleStorageService {
     });
   }
 
+  canModifyProjects(roleId: string): boolean {
+    let out = false;
+    this.roles.some(role => {
+      if (role.roleId === roleId) {
+        if (role.canModifyProjects) {
+          out = true;
+        }
+        return true;
+      }
+    });
+    return out;
+  }
+
+  canModifyMilestones(roleId: string): boolean {
+    let out = false;
+    this.roles.some(role => {
+      if (role.roleId === roleId) {
+        if (role.canModifyMilestones) {
+          out = true;
+        }
+        return true;
+      }
+    });
+    return out;
+  }
+
+  canModifyPulses(roleId: string): boolean {
+    let out = false;
+    this.roles.some(role => {
+      if (role.roleId === roleId) {
+        if (role.canModifyPulses) {
+          out = true;
+        }
+        return true;
+      }
+    });
+    return out;
+  }
+
 }

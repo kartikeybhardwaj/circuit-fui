@@ -86,7 +86,7 @@ export class PulsesComponent implements OnInit {
     private editPulseInfo: EditPulseStorageService,
     private metaPulseInfo: MetaPulsesStorageService,
     private pulseInfo: PulseStorageService,
-    private milestoneInfo: MilestoneStorageService,
+    public milestoneInfo: MilestoneStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
