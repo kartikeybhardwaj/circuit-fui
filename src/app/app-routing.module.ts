@@ -71,6 +71,9 @@ import {
 import {
   MilestoneCalendarComponent
 } from './milestone-calendar/milestone-calendar.component';
+import {
+  LocationsComponent
+} from './locations/locations.component';
 
 const routes: Routes = [{
   path: 'home',
@@ -105,6 +108,9 @@ const routes: Routes = [{
 }, {
   path: 'projects/:projectId/milestones/:milestoneId/pulses/:pulseId/edit',
   component: EditPulseComponent
+}, {
+  path: 'locations',
+  component: LocationsComponent
 }, {
   path: 'travels',
   component: TravelsComponent
