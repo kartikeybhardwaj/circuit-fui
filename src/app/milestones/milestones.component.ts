@@ -72,7 +72,13 @@ export class MilestonesComponent implements OnInit {
   MILESTONES_DATA: MilestoneData[];
   dataSourceMilestones: MatTableDataSource < MilestoneData > ;
   columnsForMilestones = ['index', 'title', 'timeline', 'pulsesListCount', 'todo'];
-  columnsToDisplayMilestones = ['#', 'Milestone', 'End date', 'Pulses count', ''];
+  columnsToDisplayMilestones = [
+    '#',
+    this.appInfo.constants.buildingBlocks.labels.milestone,
+    'End date',
+    this.appInfo.constants.buildingBlocks.labels.pulses + ' count',
+    ''
+  ];
   expandedElementMilestones: MilestoneData | null;
 
   @ViewChild(MatPaginator, {

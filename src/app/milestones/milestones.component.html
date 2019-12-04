@@ -2,7 +2,7 @@
 
   <mat-progress-spinner *ngIf="isFetching" color="primary" mode="indeterminate" [diameter]="35"></mat-progress-spinner>
 
-  <div class="headerText colorBright smallMarginTop">Milestones</div>
+  <div class="headerText colorBright smallMarginTop">{{appInfo.constants.buildingBlocks.labels.milestones}}</div>
 
   <mat-form-field class="width-100">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -48,13 +48,14 @@
                 <strong>{{field.key}}</strong>: {{field.value}}
               </div>
               <div class="smallMarginTop">
-                <strong>Pulses</strong>:
+                <strong>{{appInfo.constants.buildingBlocks.labels.pulses}}</strong>:
                 <button mat-button *ngFor="let pulseId of element.pulsesList; index as indexPulse;">
                   {{milestoneInfo.idMapMilestones[pulseId]}}
                 </button>
               </div>
               <div class="smallMarginTop">
-                Milestone created by {{milestoneInfo.idMapMilestones[element.meta.addedBy]}} on
+                {{appInfo.constants.buildingBlocks.labels.milestone}} created by
+                {{milestoneInfo.idMapMilestones[element.meta.addedBy]}} on
                 {{appInfo.getLongDate(element.meta.addedOn)}}
               </div>
             </div>

@@ -56,7 +56,11 @@ export class MetaProjectsComponent implements OnInit {
   METAPROJECTS_DATA: MetaProjectData[];
   dataSourceMetaProjects: MatTableDataSource < MetaProjectData > ;
   columnsForMetaProjects = ['index', 'title', 'todo'];
-  columnsToDisplayMetaProjects = ['#', 'Meta Projects', ''];
+  columnsToDisplayMetaProjects = [
+    '#',
+    'Meta ' + this.appInfo.constants.buildingBlocks.labels.projects,
+    ''
+  ];
   expandedElementMetaProjects: MetaProjectData | null;
 
   @ViewChild(MatPaginator, {
@@ -108,7 +112,6 @@ export class MetaProjectsComponent implements OnInit {
 
   editMetaProjectClick(metaProject: MetaProjectData): void {
     console.log(metaProject);
-    // this.router.navigate(['/project/' + project.projectId + '/edit']);
   }
 
   openSnackBar(message: string, action: string) {

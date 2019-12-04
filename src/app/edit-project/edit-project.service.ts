@@ -105,7 +105,7 @@ export class EditProjectStorageService {
       this.http.post(this.appInfo.constants.urls.updateProject, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
-            resolve([true, 'Project updated', response.data]);
+            resolve([true, this.appInfo.constants.messages.updatedProject, response.data]);
           } else if (response.message) {
             reject([false, response.message, {}]);
           } else {

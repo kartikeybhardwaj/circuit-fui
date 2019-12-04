@@ -55,7 +55,7 @@ export class RoleStorageService {
           }
         },
         (error: any) => {
-          reject(error);
+          reject(this.appInfo.constants.messages.someErrorOccurred);
         });
     });
   }

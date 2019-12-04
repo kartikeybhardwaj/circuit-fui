@@ -54,7 +54,7 @@ export class AddProjectComponent implements OnInit {
     appInfo.selectedProjectId = null;
     appInfo.selectedMilestoneId = null;
     appInfo.selectedPulseId = null;
-    appInfo.otherHeader = 'Add Project';
+    appInfo.otherHeader = 'Add ' + this.appInfo.constants.buildingBlocks.labels.project;
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
   }

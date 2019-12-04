@@ -43,11 +43,11 @@ export class AddPulseStorageService {
           } else if (response.message) {
             reject([false, response.message, {}]);
           } else {
-            reject([false, 'Some error occurred', {}]);
+            reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
           }
         },
         (error: any) => {
-          reject([false, 'Some error occurred', {}]);
+          reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
         });
     });
   }
@@ -57,15 +57,15 @@ export class AddPulseStorageService {
       this.http.post(this.appInfo.constants.urls.addPulse, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
-            resolve([true, 'Pulse added', response.data]);
+            resolve([true, this.appInfo.constants.messages.addedPulse, response.data]);
           } else if (response.message) {
             reject([false, response.message, {}]);
           } else {
-            reject([false, 'Some error occurred', {}]);
+            reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
           }
         },
         (error: any) => {
-          reject([false, 'Some error occurred', {}]);
+          reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
         });
     });
   }

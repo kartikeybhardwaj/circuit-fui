@@ -30,7 +30,9 @@ export class HomeStorageService {
   getMyPulses(): any {
     return new Promise((resolve, reject) => {
       this.isFetching = true;
-      this.http.get(this.appInfo.constants.urls.getMyPulses, this.appInfo.httpOptionsWithAuth).subscribe(
+      this.http.get(
+        this.appInfo.constants.urls.getMyPulses,
+        this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
             this.myPulses = [];
@@ -99,10 +101,17 @@ export class HomeStorageService {
 
   updatePulseTimeline(reqPayload: any): any {
     return new Promise((resolve, reject) => {
-      this.http.post(this.appInfo.constants.urls.updatePulseTimeline, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
+      this.http.post(
+        this.appInfo.constants.urls.updatePulseTimeline,
+        JSON.stringify(reqPayload),
+        this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
-            resolve([true, 'Pulse timeline updated', response.data]);
+            resolve([
+              true,
+              this.appInfo.constants.buildingBlocks.labels.pulse + ' timeline updated',
+              response.data
+            ]);
           } else {
             if (response.message) {
               reject([false, response.message, {}]);

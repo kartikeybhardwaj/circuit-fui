@@ -57,7 +57,7 @@ export class AddMetaPulseComponent implements OnInit {
     appInfo.selectedProjectId = null;
     appInfo.selectedMilestoneId = null;
     appInfo.selectedPulseId = null;
-    appInfo.otherHeader = 'Add meta pulse';
+    appInfo.otherHeader = 'Add meta ' + this.appInfo.constants.buildingBlocks.labels.lowercase.pulse;
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
   }

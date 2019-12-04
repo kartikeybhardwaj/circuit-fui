@@ -56,7 +56,11 @@ export class MetaPulsesComponent implements OnInit {
   METAPULSES_DATA: MetaPulseData[];
   dataSourceMetaPulses: MatTableDataSource < MetaPulseData > ;
   columnsForMetaPulses = ['index', 'title', 'todo'];
-  columnsToDisplayMetaPulses = ['#', 'Meta Pulses', ''];
+  columnsToDisplayMetaPulses = [
+    '#',
+    'Meta ' + this.appInfo.constants.buildingBlocks.labels.pulses,
+    ''
+  ];
   expandedElementMetaPulses: MetaPulseData | null;
 
   @ViewChild(MatPaginator, {
@@ -108,7 +112,6 @@ export class MetaPulsesComponent implements OnInit {
 
   editMetaPulseClick(metaPulse: MetaPulseData): void {
     console.log(metaPulse);
-    // this.router.navigate(['/project/' + project.projectId + '/edit']);
   }
 
   openSnackBar(message: string, action: string) {

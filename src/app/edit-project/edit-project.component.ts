@@ -63,7 +63,7 @@ export class EditProjectComponent implements OnInit {
     }
     appInfo.selectedMilestoneId = null;
     appInfo.selectedPulseId = null;
-    appInfo.otherHeader = 'Edit Project';
+    appInfo.otherHeader = 'Edit ' + this.appInfo.constants.buildingBlocks.labels.project;
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
   }

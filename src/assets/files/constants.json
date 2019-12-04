@@ -1,52 +1,77 @@
 {
-    "appName": "Circuit",
-    "urls": {
-        "getUser": "http://localhost:3100/get-user",
-        "getRoles": "http://localhost:3100/get-roles",
-        "getProject": "http://localhost:3100/get-project",
-        "getProjects": "http://localhost:3100/get-projects",
-        "getMilestone": "http://localhost:3100/get-milestone",
-        "getMilestones": "http://localhost:3100/get-milestones",
-        "getPulse": "http://localhost:3100/get-pulse",
-        "getPulses": "http://localhost:3100/get-pulses",
-        "getMetaProjects": "http://localhost:3100/get-meta-projects",
-        "getMetaMilestones": "http://localhost:3100/get-meta-milestones",
-        "getMetaPulses": "http://localhost:3100/get-meta-pulses",
-        "addMetaProject": "http://localhost:3100/add-meta-project",
-        "addMetaMilestone": "http://localhost:3100/add-meta-milestone",
-        "addMetaPulse": "http://localhost:3100/add-meta-pulse",
-        "addProject": "http://localhost:3100/add-project",
-        "addMilestone": "http://localhost:3100/add-milestone",
-        "addPulse": "http://localhost:3100/add-pulse",
-        "getMyPulses": "http://localhost:3100/get-my-pulses",
-        "updatePulseTimeline": "http://localhost:3100/update-pulse-timeline",
-        "getLocations": "http://localhost:3100/get-locations",
-        "updateBaseLocation": "http://localhost:3100/update-base-location",
-        "addTravel": "http://localhost:3100/add-travel",
-        "addBlockage": "http://localhost:3100/add-non-availability",
-        "getAllMilestones": "http://localhost:3100/get-all-milestones",
-        "getUserPulses": "http://localhost:3100/get-user-pulses",
-        "getOverlapsCreatingPulse": "http://localhost:3100/get-overlaps-creating-pulse",
-        "updateProject": "http://localhost:3100/update-project",
-        "updateMilestone": "http://localhost:3100/update-milestone",
-        "updatePulse": "http://localhost:3100/update-pulse"
+  "appName": "Circuit",
+  "urls": {
+    "getUser": "http://localhost:3100/get-user",
+    "getRoles": "http://localhost:3100/get-roles",
+    "getProject": "http://localhost:3100/get-project",
+    "getProjects": "http://localhost:3100/get-projects",
+    "getMilestone": "http://localhost:3100/get-milestone",
+    "getMilestones": "http://localhost:3100/get-milestones",
+    "getPulse": "http://localhost:3100/get-pulse",
+    "getPulses": "http://localhost:3100/get-pulses",
+    "getMetaProjects": "http://localhost:3100/get-meta-projects",
+    "getMetaMilestones": "http://localhost:3100/get-meta-milestones",
+    "getMetaPulses": "http://localhost:3100/get-meta-pulses",
+    "addMetaProject": "http://localhost:3100/add-meta-project",
+    "addMetaMilestone": "http://localhost:3100/add-meta-milestone",
+    "addMetaPulse": "http://localhost:3100/add-meta-pulse",
+    "addProject": "http://localhost:3100/add-project",
+    "addMilestone": "http://localhost:3100/add-milestone",
+    "addPulse": "http://localhost:3100/add-pulse",
+    "getMyPulses": "http://localhost:3100/get-my-pulses",
+    "updatePulseTimeline": "http://localhost:3100/update-pulse-timeline",
+    "getLocations": "http://localhost:3100/get-locations",
+    "updateBaseLocation": "http://localhost:3100/update-base-location",
+    "addTravel": "http://localhost:3100/add-travel",
+    "addBlockage": "http://localhost:3100/add-non-availability",
+    "getAllMilestones": "http://localhost:3100/get-all-milestones",
+    "getUserPulses": "http://localhost:3100/get-user-pulses",
+    "getOverlapsCreatingPulse": "http://localhost:3100/get-overlaps-creating-pulse",
+    "updateProject": "http://localhost:3100/update-project",
+    "updateMilestone": "http://localhost:3100/update-milestone",
+    "updatePulse": "http://localhost:3100/update-pulse"
+  },
+  "buildingBlocks": {
+    "icons": {
+      "public": "public",
+      "internal": "enhanced_encryption",
+      "private": "security"
     },
-    "buildingBlocks": {
-        "icons": {
-            "public": "public",
-            "internal": "enhanced_encryption",
-            "private": "security"
-        },
-        "labels": {
-            "addProject": "Add Project",
-            "addMilestone": "Add Milestone",
-            "addPulse": "Add Pulse",
-            "addMetaProject": "Add Meta Project",
-            "addMetaMilestone": "Add Meta Milestone",
-            "addMetaPulse": "Add Meta Pulse"
-        }
-    },
-    "messages": {
-        "someErrorOccurred": "Some error occurred"
+    "labels": {
+      "project": "Project",
+      "projects": "Projects",
+      "milestone": "Milestone",
+      "milestones": "Milestones",
+      "pulse": "Pulse",
+      "pulses": "Pulses",
+      "lowercase": {
+        "project": "project",
+        "projects": "projects",
+        "milestone": "milestone",
+        "milestones": "milestones",
+        "pulse": "pulse",
+        "pulses": "pulses"
+      },
+      "addProject": "Add Project",
+      "addMilestone": "Add Milestone",
+      "addPulse": "Add Pulse",
+      "addMetaProject": "Add Meta Project",
+      "addMetaMilestone": "Add Meta Milestone",
+      "addMetaPulse": "Add Meta Pulse"
     }
+  },
+  "messages": {
+    "addedTravel": "Travel added",
+    "addedProject": "Project added",
+    "addedMilestone": "Milestone added",
+    "addedPulse": "Pulse added",
+    "addedMetaProject": "Meta project added",
+    "addedMetaMilestone": "Meta milestone added",
+    "addedMetaPulse": "Meta pulse added",
+    "updatedProject": "Project updated",
+    "updatedMilestone": "Milestone updated",
+    "updatedPulse": "Pulse updated",
+    "updatedBaseLocation": "Base location updated",
+    "someErrorOccurred": "Some error occurred"
+  }
 }

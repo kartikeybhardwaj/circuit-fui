@@ -97,7 +97,7 @@ export class EditMilestoneStorageService {
       this.http.post(this.appInfo.constants.urls.updateMilestone, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
-            resolve([true, 'Milestone updated', response.data]);
+            resolve([true, this.appInfo.constants.messages.updatedMilestone, response.data]);
           } else if (response.message) {
             reject([false, response.message, {}]);
           } else {

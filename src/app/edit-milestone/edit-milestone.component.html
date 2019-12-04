@@ -63,7 +63,7 @@
     <div class="smallMarginTop">
       <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isUpdating"
         (click)="updateMilestone()">
-        Update milestone
+        Update {{appInfo.constants.buildingBlocks.labels.lowercase.milestone}}
       </button>
       <mat-progress-spinner *ngIf="isUpdating" class="inlineBlock smallMarginLeft floatLeft" color="primary"
         mode="indeterminate" [diameter]="36">

@@ -29,15 +29,15 @@ export class AddProjectStorageService {
       this.http.post(this.appInfo.constants.urls.addProject, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
-            resolve([true, 'Project added', response.data]);
+            resolve([true, this.appInfo.constants.messages.addedProject, response.data]);
           } else if (response.message) {
             reject([false, response.message, {}]);
           } else {
-            reject([false, 'Some error occurred', {}]);
+            reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
           }
         },
         (error: any) => {
-          reject([false, 'Some error occurred', {}]);
+          reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
         });
     });
   }

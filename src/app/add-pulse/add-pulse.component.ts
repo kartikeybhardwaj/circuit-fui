@@ -134,7 +134,7 @@ export class AddPulseComponent implements OnInit {
       appInfo.selectedMilestoneId = activatedRouteSnapshot.params.milestoneId;
     }
     appInfo.selectedPulseId = null;
-    appInfo.otherHeader = 'Add Pulse';
+    appInfo.otherHeader = 'Add ' + this.appInfo.constants.buildingBlocks.labels.pulse;
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
   }

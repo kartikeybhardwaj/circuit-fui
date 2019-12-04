@@ -63,7 +63,7 @@ export class EditMilestoneComponent implements OnInit {
       appInfo.selectedMilestoneId = activatedRouteSnapshot.params.milestoneId;
     }
     appInfo.selectedPulseId = null;
-    appInfo.otherHeader = 'Edit Milestone';
+    appInfo.otherHeader = 'Edit ' + this.appInfo.constants.buildingBlocks.labels.milestone;
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
   }

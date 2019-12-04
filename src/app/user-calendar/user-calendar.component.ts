@@ -77,7 +77,7 @@ export class UserCalendarComponent implements OnInit {
 
   pulseClick(info: any): void {
     info.jsEvent.preventDefault(); // don't let the browser navigate
-    console.log(info.event);
+    // console.log(info.event);
   }
 
   openSnackBar(message: string, action: string) {

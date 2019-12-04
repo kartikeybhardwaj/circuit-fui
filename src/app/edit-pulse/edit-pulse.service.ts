@@ -144,7 +144,7 @@ export class EditPulseStorageService {
       this.http.post(this.appInfo.constants.urls.updatePulse, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
-            resolve([true, 'Pulse updated', response.data]);
+            resolve([true, this.appInfo.constants.messages.updatedPulse, response.data]);
           } else if (response.message) {
             reject([false, response.message, {}]);
           } else {

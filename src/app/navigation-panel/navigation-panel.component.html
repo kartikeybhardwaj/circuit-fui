@@ -34,7 +34,7 @@
     </button>
     <button mat-menu-item (click)="navigateTo('/milestones-calendar')" *ngIf="appInfo.user.isSuperuser">
       <mat-icon>today</mat-icon>
-      <span>Milestones calendar</span>
+      <span>{{appInfo.constants.buildingBlocks.labels.milestones}} calendar</span>
     </button>
     <button mat-menu-item [matMenuTriggerFor]="metas" *ngIf="appInfo.user.isSuperuser">
       <mat-icon>chrome_reader_mode</mat-icon>
@@ -44,13 +44,13 @@
 
   <mat-menu #metas="matMenu">
     <button mat-menu-item (click)="navigateTo('/meta-projects')">
-      <span>Project</span>
+      <span>{{appInfo.constants.buildingBlocks.labels.project}}</span>
     </button>
     <button mat-menu-item (click)="navigateTo('/meta-milestones')">
-      <span>Milestone</span>
+      <span>{{appInfo.constants.buildingBlocks.labels.milestone}}</span>
     </button>
     <button mat-menu-item (click)="navigateTo('/meta-pulses')">
-      <span>Pulse</span>
+      <span>{{appInfo.constants.buildingBlocks.labels.pulse}}</span>
     </button>
   </mat-menu>
 

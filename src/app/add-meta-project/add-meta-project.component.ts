@@ -57,7 +57,7 @@ export class AddMetaProjectComponent implements OnInit {
     appInfo.selectedProjectId = null;
     appInfo.selectedMilestoneId = null;
     appInfo.selectedPulseId = null;
-    appInfo.otherHeader = 'Add meta project';
+    appInfo.otherHeader = 'Add meta ' + this.appInfo.constants.buildingBlocks.labels.lowercase.project;
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
   }

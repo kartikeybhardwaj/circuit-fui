@@ -53,7 +53,7 @@ export class MilestoneCalendarComponent implements OnInit {
     appInfo.selectedProjectId = null;
     appInfo.selectedMilestoneId = null;
     appInfo.selectedPulseId = null;
-    appInfo.otherHeader = 'Milestones calendar';
+    appInfo.otherHeader = appInfo.constants.buildingBlocks.labels.milestones + ' calendar';
     appInfo.navigationAddText = '';
     appInfo.isNavigationAddTextVisible = false;
   }

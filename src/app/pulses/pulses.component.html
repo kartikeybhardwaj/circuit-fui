@@ -2,7 +2,7 @@
 
   <mat-progress-spinner *ngIf="isFetching" color="primary" mode="indeterminate" [diameter]="35"></mat-progress-spinner>
 
-  <div class="headerText colorBright smallMarginTop">Pulses</div>
+  <div class="headerText colorBright smallMarginTop">{{appInfo.constants.buildingBlocks.labels.pulses}}</div>
 
   <mat-form-field class="width-100">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -49,7 +49,7 @@
                 </button>
               </div>
               <div class="smallMarginTop">
-                Pulse created by {{pulseInfo.idMapPulses[element.meta.addedBy]}} on
+                {{appInfo.constants.buildingBlocks.labels.pulse}} created by {{pulseInfo.idMapPulses[element.meta.addedBy]}} on
                 {{appInfo.getLongDate(element.meta.addedOn)}}
               </div>
             </div>

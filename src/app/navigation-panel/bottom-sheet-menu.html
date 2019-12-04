@@ -1,7 +1,8 @@
 <mat-list>
-  <h3 mat-subheader>Projects</h3>
+  <h3 mat-subheader>{{appInfo.constants.buildingBlocks.labels.projects}}</h3>
   <mat-nav-list>
-    <a mat-list-item *ngFor="let project of projectInfo.projects; index as index;" (click)="gotoMilestone(project.projectId)">
+    <a mat-list-item *ngFor="let project of projectInfo.projects; index as index;"
+      (click)="gotoMilestone(project.projectId)">
       <mat-icon mat-list-icon>{{project.visibilityIcon}}</mat-icon>
       <h4 mat-line>{{project.title}}</h4>
     </a>

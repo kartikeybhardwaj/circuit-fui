@@ -56,7 +56,11 @@ export class MetaMilestonesComponent implements OnInit {
   METAMILESTONES_DATA: MetaMilestoneData[];
   dataSourceMetaMilestones: MatTableDataSource < MetaMilestoneData > ;
   columnsForMetaMilestones = ['index', 'title', 'todo'];
-  columnsToDisplayMetaMilestones = ['#', 'Meta Milestones', ''];
+  columnsToDisplayMetaMilestones = [
+    '#',
+    'Meta ' + this.appInfo.constants.buildingBlocks.labels.milestones,
+    ''
+  ];
   expandedElementMetaMilestones: MetaMilestoneData | null;
 
   @ViewChild(MatPaginator, {
@@ -108,7 +112,6 @@ export class MetaMilestonesComponent implements OnInit {
 
   editMetaMilestoneClick(metaMilestone: MetaMilestoneData): void {
     console.log(metaMilestone);
-    // this.router.navigate(['/project/' + project.projectId + '/edit']);
   }
 
   openSnackBar(message: string, action: string) {

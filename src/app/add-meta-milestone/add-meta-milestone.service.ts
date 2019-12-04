@@ -29,15 +29,15 @@ export class AddMetaMilestoneStorageService {
       this.http.post(this.appInfo.constants.urls.addMetaMilestone, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
-            resolve([true, 'Meta milestone added', response.data]);
+            resolve([true, this.appInfo.constants.messages.addedMetaMilestone, response.data]);
           } else if (response.message) {
             reject([false, response.message, {}]);
           } else {
-            reject([false, 'Some error occurred', {}]);
+            reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
           }
         },
         (error: any) => {
-          reject([false, 'Some error occurred', {}]);
+          reject([false, this.appInfo.constants.messages.someErrorOccurred, {}]);
         });
     });
   }

@@ -69,7 +69,7 @@ export class PulsesComponent implements OnInit {
   PULSES_DATA: PulseData[];
   dataSourcePulses: MatTableDataSource < PulseData > ;
   columnsForPulses = ['index', 'title', 'timeline', 'assigneesListCount', 'todo'];
-  columnsToDisplayPulses = ['#', 'Pulse', 'End date', 'Assignees count', ''];
+  columnsToDisplayPulses = ['#', 'Title', 'End date', 'Assignees count', ''];
   expandedElementPulses: PulseData | null;
 
   @ViewChild(MatPaginator, {
@@ -85,7 +85,7 @@ export class PulsesComponent implements OnInit {
     public roleInfo: RoleStorageService,
     private editPulseInfo: EditPulseStorageService,
     private metaPulseInfo: MetaPulsesStorageService,
-    private pulseInfo: PulseStorageService,
+    public pulseInfo: PulseStorageService,
     public milestoneInfo: MilestoneStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router

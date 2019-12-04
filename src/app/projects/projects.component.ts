@@ -65,7 +65,13 @@ export class ProjectsComponent implements OnInit {
   PROJECTS_DATA: ProjectData[];
   dataSourceProjects: MatTableDataSource < ProjectData > ;
   columnsForProjects = ['index', 'title', 'milestonesListCount', 'visibilityIcon', 'todo'];
-  columnsToDisplayProjects = ['#', 'Projects', 'Milestones count', 'Visibility', ''];
+  columnsToDisplayProjects = [
+    '#',
+    this.appInfo.constants.buildingBlocks.labels.projects,
+    this.appInfo.constants.buildingBlocks.labels.milestones + ' count',
+    'Visibility',
+    ''
+  ];
   expandedElementProjects: ProjectData | null;
 
   @ViewChild(MatPaginator, {

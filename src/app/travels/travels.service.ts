@@ -28,10 +28,13 @@ export class TravelsStorageService {
 
   updateBaseLocation(reqPayload: any): any {
     return new Promise((resolve, reject) => {
-      this.http.post(this.appInfo.constants.urls.updateBaseLocation, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
+      this.http.post(
+        this.appInfo.constants.urls.updateBaseLocation,
+        JSON.stringify(reqPayload),
+        this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
-            resolve([true, 'Base location updated', response.data]);
+            resolve([true, this.appInfo.constants.messages.updatedBaseLocation, response.data]);
           } else {
             if (response.message) {
               reject([false, response.message, {}]);
@@ -65,7 +68,7 @@ export class TravelsStorageService {
               },
               isUpdating: false
             });
-            resolve([true, 'Travel added', response.data]);
+            resolve([true, this.appInfo.constants.messages.addedTravel, response.data]);
           } else {
             if (response.message) {
               if (response.data && response.data.locationId) {

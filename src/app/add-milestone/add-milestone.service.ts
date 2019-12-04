@@ -29,7 +29,7 @@ export class AddMilestoneStorageService {
       this.http.post(this.appInfo.constants.urls.addMilestone, JSON.stringify(reqPayload), this.appInfo.httpOptionsWithAuth).subscribe(
         (response: any) => {
           if (response.responseId && response.responseId === 211) {
-            resolve([true, 'Milestone added', response.data]);
+            resolve([true, this.appInfo.constants.messages.addedMilestone, response.data]);
           } else if (response.message) {
             reject([false, response.message, {}]);
           } else {

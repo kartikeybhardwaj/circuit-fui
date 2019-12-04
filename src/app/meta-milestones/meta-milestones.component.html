@@ -2,7 +2,7 @@
 
   <mat-progress-spinner *ngIf="isFetching" color="primary" mode="indeterminate" [diameter]="35"></mat-progress-spinner>
 
-  <div class="headerText colorBright smallMarginTop">Meta Milestones</div>
+  <div class="headerText colorBright smallMarginTop">Meta {{appInfo.constants.buildingBlocks.labels.milestones}}</div>
 
   <mat-form-field class="width-100">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -16,9 +16,9 @@
         </ng-container>
         <ng-container *ngIf="column === 'todo'">
           <td mat-cell *matCellDef="let element">
-            <button mat-button class="floatRight" (click)="editMetaMilestoneClick(element)">
+            <!-- <button mat-button class="floatRight" (click)="editMetaMilestoneClick(element)">
               <mat-icon class="colorBright">edit</mat-icon>
-            </button>
+            </button> -->
           </td>
         </ng-container>
       </ng-container>
@@ -30,7 +30,8 @@
               <div class="smallMarginTop"><strong>Title</strong>:&nbsp;{{element.title}}</div>
               <div class="smallMarginTop"><strong>Description</strong>:&nbsp;{{element.description}}</div>
               <div class="smallMarginTop">
-                Meta Milestone created by {{metaMilestoneInfo.idMapMetaMilestones[element.meta.addedBy]}} on
+                Meta {{appInfo.constants.buildingBlocks.labels.milestone}} created by
+                {{metaMilestoneInfo.idMapMetaMilestones[element.meta.addedBy]}} on
                 {{appInfo.getLongDate(element.meta.addedOn)}}
               </div>
             </div>

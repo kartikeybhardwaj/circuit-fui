@@ -55,7 +55,7 @@
     <div class="smallMarginTop">
       <button mat-flat-button class="colorBright floatLeft" color="accent" [disabled]="isAdding"
         (click)="addMetaMilestone()">
-        Add meta milestone
+        Add meta {{appInfo.constants.buildingBlocks.labels.lowercase.milestone}}
       </button>
       <mat-progress-spinner *ngIf="isAdding" class="inlineBlock smallMarginLeft floatLeft" color="primary"
         mode="indeterminate" [diameter]="36">

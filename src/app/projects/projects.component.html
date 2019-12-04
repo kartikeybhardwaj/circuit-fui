@@ -2,7 +2,7 @@
 
   <mat-progress-spinner *ngIf="isFetching" color="primary" mode="indeterminate" [diameter]="35"></mat-progress-spinner>
 
-  <div class="headerText colorBright smallMarginTop">Projects</div>
+  <div class="headerText colorBright smallMarginTop">{{appInfo.constants.buildingBlocks.labels.projects}}</div>
 
   <mat-form-field class="width-100">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -24,8 +24,7 @@
             <button mat-button class="floatRight" (click)="gotoMilestoneClick(element)">
               <mat-icon class="colorBright">arrow_forward</mat-icon>
             </button>
-            <button mat-button class="floatRight" (click)="editProjectClick(element)"
-              *ngIf="appInfo.user.isSuperuser ||
+            <button mat-button class="floatRight" (click)="editProjectClick(element)" *ngIf="appInfo.user.isSuperuser ||
               (projectInfo.isMemberOfProjectId(appInfo.user._id, element.projectId) &&
               roleInfo.canModifyProjects(projectInfo.getMemberRoleInProjectId(appInfo.user._id, element.projectId)))">
               <mat-icon class="colorBright">edit</mat-icon>
@@ -59,14 +58,15 @@
                 </div>
               </ng-container>
               <div class="smallMarginTop">
-                <strong>Milestones</strong>:
+                <strong>{{appInfo.constants.buildingBlocks.labels.milestones}}</strong>:
                 <button mat-button *ngFor="let milestoneId of element.milestonesList; index as indexMilestone;"
                   (click)="gotoThisMilestone(element.projectId, milestoneId)">
                   {{projectInfo.idMapProjects[milestoneId]}}
                 </button>
               </div>
               <div class="smallMarginTop">
-                Project created by {{projectInfo.idMapProjects[element.meta.addedBy]}} on
+                {{appInfo.constants.buildingBlocks.labels.project}} created by
+                {{projectInfo.idMapProjects[element.meta.addedBy]}} on
                 {{appInfo.getLongDate(element.meta.addedOn)}}
               </div>
             </div>
