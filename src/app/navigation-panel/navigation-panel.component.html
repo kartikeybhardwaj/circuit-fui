@@ -40,6 +40,10 @@
       <mat-icon>chrome_reader_mode</mat-icon>
       <span>Metas</span>
     </button>
+    <button mat-menu-item (click)="navigateTo('/locations')" *ngIf="appInfo.user.isSuperuser">
+      <mat-icon>location_searching</mat-icon>
+      <span>Locations</span>
+    </button>
   </mat-menu>
 
   <mat-menu #metas="matMenu">
