@@ -3,6 +3,7 @@ declare interface LocationData {
   index: number;
   city: string;
   country: string;
+  isUpdating: boolean;
   meta: LocationMetaData;
 }
 
