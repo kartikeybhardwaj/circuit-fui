@@ -14,10 +14,7 @@ export class AppStorageService {
   user: any = '';
 
   httpOptions: any = {
-    withCredentials: true,
-    headers: new HttpHeaders({
-      'content-type': 'application/json'
-    })
+    withCredentials: true
   };
   httpOptionsWithAuth: any = null;
 

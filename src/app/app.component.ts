@@ -108,6 +108,7 @@ export class AppComponent implements OnInit {
             this.appInfo.localStorage.setItem('circuitToken', 'Bearer ' + response.data.token);
             this.appInfo.user = response.data;
             this.appInfo.httpOptionsWithAuth = {
+              withCredentials: true,
               headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + response.data.token
