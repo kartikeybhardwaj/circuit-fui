@@ -2,7 +2,9 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { AppStorageService } from '../app.service';
+import {
+  AppStorageService
+} from '../app.service';
 
 @Component({
   selector: 'app-unauthorized-access',
@@ -12,7 +14,7 @@ import { AppStorageService } from '../app.service';
 export class UnauthorizedAccessComponent implements OnInit {
 
   constructor(
-    private appInfo: AppStorageService
+    public appInfo: AppStorageService
   ) {
     appInfo.otherHeader = '401';
     appInfo.navigationAddText = '';
