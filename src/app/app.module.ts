@@ -9,6 +9,14 @@ import {
 } from '@angular/common/http';
 
 import {
+  SocialLoginModule,
+  AuthServiceConfig
+} from 'angularx-social-login';
+import {
+  GoogleLoginProvider
+} from 'angularx-social-login';
+
+import {
   AppRoutingModule
 } from './app-routing.module';
 import {
@@ -280,6 +288,15 @@ import {
   AddLocationsPayloadValidator
 } from './json-schema-validatior/add-locations';
 
+const config = new AuthServiceConfig([{
+  id: GoogleLoginProvider.PROVIDER_ID,
+  provider: new GoogleLoginProvider('<YOUR_CLIENT_ID>')
+}]);
+
+export function provideConfig() {
+  return config;
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -340,7 +357,9 @@ import {
     MatSnackBarModule,
     SatDatepickerModule,
     SatNativeDateModule,
-    FullCalendarModule
+    FullCalendarModule,
+    SocialLoginModule,
+
   ],
   providers: [
     AppStorageService,
@@ -379,7 +398,11 @@ import {
     UpdateProjectPayloadValidator,
     UpdateMilestonePayloadValidator,
     UpdatePulsePayloadValidator,
-    AddLocationsPayloadValidator
+    AddLocationsPayloadValidator,
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
   ],
   entryComponents: [
     BottomSheetMenu

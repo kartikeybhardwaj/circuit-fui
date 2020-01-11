@@ -31,6 +31,16 @@ import {
   LocationStorageService
 } from './locations/locations.service';
 
+import {
+  AuthService
+} from 'angularx-social-login';
+import {
+  GoogleLoginProvider
+} from 'angularx-social-login';
+import {
+  SocialUser
+} from 'angularx-social-login';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -40,7 +50,11 @@ export class AppComponent implements OnInit {
 
   isSiteLoading = true;
 
+  private user: SocialUser;
+  private loggedIn: boolean;
+
   constructor(
+    private authService: AuthService,
     public appInfo: AppStorageService,
     private projectInfo: ProjectStorageService,
     private roleInfo: RoleStorageService,
@@ -53,6 +67,37 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+      this.loggedIn = (user != null);
+      if (this.loggedIn) {
+        this.appInfo.httpOptionsWithAuth = {
+          withCredentials: true,
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + this.user.idToken
+          })
+        };
+        this.loadData();
+      }
+    });
+  }
+
+  getConstants() {
+    return new Promise((resolve, reject) => {
+      this.http.get(this.appInfo.fetchConstantsURI, this.appInfo.httpOptions).subscribe(
+        (response: any) => {
+          this.appInfo.constants = response;
+          resolve(true);
+        },
+        (error: any) => {
+          reject(false);
+        }
+      );
+    });
+  }
+
+  loadData(): void {
     this.getConstants().then((constants) => {
       this.getUser().then((user) => {
         this.roleInfo.getRoles().then((roles) => {
@@ -84,18 +129,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  getConstants() {
-    return new Promise((resolve, reject) => {
-      this.http.get(this.appInfo.fetchConstantsURI, this.appInfo.httpOptions).subscribe(
-        (response: any) => {
-          this.appInfo.constants = response;
-          resolve(true);
-        },
-        (error: any) => {
-          reject(false);
-        }
-      );
-    });
+  signInWithGoogle(): void {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  }
+
+  signOut(): void {
+    this.authService.signOut();
   }
 
   getUser(): any {

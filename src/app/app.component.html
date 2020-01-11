@@ -18,7 +18,11 @@
 
 <!-- no user found -->
 <ng-container *ngIf="appInfo.user === null">
-  <app-unauthorized-access></app-unauthorized-access>
+  <div class="contentCenter largeMarginTop">
+    <button mat-button class="headerText" (click)="signInWithGoogle()">
+      Sign-in with Google
+    </button>
+  </div>
 </ng-container>
 
 <!-- user found and site loaded -->
