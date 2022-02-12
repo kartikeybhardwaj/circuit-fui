@@ -27,7 +27,7 @@
     "@fullcalendar/interaction": "^4.3.0",
     "@fullcalendar/list": "^4.3.0",
     "@fullcalendar/timegrid": "^4.3.0",
-    "ajv": "^6.10.2",
+    "ajv": "^6.12.3",
     "angularx-social-login": "^2.2.1",
     "hammerjs": "^2.0.8",
     "rxjs": "~6.4.0",
